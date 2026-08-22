@@ -1,275 +1,307 @@
 "use client";
 
-import Link from "next/link";
-import {
-  Search,
-  Store,
-  ShoppingBag,
-  Truck,
-  FileText,
-  ArrowRight,
-  Sparkles,
-} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Pause, Play } from "lucide-react";
 
-const topics = [
+const reels = [
   {
-    title: "Sell on Markood",
-    description: "Manage your store, products, orders and sales.",
-    icon: Store,
-    href: "/help/selling",
+    label: "Keeping people safe",
+    videoId: "a0CqrKs13Ps",
   },
   {
-    title: "Buy on Markood",
-    description: "Orders, payments, returns and buyer protection.",
-    icon: ShoppingBag,
-    href: "/help/buying",
+    label: "Verified sellers only",
+    videoId: "IKS2vNOcZ7A",
   },
   {
-    title: "Delivery",
-    description: "Learn how Markood delivery works.",
-    icon: Truck,
-    href: "/help/delivery",
+    label: "Secure payments, every time",
+    videoId: "sYta53ZVFlw",
   },
   {
-    title: "Policies & Legal",
-    description: "Terms, privacy and marketplace policies.",
-    icon: FileText,
-    href: "/help/policies",
+    label: "Fast, tracked delivery",
+    videoId: "IGFC5cLAk6k",
   },
 ];
 
-export default function MarkoodHero() {
+const VIDEO_DURATION = 5000;
+
+export default function MarkoodTrustHero() {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Automatically move to next video
+  useEffect(() => {
+    if (paused) return;
+
+    timerRef.current = setInterval(() => {
+      setIndex((prev) => {
+        if (prev === reels.length - 1) {
+          return 0;
+        }
+
+        return prev + 1;
+      });
+    }, VIDEO_DURATION);
+
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [paused]);
+
+  const active = reels[index];
+
   return (
-    <section className="relative overflow-hidden bg-white">
-      {/* Background decoration */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -right-32 -top-32 h-[420px] w-[420px] rounded-full bg-[#0066FF]/5 blur-3xl" />
+    <section className="overflow-hidden bg-white">
+      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          {/* ================= LEFT ================= */}
 
-        <div className="absolute -left-32 top-40 h-[300px] w-[300px] rounded-full bg-[#FFC400]/10 blur-3xl" />
-
-        <div className="absolute right-[12%] top-[25%] h-3 w-3 rounded-full bg-[#FFC400]" />
-
-        <div className="absolute left-[8%] top-[35%] h-2 w-2 rounded-full bg-[#0066FF]/40" />
-      </div>
-
-      <div className="relative mx-auto max-w-[1280px] px-5 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-16 lg:px-8 lg:pb-24 lg:pt-20">
-        {/* ================= HERO ================= */}
-        <div className="mx-auto max-w-4xl text-center">
-          {/* Small badge */}
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[#0066FF]/10 bg-[#0066FF]/5 px-4 py-2 text-xs font-semibold text-[#0066FF]">
-            <Sparkles size={14} />
-
-            <span>Welcome to Markood Center</span>
-          </div>
-
-          {/* Heading */}
-          <h1 className="text-4xl font-extrabold tracking-[-1.5px] text-slate-950 sm:text-5xl lg:text-6xl lg:leading-[1.05]">
-            Everything you need to know about{" "}
-            <span className="relative whitespace-nowrap text-[#0066FF]">
-              Markood
-              
-              {/* Yellow underline */}
-              <span className="absolute -bottom-1 left-0 h-1.5 w-full rounded-full bg-[#FFC400] sm:-bottom-2" />
+          <div>
+            <span className="text-sm font-bold uppercase tracking-wide text-[#0066FF]">
+              Trust &amp; Safety
             </span>
-          </h1>
 
-          {/* Description */}
-          <p className="mx-auto mt-7 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg sm:leading-8">
-            Find answers, learn how Markood works, explore our policies,
-            and get the help you need as a buyer, seller, restaurant,
-            rider or partner.
-          </p>
+            <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-[-1.5px] text-slate-950 sm:text-5xl lg:text-6xl">
+              Buy, sell, and
+              <br />
+              connect safely
+              <br />
+              on Markood
+            </h1>
 
-           
+            <p className="mt-6 max-w-md text-base leading-7 text-slate-500 sm:text-lg">
+              Every order, every payment, every message is backed by
+              verification, encryption, and a support team that actually
+              responds — so you can focus on buying and selling, not worrying.
+            </p>
 
-          {/* <div className="mx-auto mt-9 max-w-2xl">
-            <div
-              className="
-                group
-                flex
-                items-center
-                rounded-2xl
-                border
-                border-slate-200
-                bg-white
-                p-2
-                shadow-[0_12px_40px_rgba(15,23,42,0.08)]
-                transition
-                focus-within:border-[#0066FF]/40
-                focus-within:shadow-[0_15px_45px_rgba(0,102,255,0.12)]
-              "
-            >
-              <Search
-                size={21}
-                className="ml-3 shrink-0 text-slate-400 transition group-focus-within:text-[#0066FF]"
-              />
-
-              <input
-                type="text"
-                placeholder="Search Markood Help..."
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href="/help/policies"
                 className="
-                  min-w-0
-                  flex-1
-                  border-0
-                  bg-transparent
-                  px-4
-                  py-3
-                  text-sm
-                  text-slate-900
-                  outline-none
-                  placeholder:text-slate-400
-                  sm:text-base
-                "
-              />
-
-              <button
-                type="button"
-                className="
-                  hidden
-                  shrink-0
+                  inline-flex
                   items-center
                   gap-2
                   rounded-xl
                   bg-[#0066FF]
-                  px-5
+                  px-6
                   py-3
                   text-sm
                   font-semibold
                   text-white
                   transition
                   hover:bg-[#0052CC]
-                  sm:flex
                 "
               >
-                Search
+                Explore our safety policies
+              </a>
 
-                <ArrowRight size={16} />
+              <a
+                href="/help"
+                className="
+                  inline-flex
+                  items-center
+                  gap-2
+                  rounded-xl
+                  border
+                  border-slate-200
+                  px-6
+                  py-3
+                  text-sm
+                  font-semibold
+                  text-slate-700
+                  transition
+                  hover:border-slate-300
+                  hover:bg-slate-50
+                "
+              >
+                Visit Help Center
+              </a>
+            </div>
+          </div>
+
+          {/* ================= VIDEO REEL ================= */}
+
+          <div className="mx-auto w-full max-w-[380px]">
+            <div
+              className="
+                relative
+                h-[560px]
+                w-full
+                overflow-hidden
+                rounded-[28px]
+                bg-slate-950
+                shadow-[0_35px_80px_rgba(15,23,42,0.25)]
+              "
+            >
+              {/* =========================================
+                  VERTICAL VIDEO STACK
+              ========================================= */}
+
+              <div
+                className="
+                  absolute
+                  inset-0
+                  transition-transform
+                  duration-700
+                  ease-in-out
+                "
+                style={{
+                  transform: `translateY(-${index * 100}%)`,
+                }}
+              >
+                {reels.map((reel, i) => (
+                  <div
+                    key={`${reel.videoId}-${i}`}
+                    className="relative h-full w-full shrink-0"
+                  >
+                    <iframe
+                      src={`https://www.youtube.com/embed/${reel.videoId}?autoplay=1&mute=1&loop=1&playlist=${reel.videoId}&controls=0&modestbranding=1&rel=0&playsinline=1`}
+                      title={reel.label}
+                      allow="autoplay; encrypted-media"
+                      className="
+                        pointer-events-none
+                        absolute
+                        left-1/2
+                        top-1/2
+                        h-[130%]
+                        w-[130%]
+                        -translate-x-1/2
+                        -translate-y-1/2
+                      "
+                    />
+
+                    {/* Dark overlay */}
+                    <div
+                      className="
+                        pointer-events-none
+                        absolute
+                        inset-0
+                        bg-gradient-to-t
+                        from-black/60
+                        via-transparent
+                        to-black/20
+                      "
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* =========================================
+                  TOP PROGRESS
+              ========================================= */}
+
+              <div className="absolute left-4 right-4 top-4 z-30 flex gap-1.5">
+                {reels.map((reel, i) => (
+                  <div
+                    key={reel.label}
+                    className="h-[3px] flex-1 overflow-hidden rounded-full bg-white/30"
+                  >
+                    <div
+                      className={`
+                        h-full rounded-full bg-white
+                        ${
+                          i < index
+                            ? "w-full"
+                            : i === index
+                              ? "animate-reel-progress w-full"
+                              : "w-0"
+                        }
+                      `}
+                      style={{
+                        animationPlayState:
+                          paused && i === index ? "paused" : "running",
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* =========================================
+                  CURRENT LABEL
+              ========================================= */}
+
+              <div
+                className="
+                  absolute
+                  left-5
+                  top-1/2
+                  z-20
+                  -translate-y-1/2
+                  rounded-full
+                  bg-white
+                  px-4
+                  py-2.5
+                  text-sm
+                  font-semibold
+                  text-slate-900
+                  shadow-lg
+                "
+              >
+                {active.label}
+              </div>
+
+              {/* =========================================
+                  PAUSE / PLAY
+              ========================================= */}
+
+              <button
+                type="button"
+                onClick={() => setPaused((prev) => !prev)}
+                className="
+                  absolute
+                  bottom-5
+                  right-5
+                  z-40
+                  flex
+                  h-10
+                  w-10
+                  cursor-pointer
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-black/50
+                  text-white
+                  backdrop-blur-md
+                  transition
+                  hover:scale-105
+                  hover:bg-black/70
+                "
+              >
+                {paused ? (
+                  <Play size={15} fill="currentColor" />
+                ) : (
+                  <Pause size={15} fill="currentColor" />
+                )}
               </button>
             </div>
 
-            
-            <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-slate-400">
-              <span>Popular:</span>
+            {/* =========================================
+                DOTS
+            ========================================= */}
 
-              <Link
-                href="/help/selling/products"
-                className="text-slate-500 transition hover:text-[#0066FF]"
-              >
-                Add a product
-              </Link>
-
-              <Link
-                href="/help/buying/orders"
-                className="text-slate-500 transition hover:text-[#0066FF]"
-              >
-                Track an order
-              </Link>
-
-              <Link
-                href="/help/policies/refund"
-                className="text-slate-500 transition hover:text-[#0066FF]"
-              >
-                Refunds
-              </Link>
-
-              <Link
-                href="/help/delivery"
-                className="text-slate-500 transition hover:text-[#0066FF]"
-              >
-                Delivery
-              </Link>
-            </div>
-          </div> */}
-        </div>
-
-        {/* ================= TOPIC CARDS ================= */}
-        <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-          {topics.map((topic) => {
-            const Icon = topic.icon;
-
-            return (
-              <Link
-                key={topic.title}
-                href={topic.href}
-                className="
-                  group
-                  relative
-                  overflow-hidden
-                  rounded-2xl
-                  border
-                  border-slate-200
-                  bg-white
-                  p-5
-                  transition-all
-                  duration-300
-                  hover:-translate-y-1
-                  hover:border-[#0066FF]/20
-                  hover:shadow-[0_15px_40px_rgba(15,23,42,0.08)]
-                "
-              >
-                {/* Yellow corner */}
-                <div
-                  className="
-                    absolute
-                    -right-8
-                    -top-8
-                    h-20
-                    w-20
+            <div className="mt-5 flex justify-center gap-2">
+              {reels.map((reel, i) => (
+                <button
+                  key={reel.label}
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  className={`
+                    h-1.5
                     rounded-full
-                    bg-[#FFC400]/10
-                    transition
+                    transition-all
                     duration-300
-                    group-hover:scale-150
-                  "
+                    ${index === i ? "w-6 bg-[#0066FF]" : "w-1.5 bg-slate-300"}
+                  `}
                 />
-
-                {/* Icon */}
-                <div
-                  className="
-                    relative
-                    flex
-                    h-11
-                    w-11
-                    items-center
-                    justify-center
-                    rounded-xl
-                    bg-[#0066FF]/8
-                    text-[#0066FF]
-                    transition
-                    duration-300
-                    group-hover:bg-[#0066FF]
-                    group-hover:text-white
-                  "
-                >
-                  <Icon size={21} />
-                </div>
-
-                {/* Content */}
-                <h2 className="relative mt-5 text-sm font-bold text-slate-900">
-                  {topic.title}
-                </h2>
-
-                <p className="relative mt-2 text-xs leading-5 text-slate-500">
-                  {topic.description}
-                </p>
-
-                {/* Arrow */}
-                <div className="relative mt-5 flex items-center gap-1.5 text-xs font-semibold text-[#0066FF]">
-                  Explore
-
-                  <ArrowRight
-                    size={14}
-                    className="transition-transform duration-200 group-hover:translate-x-1"
-                  />
-                </div>
-              </Link>
-            );
-          })}
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Bottom border */}
-      <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
     </section>
   );
 }
