@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronDown,
   Search,
@@ -39,7 +40,6 @@ const menus = [
       },
     ],
   },
-
   {
     label: "Buy on Markood",
     icon: ShoppingBag,
@@ -57,7 +57,6 @@ const menus = [
       { label: "Complaints", href: "/help/buying/complaints" },
     ],
   },
-
   {
     label: "Delivery",
     icon: Truck,
@@ -85,7 +84,6 @@ const menus = [
       },
     ],
   },
-
   {
     label: "Policies & Legal",
     icon: FileText,
@@ -126,7 +124,6 @@ const menus = [
       },
     ],
   },
-
   {
     label: "Updates",
     icon: Megaphone,
@@ -156,6 +153,7 @@ const menus = [
 export default function MarkoodHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMobileMenu, setOpenMobileMenu] = useState<string | null>(null);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const toggleMobileMenu = (label: string) => {
     setOpenMobileMenu((current) => (current === label ? null : label));
@@ -317,6 +315,7 @@ export default function MarkoodHeader() {
           {/* ================= DESKTOP SEARCH ================= */}
           <button
             type="button"
+            onClick={() => setSearchOpen(true)}
             className="
               hidden
               shrink-0
@@ -335,7 +334,6 @@ export default function MarkoodHeader() {
             "
           >
             <Search size={17} />
-
             <span>Search</span>
           </button>
 
@@ -345,6 +343,7 @@ export default function MarkoodHeader() {
             <button
               type="button"
               aria-label="Search"
+              onClick={() => setSearchOpen(true)}
               className="
                 flex h-10 w-10
                 items-center justify-center
@@ -431,7 +430,8 @@ export default function MarkoodHeader() {
                       type="button"
                       onClick={() => toggleMobileMenu(menu.label)}
                       className={`
-                        flex
+                        flex 
+                        cursor-pointer
                         w-full
                         items-center
                         justify-between
@@ -535,11 +535,15 @@ export default function MarkoodHeader() {
               })}
             </div>
 
-            {/* Mobile Search */}
             <div className="mt-4 border-t border-slate-100 pt-4">
               <button
                 type="button"
+                onClick={() => {
+                  setMobileOpen(false);
+                  setSearchOpen(true);
+                }}
                 className="
+
                   flex
                   w-full
                   items-center
@@ -562,6 +566,45 @@ export default function MarkoodHeader() {
           </div>
         </div>
       </header>
+
+      <AnimatePresence>
+        {searchOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-start justify-center bg-slate-900/40 p-4 pt-16 backdrop-blur-md sm:p-6 sm:pt-24"
+            onClick={() => setSearchOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: -20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-[80%] max-w-[900px] overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-2xl"
+            >
+              <div className="flex cursor-pointer items-center gap-3 border-b border-slate-100 px-4 py-3 sm:px-6 sm:py-4">
+                <Search size={22} className="text-slate-400" />
+                <input
+                  type="text"
+                  autoFocus
+                  placeholder="Search Markood Help..."
+                  className="w-full text-base font-medium text-slate-900 outline-none placeholder:text-slate-400 sm:text-lg"
+                />
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
