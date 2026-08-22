@@ -14,13 +14,10 @@ import {
   LifeBuoy,
   LockKeyhole,
   Package,
-  Play,
-  Search,
   ShieldCheck,
   ShoppingBag,
   Store,
   Truck,
-  X,
   Zap,
 } from "lucide-react";
 import MarkoodVideoGuides from "./markoodVideoGuid";

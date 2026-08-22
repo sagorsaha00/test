@@ -36,7 +36,7 @@ const videoGuides: VideoGuide[] = [
       "Learn how to create your seller account, add products and start receiving orders.",
     category: "For Sellers",
     icon: Store,
-    videoId: "p_z84gl45fQ",
+    videoId: "IGFC5cLAk6k",
   },
   {
     title: "How buying works",
@@ -44,7 +44,7 @@ const videoGuides: VideoGuide[] = [
       "Everything you need to know about finding products and placing your first order.",
     category: "For Buyers",
     icon: ShoppingBag,
-    videoId: "p_z84gl45fQ",
+    videoId: "sYta53ZVFlw",
   },
   {
     title: "Safe & secure payments",
@@ -52,7 +52,7 @@ const videoGuides: VideoGuide[] = [
       "Understand how Markood keeps your payments and transactions protected.",
     category: "Safety",
     icon: ShieldCheck,
-    videoId: "p_z84gl45fQ",
+    videoId: "a0CqrKs13Ps",
   },
   {
     title: "How delivery works",
@@ -60,7 +60,7 @@ const videoGuides: VideoGuide[] = [
       "Follow your order from seller confirmation to doorstep delivery.",
     category: "Delivery",
     icon: Truck,
-    videoId: "p_z84gl45fQ",
+    videoId: "sYta53ZVFlw",
   },
 ];
 
