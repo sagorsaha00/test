@@ -1,21 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import {
   ArrowRight,
   BookOpen,
   CheckCircle2,
   ChevronRight,
   CircleHelp,
-  Clock3,
   Cookie,
   CreditCard,
   FileText,
-  HelpCircle,
   LifeBuoy,
   LockKeyhole,
-  Menu,
   Package,
   Play,
   Search,
@@ -23,25 +20,15 @@ import {
   ShoppingBag,
   Store,
   Truck,
-  Users,
   X,
   Zap,
 } from "lucide-react";
-import { useState } from "react";
 import MarkoodVideoGuides from "./markoodVideoGuid";
-
-/* =========================================================
-   TYPES
-========================================================= */
 
 type IconType = React.ComponentType<{
   size?: number;
   className?: string;
 }>;
-
-/* =========================================================
-   DATA
-========================================================= */
 
 const audiences: {
   title: string;
@@ -113,24 +100,6 @@ const categories: {
       "Read Markood terms, privacy, refund, cancellation and marketplace policies.",
     href: "/help/policies",
     icon: ShieldCheck,
-  },
-];
-
-const videoGuides = [
-  {
-    title: "How Markood works",
-    category: "Getting Started",
-    videoId: "p_z84gl45fQ",
-  },
-  {
-    title: "How to become a seller",
-    category: "Selling",
-    videoId: "p_z84gl45fQ",
-  },
-  {
-    title: "How delivery works",
-    category: "Delivery",
-    videoId: "p_z84gl45fQ",
   },
 ];
 
@@ -231,22 +200,22 @@ const policies = [
    ANIMATION
 ========================================================= */
 
-const fadeUp = {
+const fadeUp: Variants = {
   hidden: {
     opacity: 0,
-    y: 35,
+    y: 30,
   },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
       duration: 0.7,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   },
 };
 
-const scaleIn = {
+const scaleIn: Variants = {
   hidden: {
     opacity: 0,
     scale: 0.94,
@@ -261,7 +230,7 @@ const scaleIn = {
   },
 };
 
-const stagger = {
+const stagger: Variants = {
   hidden: {},
   visible: {
     transition: {
@@ -270,18 +239,11 @@ const stagger = {
   },
 };
 
- 
-
 export default function MarkoodCenter() {
-   
-
   return (
     <main className="min-h-screen overflow-hidden bg-white text-slate-950">
- 
- 
       <section className="relative overflow-hidden bg-[#F8FAFC]">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
-
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -313,10 +275,7 @@ export default function MarkoodCenter() {
               const Icon = item.icon;
 
               return (
-                <motion.div
-                  key={item.title}
-                  variants={scaleIn}
-                >
+                <motion.div key={item.title} variants={scaleIn}>
                   <Link
                     href={item.href}
                     className="group relative block overflow-hidden rounded-3xl border border-slate-200 bg-white p-7 transition-all duration-500 hover:-translate-y-2 hover:border-blue-200 hover:shadow-[0_25px_70px_rgba(15,23,42,0.10)]"
@@ -344,7 +303,6 @@ export default function MarkoodCenter() {
 
                       <div className="mt-7 flex items-center gap-2 text-sm font-bold text-[#0066FF]">
                         Explore
-
                         <ArrowRight
                           size={16}
                           className="transition-transform duration-300 group-hover:translate-x-2"
@@ -360,7 +318,6 @@ export default function MarkoodCenter() {
       </section>
       <section className="relative overflow-hidden bg-white">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
-
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -377,13 +334,12 @@ export default function MarkoodCenter() {
             </h2>
 
             <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-slate-500 sm:text-base">
-              From discovering a product to receiving it at your door,
-              Markood keeps every step simple and transparent.
+              From discovering a product to receiving it at your door, Markood
+              keeps every step simple and transparent.
             </p>
           </motion.div>
 
           <div className="relative mt-16">
-
             <div className="absolute left-[10%] right-[10%] top-14 hidden h-px bg-slate-200 lg:block">
               <motion.div
                 initial={{ scaleX: 0 }}
@@ -398,7 +354,6 @@ export default function MarkoodCenter() {
             </div>
 
             <div className="grid grid-cols-2 gap-10 lg:grid-cols-5">
-
               {[
                 {
                   icon: ShoppingBag,
@@ -469,17 +424,13 @@ export default function MarkoodCenter() {
                   </motion.div>
                 );
               })}
-
             </div>
           </div>
         </div>
       </section>
 
-      
-
       <section className="bg-[#F8FAFC]">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
-
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -497,8 +448,8 @@ export default function MarkoodCenter() {
                 </h2>
 
                 <p className="mt-3 max-w-xl text-sm leading-7 text-slate-500">
-                  Browse guides and resources designed for every part
-                  of the Markood experience.
+                  Browse guides and resources designed for every part of the
+                  Markood experience.
                 </p>
               </div>
 
@@ -523,10 +474,7 @@ export default function MarkoodCenter() {
               const Icon = item.icon;
 
               return (
-                <motion.div
-                  key={item.title}
-                  variants={scaleIn}
-                >
+                <motion.div key={item.title} variants={scaleIn}>
                   <Link
                     href={item.href}
                     className="group relative block overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 transition-all duration-500 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_25px_70px_rgba(15,23,42,0.08)] sm:p-9"
@@ -536,7 +484,6 @@ export default function MarkoodCenter() {
                     </div>
 
                     <div className="relative flex items-start justify-between gap-6">
-
                       <div>
                         <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF] transition-all group-hover:bg-[#0066FF] group-hover:text-white">
                           <Icon size={22} />
@@ -558,7 +505,6 @@ export default function MarkoodCenter() {
                           />
                         </div>
                       </div>
-
                     </div>
                   </Link>
                 </motion.div>
@@ -572,7 +518,7 @@ export default function MarkoodCenter() {
           VIDEO GUIDES
       ===================================================== */}
 
-       <MarkoodVideoGuides></MarkoodVideoGuides>
+      <MarkoodVideoGuides></MarkoodVideoGuides>
 
       {/* =====================================================
           WHAT'S NEW
@@ -580,7 +526,6 @@ export default function MarkoodCenter() {
 
       <section className="bg-[#F8FAFC]">
         <div className="mx-auto max-w-5xl px-5 py-20 sm:px-6 lg:py-28">
-
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -602,7 +547,6 @@ export default function MarkoodCenter() {
           </motion.div>
 
           <div className="relative mt-14">
-
             <div className="absolute bottom-0 left-4 top-0 w-px bg-slate-200 sm:left-6" />
 
             <div className="space-y-8">
@@ -672,7 +616,6 @@ export default function MarkoodCenter() {
 
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
-
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -711,10 +654,7 @@ export default function MarkoodCenter() {
             className="mt-10 divide-y divide-slate-200 rounded-3xl border border-slate-200 bg-white"
           >
             {articles.map((article, index) => (
-              <motion.div
-                key={article.title}
-                variants={fadeUp}
-              >
+              <motion.div key={article.title} variants={fadeUp}>
                 <Link
                   href={article.href}
                   className="group flex items-center gap-4 p-5 transition-colors hover:bg-slate-50 sm:p-6"
@@ -749,7 +689,6 @@ export default function MarkoodCenter() {
       ===================================================== */}
 
       <section className="px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
-
         <motion.div
           initial={{
             opacity: 0,
@@ -767,7 +706,6 @@ export default function MarkoodCenter() {
           }}
           className="relative mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-slate-950 px-6 py-14 sm:px-10 lg:px-16 lg:py-20"
         >
-
           {/* Animated glow */}
 
           <motion.div
@@ -798,9 +736,7 @@ export default function MarkoodCenter() {
           />
 
           <div className="relative grid items-center gap-12 lg:grid-cols-[1fr_350px]">
-
             <div>
-
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-blue-400 backdrop-blur">
                   <ShieldCheck size={23} />
@@ -816,8 +752,8 @@ export default function MarkoodCenter() {
               </h2>
 
               <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base">
-                Understand exactly how Markood works, how your data
-                is handled, and what your rights are.
+                Understand exactly how Markood works, how your data is handled,
+                and what your rights are.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-2">
@@ -846,16 +782,12 @@ export default function MarkoodCenter() {
               }}
               className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-xl"
             >
-
               <div className="flex items-center justify-between">
                 <span className="text-sm font-bold text-white">
                   Markood Protection
                 </span>
 
-                <ShieldCheck
-                  size={20}
-                  className="text-blue-400"
-                />
+                <ShieldCheck size={20} className="text-blue-400" />
               </div>
 
               <div className="mt-6 space-y-4">
@@ -885,9 +817,7 @@ export default function MarkoodCenter() {
                   >
                     <div className="h-2 w-2 rounded-full bg-blue-400" />
 
-                    <span className="text-sm text-slate-300">
-                      {item}
-                    </span>
+                    <span className="text-sm text-slate-300">{item}</span>
 
                     <CheckCircle2
                       size={15}
@@ -896,7 +826,6 @@ export default function MarkoodCenter() {
                   </motion.div>
                 ))}
               </div>
-
             </motion.div>
           </div>
         </motion.div>
@@ -910,7 +839,6 @@ export default function MarkoodCenter() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,102,255,0.08),transparent_55%)]" />
 
         <div className="relative mx-auto max-w-4xl px-5 py-20 text-center sm:px-6 lg:py-28">
-
           <motion.div
             initial={{
               opacity: 0,
@@ -936,12 +864,11 @@ export default function MarkoodCenter() {
             </h2>
 
             <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-slate-500 sm:text-base">
-              Can&apos;t find what you are looking for?
-              Our support team is ready to help.
+              Can&apos;t find what you are looking for? Our support team is
+              ready to help.
             </p>
 
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-
               <Link
                 href="/support"
                 className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5 hover:bg-[#0052CC]"
@@ -957,7 +884,6 @@ export default function MarkoodCenter() {
                 <CircleHelp size={17} />
                 Browse Help Center
               </Link>
-
             </div>
           </motion.div>
         </div>
@@ -968,31 +894,21 @@ export default function MarkoodCenter() {
       ===================================================== */}
 
       <footer className="bg-slate-950 text-white">
-
         <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
-
           <div className="grid grid-cols-2 gap-10 md:grid-cols-4 lg:grid-cols-5">
-
             {/* Brand */}
 
             <div className="col-span-2 lg:col-span-1">
-
-              <Link
-                href="/"
-                className="flex items-center gap-2.5"
-              >
+              <Link href="/" className="flex items-center gap-2.5">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0066FF] text-sm font-black text-white">
                   M
                 </div>
 
-                <span className="text-lg font-black">
-                  Markood
-                </span>
+                <span className="text-lg font-black">Markood</span>
               </Link>
 
               <p className="mt-5 max-w-xs text-sm leading-6 text-slate-400">
-                Everything you need to understand,
-                use and grow with Markood.
+                Everything you need to understand, use and grow with Markood.
               </p>
 
               <div className="mt-6 flex items-center gap-2 text-xs text-slate-500">
@@ -1004,9 +920,7 @@ export default function MarkoodCenter() {
             {/* Explore */}
 
             <div>
-              <h3 className="text-sm font-bold text-white">
-                Explore
-              </h3>
+              <h3 className="text-sm font-bold text-white">Explore</h3>
 
               <div className="mt-5 space-y-3">
                 <Link
@@ -1042,9 +956,7 @@ export default function MarkoodCenter() {
             {/* Help */}
 
             <div>
-              <h3 className="text-sm font-bold text-white">
-                Help
-              </h3>
+              <h3 className="text-sm font-bold text-white">Help</h3>
 
               <div className="mt-5 space-y-3">
                 <Link
@@ -1080,9 +992,7 @@ export default function MarkoodCenter() {
             {/* Policies */}
 
             <div>
-              <h3 className="text-sm font-bold text-white">
-                Policies
-              </h3>
+              <h3 className="text-sm font-bold text-white">Policies</h3>
 
               <div className="mt-5 space-y-3">
                 <Link
@@ -1118,9 +1028,7 @@ export default function MarkoodCenter() {
             {/* Company */}
 
             <div>
-              <h3 className="text-sm font-bold text-white">
-                Company
-              </h3>
+              <h3 className="text-sm font-bold text-white">Company</h3>
 
               <div className="mt-5 space-y-3">
                 <Link
@@ -1152,13 +1060,11 @@ export default function MarkoodCenter() {
                 </Link>
               </div>
             </div>
-
           </div>
 
           {/* Bottom */}
 
           <div className="mt-14 flex flex-col justify-between gap-4 border-t border-white/10 pt-7 sm:flex-row sm:items-center">
-
             <p className="text-xs text-slate-500">
               © 2026 Markood. All rights reserved.
             </p>
@@ -1185,12 +1091,9 @@ export default function MarkoodCenter() {
                 Cookies
               </Link>
             </div>
-
           </div>
-
         </div>
       </footer>
-
     </main>
   );
 }

@@ -1,251 +1,480 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowRight, Play, Clock3 } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
+import {
+  ArrowRight,
+  Play,
+  ShieldCheck,
+  ShoppingBag,
+  Truck,
+  Store,
+  Sparkles,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-/* =============================================================
-   ANIMATION VARIANTS
-============================================================= */
-const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
+/* =========================================================
+   TYPES
+========================================================= */
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
-};
+interface VideoGuide {
+  title: string;
+  description: string;
+  category: string;
+  icon: LucideIcon;
+  videoId: string;
+}
 
-const scaleIn = {
-  hidden: { opacity: 0, y: 24, scale: 0.97 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { duration: 0.6, ease: "easeOut" },
-  },
-};
+/* =========================================================
+   VIDEO DATA
+========================================================= */
 
-/* =============================================================
-   DATA
-   Replace videoId with real YouTube IDs for footage you own or
-   have licensed. duration is display-only text.
-============================================================= */
-const videoGuides = [
+const videoGuides: VideoGuide[] = [
   {
-    title: "How to list your first product",
-    category: "Selling",
-    duration: "3:12",
-    featured: true,
-    videoId: "REPLACE_WITH_YOUR_VIDEO_ID_1",
+    title: "How to sell on Markood",
+    description:
+      "Learn how to create your seller account, add products and start receiving orders.",
+    category: "For Sellers",
+    icon: Store,
+    videoId: "p_z84gl45fQ",
   },
   {
-    title: "Tracking an order end-to-end",
-    category: "Buying",
-    duration: "2:05",
-    featured: false,
-    videoId: "REPLACE_WITH_YOUR_VIDEO_ID_2",
+    title: "How buying works",
+    description:
+      "Everything you need to know about finding products and placing your first order.",
+    category: "For Buyers",
+    icon: ShoppingBag,
+    videoId: "p_z84gl45fQ",
   },
   {
-    title: "Setting up secure payouts",
-    category: "Payments",
-    duration: "4:40",
-    featured: false,
-    videoId: "REPLACE_WITH_YOUR_VIDEO_ID_3",
+    title: "Safe & secure payments",
+    description:
+      "Understand how Markood keeps your payments and transactions protected.",
+    category: "Safety",
+    icon: ShieldCheck,
+    videoId: "p_z84gl45fQ",
   },
   {
-    title: "Requesting a return or refund",
-    category: "Buying",
-    duration: "2:50",
-    featured: false,
-    videoId: "REPLACE_WITH_YOUR_VIDEO_ID_4",
+    title: "How delivery works",
+    description:
+      "Follow your order from seller confirmation to doorstep delivery.",
+    category: "Delivery",
+    icon: Truck,
+    videoId: "p_z84gl45fQ",
   },
 ];
 
-const categoryStyles: Record<string, string> = {
-  Selling: "bg-[#0066FF]/90",
-  Buying: "bg-emerald-500/90",
-  Payments: "bg-[#FFC400]/90 text-slate-900",
+/* =========================================================
+   ANIMATIONS
+========================================================= */
+
+const fadeUp: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+
+    transition: {
+      duration: 0.7,
+      ease: "easeOut",
+    },
+  },
 };
 
+const stagger: Variants = {
+  hidden: {},
+
+  visible: {
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+};
+
+const cardAnimation: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+  },
+
+  visible: {
+    opacity: 1,
+    y: 0,
+
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+/* =========================================================
+   COMPONENT
+========================================================= */
+
 export default function MarkoodVideoGuides() {
-  const [featured, ...rest] = videoGuides;
+  const featured = videoGuides[0];
+
+  const otherVideos = videoGuides.slice(1);
+
+  /*
+   * IMPORTANT:
+   * React component variables must start with uppercase.
+   */
+
+  const FeaturedIcon = featured.icon;
 
   return (
-    <section className="relative overflow-hidden bg-white">
-      {/* Ambient background accents */}
+    <section className="relative overflow-hidden bg-[#f8fafc] py-20 sm:py-24 lg:py-32">
+      {/* =====================================================
+          BACKGROUND
+      ===================================================== */}
+
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-40 top-0 h-[420px] w-[420px] rounded-full bg-[#0066FF]/5 blur-3xl" />
-        <div className="absolute -right-32 bottom-0 h-[320px] w-[320px] rounded-full bg-[#FFC400]/10 blur-3xl" />
+        {/* Blue glow */}
+
+        <div className="absolute -left-40 top-20 h-[400px] w-[400px] rounded-full bg-blue-100/50 blur-3xl" />
+
+        {/* Sky glow */}
+
+        <div className="absolute -bottom-40 -right-32 h-[450px] w-[450px] rounded-full bg-sky-100/50 blur-3xl" />
+
+        {/* Dot pattern */}
+
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage: "radial-gradient(#0f172a 1px, transparent 1px)",
+            backgroundSize: "24px 24px",
+          }}
+        />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
-        {/* ================= HEADER ================= */}
-        <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-[#0066FF]/15 bg-[#0066FF]/5 px-3.5 py-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#0066FF]" />
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#0066FF]">
-                Video Guides
-              </span>
-            </div>
+      {/* =====================================================
+          MAIN CONTAINER
+      ===================================================== */}
 
-            <h2 className="mt-5 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-[2.75rem]">
-              Learn Markood, visually
-            </h2>
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
+        {/* ===================================================
+            HEADER
+        =================================================== */}
 
-            <p className="mt-3 max-w-xl text-sm leading-7 text-slate-500 sm:text-base">
-              Short, focused walkthroughs that show you exactly what to do — no
-              reading required.
-            </p>
-          </motion.div>
-
-          <Link
-            href="/help/videos"
-            className="
-              group inline-flex shrink-0 items-center gap-2 self-start
-              rounded-full border border-slate-200 px-5 py-2.5 text-sm
-              font-bold text-slate-700 transition
-              hover:border-[#0066FF]/30 hover:bg-[#0066FF]/5 hover:text-[#0066FF]
-              sm:self-auto
-            "
-          >
-            View all videos
-            <ArrowRight
-              size={16}
-              className="transition-transform group-hover:translate-x-1"
-            />
-          </Link>
-        </div>
-
-        {/* ================= VIDEO GRID ================= */}
         <motion.div
-          variants={stagger}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          className="mt-12 grid grid-cols-1 gap-6 lg:grid-cols-3 lg:grid-rows-2"
+          viewport={{
+            once: true,
+            amount: 0.3,
+          }}
+          variants={fadeUp}
+          className="mx-auto max-w-3xl text-center"
         >
-          {/* Featured video — spans 2 cols / 2 rows on large screens */}
-          <VideoCard
-            video={featured}
-            className="lg:col-span-2 lg:row-span-2"
-            large
-          />
+          {/* Badge */}
 
-          {/* Remaining videos */}
-          {rest.map((video) => (
-            <VideoCard key={video.title} video={video} />
-          ))}
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 shadow-sm">
+            <Sparkles
+              size={14}
+              className="text-[#0066FF]"
+              fill="currentColor"
+            />
+
+            <span className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-slate-600">
+              Markood Academy
+            </span>
+          </div>
+
+          {/* Heading */}
+
+          <h2 className="text-4xl font-black tracking-[-1.8px] text-slate-950 sm:text-5xl lg:text-[56px] lg:leading-[1.05]">
+            Learn Markood.
+            <br />
+            <span className="text-[#0066FF]">One step at a time.</span>
+          </h2>
+
+          {/* Description */}
+
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg">
+            Short, practical video guides to help you buy, sell, deliver, and
+            use Markood with confidence.
+          </p>
+        </motion.div>
+
+        {/* ===================================================
+            FEATURED VIDEO
+        =================================================== */}
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{
+            once: true,
+            amount: 0.15,
+          }}
+          variants={fadeUp}
+          className="mt-14"
+        >
+          <div className="group overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_30px_90px_rgba(15,23,42,0.10)]">
+            <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
+              {/* ===========================================
+                  VIDEO
+              =========================================== */}
+
+              <div className="relative min-h-[320px] overflow-hidden bg-slate-950 sm:min-h-[430px] lg:min-h-[520px]">
+                <iframe
+                  src={`https://www.youtube.com/embed/${featured.videoId}?autoplay=0&mute=1&controls=0&modestbranding=1&rel=0&playsinline=1`}
+                  title={featured.title}
+                  allow="autoplay; encrypted-media"
+                  className="absolute inset-0 h-full w-full scale-[1.03] transition-transform duration-1000 group-hover:scale-[1.07]"
+                />
+
+                {/* Video overlay */}
+
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/10" />
+
+                {/* Category */}
+
+                <div className="absolute left-6 top-6">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/25 px-4 py-2 text-xs font-bold text-white backdrop-blur-xl">
+                    <FeaturedIcon size={14} />
+
+                    {featured.category}
+                  </div>
+                </div>
+
+                {/* Play button */}
+
+                <motion.div
+                  whileHover={{
+                    scale: 1.1,
+                  }}
+                  transition={{
+                    duration: 0.2,
+                  }}
+                  className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#0066FF] shadow-[0_15px_50px_rgba(0,0,0,0.3)]"
+                >
+                  <Play size={22} fill="currentColor" className="ml-1" />
+                </motion.div>
+
+                {/* Bottom content */}
+
+                <div className="absolute bottom-6 left-6 right-6">
+                  <div className="flex items-end justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-semibold text-white/70">
+                        Featured guide
+                      </p>
+
+                      <h3 className="mt-1 text-xl font-bold text-white sm:text-2xl">
+                        {featured.title}
+                      </h3>
+                    </div>
+
+                    <div className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 backdrop-blur-md sm:flex">
+                      <ArrowRight size={18} className="text-white" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ===========================================
+                  FEATURED CONTENT
+              =========================================== */}
+
+              <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
+                {/* Icon */}
+
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
+                  <FeaturedIcon size={21} />
+                </div>
+
+                {/* Label */}
+
+                <p className="mt-7 text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                  Start here
+                </p>
+
+                {/* Title */}
+
+                <h3 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                  Everything you need to get started.
+                </h3>
+
+                {/* Description */}
+
+                <p className="mt-5 text-sm leading-7 text-slate-500 sm:text-base">
+                  New to Markood? This guide walks you through the most
+                  important steps so you can start using the marketplace
+                  confidently.
+                </p>
+
+                {/* Feature list */}
+
+                <div className="mt-8 space-y-4">
+                  {[
+                    "Create your Markood account",
+                    "Understand how orders work",
+                    "Learn about payments",
+                    "Track your delivery",
+                  ].map((item) => (
+                    <div key={item} className="flex items-center gap-3">
+                      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-blue-50">
+                        <ShieldCheck size={14} className="text-[#0066FF]" />
+                      </div>
+
+                      <span className="text-sm font-semibold text-slate-700">
+                        {item}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Button */}
+
+                <Link
+                  href="/help/videos"
+                  className="mt-9 inline-flex w-fit items-center gap-2 rounded-xl bg-[#0066FF] px-5 py-3.5 text-sm font-bold text-white shadow-[0_10px_25px_rgba(0,102,255,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0052cc] hover:shadow-[0_15px_30px_rgba(0,102,255,0.25)]"
+                >
+                  Watch all guides
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ===================================================
+            SMALL VIDEO CARDS
+        =================================================== */}
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{
+            once: true,
+            amount: 0.1,
+          }}
+          variants={stagger}
+          className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {otherVideos.map((video) => {
+            /*
+             * IMPORTANT:
+             * Capitalized component variable.
+             */
+
+            const Icon = video.icon;
+
+            return (
+              <motion.div
+                key={video.title}
+                variants={cardAnimation}
+                className="group"
+              >
+                <div className="overflow-hidden rounded-[26px] border border-slate-200 bg-white shadow-[0_15px_50px_rgba(15,23,42,0.06)] transition-all duration-500 hover:-translate-y-1 hover:border-blue-100 hover:shadow-[0_25px_60px_rgba(15,23,42,0.10)]">
+                  {/* =======================================
+                      VIDEO THUMBNAIL
+                  ======================================= */}
+
+                  <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${video.videoId}?autoplay=0&mute=1&controls=0&modestbranding=1&rel=0&playsinline=1`}
+                      title={video.title}
+                      allow="autoplay; encrypted-media"
+                      className="pointer-events-none absolute inset-0 h-full w-full scale-[1.05] transition-transform duration-700 group-hover:scale-[1.10]"
+                    />
+
+                    {/* Overlay */}
+
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/10" />
+
+                    {/* Category */}
+
+                    <div className="absolute left-4 top-4">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-black/25 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-xl">
+                        <Icon size={12} />
+
+                        {video.category}
+                      </span>
+                    </div>
+
+                    {/* Play */}
+
+                    <motion.div
+                      whileHover={{
+                        scale: 1.1,
+                      }}
+                      className="absolute bottom-4 right-4 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#0066FF] shadow-xl"
+                    >
+                      <Play size={15} fill="currentColor" className="ml-0.5" />
+                    </motion.div>
+                  </div>
+
+                  {/* =======================================
+                      CARD CONTENT
+                  ======================================= */}
+
+                  <div className="p-5">
+                    <h3 className="text-lg font-bold tracking-tight text-slate-950">
+                      {video.title}
+                    </h3>
+
+                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-500">
+                      {video.description}
+                    </p>
+
+                    <div className="mt-5 flex items-center justify-between">
+                      <span className="text-xs font-bold text-slate-400">
+                        Watch guide
+                      </span>
+
+                      <ArrowRight
+                        size={16}
+                        className="text-[#0066FF] transition-transform duration-300 group-hover:translate-x-1"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* ===================================================
+            BOTTOM CTA
+        =================================================== */}
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{
+            once: true,
+          }}
+          variants={fadeUp}
+          className="mt-16 flex flex-col items-center justify-between gap-5 rounded-[26px] border border-slate-200 bg-white px-6 py-6 shadow-sm sm:flex-row sm:px-8"
+        >
+          <div>
+            <p className="text-sm font-bold text-slate-950">
+              Looking for something specific?
+            </p>
+
+            <p className="mt-1 text-xs text-slate-500 sm:text-sm">
+              Browse the complete Markood Help Center.
+            </p>
+          </div>
+
+          <Link
+            href="/help"
+            className="inline-flex shrink-0 items-center gap-2 rounded-xl border border-slate-200 px-5 py-3 text-sm font-bold text-slate-700 transition-all hover:border-blue-200 hover:bg-blue-50 hover:text-[#0066FF]"
+          >
+            Explore Help Center
+            <ArrowRight size={16} />
+          </Link>
         </motion.div>
       </div>
     </section>
-  );
-}
-
-/* =============================================================
-   VIDEO CARD
-============================================================= */
-function VideoCard({
-  video,
-  className = "",
-  large = false,
-}: {
-  video: (typeof videoGuides)[number];
-  className?: string;
-  large?: boolean;
-}) {
-  return (
-    <motion.div variants={scaleIn} className={`group ${className}`}>
-      <Link
-        href={`/help/videos/${video.videoId}`}
-        className="
-          relative block h-full w-full overflow-hidden rounded-[28px]
-          bg-slate-950 shadow-[0_25px_70px_rgba(15,23,42,0.14)]
-          ring-1 ring-slate-900/5 transition-all duration-500
-          hover:shadow-[0_35px_90px_rgba(0,102,255,0.18)]
-        "
-      >
-        <div
-          className={`relative w-full ${large ? "aspect-[16/11] lg:h-full lg:aspect-auto" : "aspect-[4/3]"}`}
-        >
-          {/* Video embed */}
-          <iframe
-            src={`https://www.youtube.com/embed/${video.videoId}?autoplay=0&mute=1&controls=0&modestbranding=1&rel=0`}
-            title={video.title}
-            allow="autoplay; encrypted-media"
-            className="
-              pointer-events-none absolute inset-0 h-full w-full
-              scale-105 transition-transform duration-700
-              group-hover:scale-110
-            "
-          />
-
-          {/* Gradient overlay for legibility */}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/30" />
-
-          {/* Subtle border glow on hover */}
-          <div className="pointer-events-none absolute inset-0 rounded-[28px] ring-1 ring-inset ring-white/0 transition group-hover:ring-white/10" />
-
-          {/* Top row: category + duration */}
-          <div className="absolute left-5 right-5 top-5 flex items-center justify-between">
-            <span
-              className={`
-                rounded-full px-3 py-1.5 text-[10px] font-bold
-                uppercase tracking-wider text-white backdrop-blur-md
-                ${categoryStyles[video.category] ?? "bg-white/15"}
-              `}
-            >
-              {video.category}
-            </span>
-
-            <span className="flex items-center gap-1 rounded-full bg-black/40 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur-md">
-              <Clock3 size={11} />
-              {video.duration}
-            </span>
-          </div>
-
-          {/* Play button */}
-          <motion.div
-            whileHover={{ scale: 1.12 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className={`
-              absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2
-              items-center justify-center rounded-full bg-white text-[#0066FF]
-              shadow-2xl
-              ${large ? "h-16 w-16" : "h-14 w-14"}
-            `}
-          >
-            <span className="absolute inset-0 -z-10 rounded-full bg-white/30 opacity-0 transition group-hover:animate-ping group-hover:opacity-100" />
-            <Play size={large ? 22 : 20} fill="currentColor" className="ml-1" />
-          </motion.div>
-
-          {/* Title + description */}
-          <div className="absolute bottom-6 left-6 right-6">
-            <h3
-              className={`
-                font-bold text-white
-                ${large ? "text-2xl leading-snug sm:text-[1.65rem]" : "text-lg"}
-              `}
-            >
-              {video.title}
-            </h3>
-
-            {large && (
-              <p className="mt-2 max-w-md text-sm leading-6 text-white/70">
-                A complete, step-by-step walkthrough — watch once and
-                you&apos;ll never need to ask again.
-              </p>
-            )}
-          </div>
-        </div>
-      </Link>
-    </motion.div>
   );
 }
