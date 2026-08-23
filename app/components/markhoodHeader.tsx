@@ -30,14 +30,6 @@ const menus = [
       { label: "Pricing & Fees", href: "/help/selling/pricing-fees" },
       { label: "Shipping & Delivery", href: "/help/selling/delivery" },
       { label: "Returns & Refunds", href: "/help/selling/returns" },
-      {
-        label: "Seller Responsibilities",
-        href: "/help/selling/responsibilities",
-      },
-      {
-        label: "Prohibited Products",
-        href: "/help/selling/prohibited-products",
-      },
     ],
   },
   {
@@ -53,8 +45,6 @@ const menus = [
       { label: "Delivery", href: "/help/buying/delivery" },
       { label: "Cancellation", href: "/help/buying/cancellation" },
       { label: "Returns & Refunds", href: "/help/buying/returns" },
-      { label: "Buyer Protection", href: "/help/buying/protection" },
-      { label: "Complaints", href: "/help/buying/complaints" },
     ],
   },
   {
@@ -93,14 +83,6 @@ const menus = [
       {
         label: "Terms & Conditions",
         href: "/help/policies/terms",
-      },
-      {
-        label: "Privacy Policy",
-        href: "/help/policies/privacy",
-      },
-      {
-        label: "Cookie Policy",
-        href: "/help/policies/cookies",
       },
       {
         label: "Seller Agreement",
