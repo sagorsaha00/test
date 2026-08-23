@@ -65,12 +65,14 @@ const scaleIn: Variants = {
   },
 };
 
-const floatAnimation = {
-  y: [0, -12, 0],
-  transition: {
-    duration: 4,
-    repeat: Infinity,
-    ease: "easeInOut",
+const floatAnimation: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+    },
   },
 };
 
@@ -553,7 +555,9 @@ export default function HelpCenterPage() {
               </p>
 
               <motion.div
-                animate={floatAnimation}
+                variants={floatAnimation}
+                animate="visible"
+                initial="hidden"
                 className="mt-10 hidden h-20 w-20 items-center justify-center rounded-3xl bg-blue-50 text-[#0066FF] shadow-[0_15px_40px_rgba(0,102,255,0.10)] sm:flex"
               >
                 <Sparkles size={30} />
@@ -728,7 +732,9 @@ export default function HelpCenterPage() {
 
             <div className="relative">
               <motion.div
-                animate={floatAnimation}
+                variants={floatAnimation}
+                animate="visible"
+                initial="hidden"
                 className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 text-blue-300 backdrop-blur-xl"
               >
                 <MessageCircle size={27} />
