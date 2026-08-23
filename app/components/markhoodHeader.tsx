@@ -89,20 +89,12 @@ const menus = [
         href: "/help/policies/seller-agreement",
       },
       {
-        label: "Buyer Terms",
-        href: "/help/policies/buyer-terms",
-      },
-      {
         label: "Refund Policy",
         href: "/help/policies/refund",
       },
       {
         label: "Cancellation Policy",
         href: "/help/policies/cancellation",
-      },
-      {
-        label: "Prohibited Items",
-        href: "/help/policies/prohibited-items",
       },
     ],
   },
