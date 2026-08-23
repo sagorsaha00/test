@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Mail } from "lucide-react";
 
-/* Inline social icons — avoids relying on lucide-react's icon set,
-   which varies by version (e.g. some versions don't export Instagram). */
+/* =========================================================
+   SOCIAL ICONS
+========================================================= */
+
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -45,6 +47,10 @@ function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+/* =========================================================
+   FOOTER COLUMN
+========================================================= */
+
 function FooterColumn({
   title,
   links,
@@ -61,12 +67,7 @@ function FooterColumn({
           <li key={label}>
             <Link
               href={href}
-              className="
-                text-xs
-                text-slate-400
-                transition
-                hover:text-white
-              "
+              className="text-xs text-slate-400 transition hover:text-white"
             >
               {label}
             </Link>
@@ -76,6 +77,10 @@ function FooterColumn({
     </div>
   );
 }
+
+/* =========================================================
+   SOCIALS
+========================================================= */
 
 const socials = [
   {
@@ -100,13 +105,21 @@ const socials = [
   },
 ];
 
+/* =========================================================
+   FOOTER
+========================================================= */
+
 export default function MarkoodFooter() {
   return (
     <footer className="bg-[#0F172A] text-white">
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
-        {/* Top */}
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.5fr_2.5fr]">
-          {/* Brand */}
+        {/* =================================================
+            TOP
+        ================================================= */}
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.25fr_2.75fr]">
+          {/* =================================================
+              BRAND
+          ================================================= */}
           <div className="max-w-sm">
             <Link
               href="/help"
@@ -124,23 +137,15 @@ export default function MarkoodFooter() {
 
             <Link
               href="/help"
-              className="
-                mt-6
-                inline-flex
-                items-center
-                gap-2
-                text-sm
-                font-semibold
-                text-white
-                transition
-                hover:text-[#FFC400]
-              "
+              className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-[#FFC400]"
             >
               Visit Markood Center
               <ArrowRight size={15} />
             </Link>
 
-            {/* Newsletter */}
+            {/* =================================================
+                NEWSLETTER
+            ================================================= */}
             <div className="mt-8">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Get updates
@@ -155,75 +160,39 @@ export default function MarkoodFooter() {
                     size={15}
                     className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
                   />
+
                   <input
                     type="email"
                     required
                     placeholder="you@email.com"
-                    className="
-                      w-full
-                      rounded-lg
-                      border
-                      border-slate-700
-                      bg-slate-800/60
-                      py-2.5
-                      pl-9
-                      pr-3
-                      text-xs
-                      text-white
-                      placeholder:text-slate-500
-                      outline-none
-                      transition
-                      focus:border-[#0066FF]
-                      focus:ring-1
-                      focus:ring-[#0066FF]
-                    "
+                    className="w-full rounded-lg border border-slate-700 bg-slate-800/60 py-2.5 pl-9 pr-3 text-xs text-white placeholder:text-slate-500 outline-none transition focus:border-[#0066FF] focus:ring-1 focus:ring-[#0066FF]"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="
-                    shrink-0
-                    rounded-lg
-                    bg-[#0066FF]
-                    px-4
-                    py-2.5
-                    text-xs
-                    font-semibold
-                    text-white
-                    transition
-                    hover:bg-[#0052CC]
-                  "
+                  className="shrink-0 rounded-lg bg-[#0066FF] px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#0052CC]"
                 >
                   Subscribe
                 </button>
               </form>
             </div>
 
-            {/* Social */}
+            {/* =================================================
+                SOCIAL
+            ================================================= */}
             <div className="mt-8 flex items-center gap-3">
               {socials.map((social) => {
                 const Icon = social.icon;
+
                 return (
                   <Link
                     key={social.label}
                     href={social.href}
                     aria-label={social.label}
-                    className="
-                      flex
-                      h-9
-                      w-9
-                      items-center
-                      justify-center
-                      rounded-lg
-                      border
-                      border-slate-700
-                      text-slate-400
-                      transition
-                      hover:border-[#0066FF]/40
-                      hover:bg-[#0066FF]/10
-                      hover:text-white
-                    "
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-700 text-slate-400 transition hover:border-[#0066FF]/40 hover:bg-[#0066FF]/10 hover:text-white"
                   >
                     <Icon className="h-4 w-4" />
                   </Link>
@@ -232,82 +201,104 @@ export default function MarkoodFooter() {
             </div>
           </div>
 
-          {/* Footer links */}
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-            {/* Sell */}
+          {/* =================================================
+              FOOTER LINKS
+          ================================================= */}
+          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+            {/* SELL */}
             <FooterColumn
               title="Sell on Markood"
               links={[
                 ["Getting Started", "/help/selling/getting-started"],
-                ["Products", "/help/selling/products"],
+                ["Add Products", "/help/selling/products"],
                 ["Orders", "/help/selling/orders"],
-                ["Seller Rules", "/help/selling/rules"],
+                ["Pricing & Fees", "/help/selling/pricing-fees"],
+                ["Returns & Refunds", "/help/selling/returns"],
               ]}
             />
 
-            {/* Buy */}
+            {/* BUY */}
             <FooterColumn
               title="Buy on Markood"
               links={[
                 ["Getting Started", "/help/buying/getting-started"],
-                ["Orders", "/help/buying/orders"],
+                ["Search & Order", "/help/buying/search-order"],
                 ["Payments", "/help/buying/payments"],
-                ["Returns", "/help/buying/returns"],
+                ["Cancellation", "/help/buying/cancellation"],
+                ["Returns & Refunds", "/help/buying/returns"],
               ]}
             />
 
-            {/* Delivery */}
+            {/* DELIVERY */}
             <FooterColumn
               title="Delivery"
               links={[
-                ["How it works", "/help/delivery"],
+                ["How Delivery Works", "/help/delivery/how-it-works"],
                 ["Delivery Zones", "/help/delivery/zones"],
-                ["Rider Help", "/help/rider"],
-                ["Failed Deliveries", "/help/delivery/failed"],
+                [
+                  "Seller Responsibilities",
+                  "/help/delivery/seller-responsibilities",
+                ],
+                [
+                  "Rider Responsibilities",
+                  "/help/delivery/rider-responsibilities",
+                ],
+                ["Failed Deliveries", "/help/delivery/failed-deliveries"],
+                ["Lost & Damaged Orders", "/help/delivery/lost-damaged-orders"],
               ]}
             />
 
-            {/* Support */}
+            {/* POLICIES */}
             <FooterColumn
-              title="Support"
+              title="Policies"
               links={[
-                ["Help Center", "/help"],
-                ["Contact Support", "/support"],
-                ["Policies", "/help/policies"],
-                ["About Markood", "/about"],
+                ["Terms & Conditions", "/help/policies/terms"],
+                ["Seller Agreement", "/help/policies/seller-agreement"],
+                ["Refund Policy", "/help/policies/refund"],
+                ["Cancellation Policy", "/help/policies/cancellation"],
+              ]}
+            />
+
+            {/* UPDATES */}
+            <FooterColumn
+              title="Updates"
+              links={[
+                ["What's New", "/help/updates"],
+                ["Policy Updates", "/help/updates/policies"],
+                ["Delivery Updates", "/help/updates/delivery"],
+                ["Marketplace Updates", "/help/updates/marketplace"],
               ]}
             />
           </div>
         </div>
 
-        {/* Trust strip */}
+        {/* =================================================
+            TRUST STRIP
+        ================================================= */}
         <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 border-y border-slate-800 py-6 text-xs text-slate-400">
           <span className="flex items-center gap-2">
             <ShieldCheck size={15} className="text-[#0066FF]" />
             Buyer &amp; Seller Protection
           </span>
-          <span className="flex items-center gap-2">
-            <ShieldCheck size={15} className="text-[#0066FF]" />
-            GDPR &amp; CCPA Compliant
-          </span>
+
           <span className="flex items-center gap-2">
             <ShieldCheck size={15} className="text-[#0066FF]" />
             Secure Payments
           </span>
+
+          <span className="flex items-center gap-2">
+            <ShieldCheck size={15} className="text-[#0066FF]" />
+            Trusted Marketplace
+          </span>
         </div>
 
-        {/* Bottom */}
+        {/* =================================================
+            BOTTOM
+        ================================================= */}
         <div className="mt-8 flex flex-col gap-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Markood. All rights reserved.</p>
 
           <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <Link
-              href="/help/policies/privacy"
-              className="transition hover:text-white"
-            >
-              Privacy
-            </Link>
-
             <Link
               href="/help/policies/terms"
               className="transition hover:text-white"
@@ -316,14 +307,21 @@ export default function MarkoodFooter() {
             </Link>
 
             <Link
-              href="/help/policies/cookies"
+              href="/help/policies/refund"
               className="transition hover:text-white"
             >
-              Cookies
+              Refund Policy
             </Link>
 
-            <Link href="/support" className="transition hover:text-white">
-              Contact
+            <Link
+              href="/help/policies/cancellation"
+              className="transition hover:text-white"
+            >
+              Cancellation
+            </Link>
+
+            <Link href="/help" className="transition hover:text-white">
+              Help Center
             </Link>
           </div>
         </div>

@@ -139,7 +139,7 @@ export default function MarkoodHeader() {
         <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* ================= LOGO ================= */}
           <Link
-            href="/help"
+            href="/"
             className="group flex shrink-0 items-center"
             onClick={() => setMobileOpen(false)}
           >
