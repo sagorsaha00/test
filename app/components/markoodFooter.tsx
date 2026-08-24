@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Mail } from "lucide-react";
 
-/* =========================================================
-   SOCIAL ICONS
-========================================================= */
+ 
 
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
