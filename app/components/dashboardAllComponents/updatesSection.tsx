@@ -9,7 +9,7 @@ import {
   Bell,
   Plus,
 } from "lucide-react";
-import { StatusBadge, SmallStat, WorkflowStep } from "../lib/icon";
+import { SmallStat, StatusBadge, WorkflowStep } from "../lib/icons";
 import { containerVariants, itemVariants, updates } from "../lib/constant";
 export default function UpdatesSection() {
   return (
@@ -38,8 +38,6 @@ export default function UpdatesSection() {
             updates for your users.
           </p>
         </div>
-
-        
       </motion.div>
 
       {/* Update overview */}
@@ -54,7 +52,6 @@ export default function UpdatesSection() {
         <SmallStat icon={FileEdit} label="Drafts" value="03" />
       </motion.div>
 
-     
       <motion.section
         variants={itemVariants}
         className="mt-7 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)] sm:p-6"

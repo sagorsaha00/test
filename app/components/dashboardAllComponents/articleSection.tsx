@@ -8,7 +8,7 @@ import {
   Plus,
   Search,
 } from "lucide-react";
-import { StatusBadge, SmallStat } from "../lib/icon";
+import { StatusBadge, SmallStat } from "../lib/icons";
 import { articles, containerVariants, itemVariants } from "../lib/constant";
 
 export default function ArticlesSection() {
@@ -43,8 +43,6 @@ export default function ArticlesSection() {
             Create, edit and manage all Markood Center help content.
           </p>
         </div>
-
-        
       </motion.div>
 
       {/* Stats */}

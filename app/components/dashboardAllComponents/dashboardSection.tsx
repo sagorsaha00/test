@@ -15,7 +15,7 @@ import {
   ShoppingBag,
   Truck,
 } from "lucide-react";
-import { QuickAction, ActivityItem, StatusBadge } from "../lib/icon";
+import { QuickAction, ActivityItem, StatusBadge } from "../lib/icons";
 
 type Article = {
   id: number;
