@@ -5,8 +5,9 @@ import DashboardSection from "../../../components/dashboardAllComponents/dashboa
 import ArticlesSection from "../../../components/dashboardAllComponents/articleSection";
 import UpdatesSection from "../../../components/dashboardAllComponents/updatesSection";
 import { SidebarItem } from "../../../components/lib/icons";
+import ManageContent from "../../../components/dashboardAllComponents/manageContent";
 
-type MenuType = "Dashboard" | "Articles" | "Updates";
+type MenuType = "Dashboard" | "Articles" | "Updates" | "Managecontent";
 
 export default function MarkoodCenterDashboard() {
   const [activeMenu, setActiveMenu] = useState<MenuType>("Dashboard");
@@ -14,23 +15,19 @@ export default function MarkoodCenterDashboard() {
   return (
     <div className="min-h-screen bg-[#f6f8fb] text-slate-950">
       <div className="flex min-h-screen">
-        {/* ১. aside ট্যাগেই sticky, top-0 এবং h-screen ব্যবহার করুন */}
         <aside className="sticky top-0 h-screen hidden w-[245px] shrink-0 border-r border-slate-200 bg-white lg:block">
-          {/* ২. ভিতরের div থেকে sticky এবং top-0 তুলে দিয়ে flex flex-col h-full রাখুন */}
           <div className="flex h-full flex-col">
-            <nav className="flex-1 px-4 py-6">
+            <nav className="flex-1 px-4 py-6 ">
               <p className="mb-3 px-3 text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
                 Workspace
               </p>
-
-              <div className="space-y-1">
+              <div className="space-y-1 ">
                 <SidebarItem
                   icon={LayoutDashboard}
                   label="Dashboard"
                   active={activeMenu === "Dashboard"}
                   onClick={() => setActiveMenu("Dashboard")}
                 />
-
                 <SidebarItem
                   icon={FileText}
                   label="Articles"
@@ -44,6 +41,12 @@ export default function MarkoodCenterDashboard() {
                   active={activeMenu === "Updates"}
                   onClick={() => setActiveMenu("Updates")}
                 />
+                <SidebarItem
+                  icon={Megaphone}
+                  label="Manage content"
+                  active={activeMenu === "Managecontent"}
+                  onClick={() => setActiveMenu("Managecontent")}
+                />
               </div>
             </nav>
           </div>
@@ -53,6 +56,7 @@ export default function MarkoodCenterDashboard() {
           {activeMenu === "Dashboard" && <DashboardSection />}
           {activeMenu === "Articles" && <ArticlesSection />}
           {activeMenu === "Updates" && <UpdatesSection />}
+          {activeMenu === "Managecontent" && <ManageContent />}
         </main>
       </div>
     </div>
