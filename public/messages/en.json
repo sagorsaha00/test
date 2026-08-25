@@ -1,0 +1,64 @@
+{
+    "Header": {
+        "search": "Search",
+        "helpCenter": "Markood Help Center",
+        "viewAll": "View all",
+        "searchPlaceholder": "Search Markood Help...",
+        "sellOnMarkood": {
+            "title": "Sell on Markood",
+            "description": "Everything sellers need to start, manage and grow their business.",
+            "items": {
+                "gettingStarted": "Getting Started",
+                "addProducts": "Add Products",
+                "orders": "Orders",
+                "pricingFees": "Pricing & Fees",
+                "delivery": "Shipping & Delivery",
+                "returns": "Returns & Refunds"
+            }
+        },
+        "buyOnMarkood": {
+            "title": "Buy on Markood",
+            "description": "Learn how to discover products, place orders and get support.",
+            "items": {
+                "gettingStarted": "Getting Started",
+                "searchOrder": "Search & Order",
+                "payments": "Payments",
+                "delivery": "Delivery",
+                "cancellation": "Cancellation",
+                "returns": "Returns & Refunds"
+            }
+        },
+        "delivery": {
+            "title": "Delivery",
+            "description": "Everything about Markood delivery for customers, sellers and riders.",
+            "items": {
+                "howItWorks": "How Delivery Works",
+                "zones": "Delivery Zones",
+                "sellerResponsibilities": "Seller Responsibilities",
+                "riderResponsibilities": "Rider Responsibilities",
+                "failedDeliveries": "Failed Deliveries",
+                "lostDamagedOrders": "Lost & Damaged Orders"
+            }
+        },
+        "policies": {
+            "title": "Policies & Legal",
+            "description": "Markood's rules, agreements and important legal policies.",
+            "items": {
+                "terms": "Terms & Conditions",
+                "sellerAgreement": "Seller Agreement",
+                "refund": "Refund Policy",
+                "cancellation": "Cancellation Policy"
+            }
+        },
+        "updates": {
+            "title": "Updates",
+            "description": "See what's new and what's changed across Markood.",
+            "items": {
+                "whatsNew": "What's New",
+                "policyUpdates": "Policy Updates",
+                "deliveryUpdates": "Delivery Updates",
+                "marketplaceUpdates": "Marketplace Updates"
+            }
+        }
+    }
+}

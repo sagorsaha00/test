@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
 import { LayoutDashboard, Megaphone, FileText } from "lucide-react"; // FileText যোগ করতে ভুলবেন না
-import DashboardSection from "../../components/dashboardAllComponents/dashboardSection";
-import ArticlesSection from "../../components/dashboardAllComponents/articleSection";
-import UpdatesSection from "../../components/dashboardAllComponents/updatesSection";
-import { SidebarItem } from "../../components/lib/icons";
+import DashboardSection from "../../../components/dashboardAllComponents/dashboardSection";
+import ArticlesSection from "../../../components/dashboardAllComponents/articleSection";
+import UpdatesSection from "../../../components/dashboardAllComponents/updatesSection";
+import { SidebarItem } from "../../../components/lib/icons";
 
 type MenuType = "Dashboard" | "Articles" | "Updates";
 

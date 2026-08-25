@@ -1,0 +1,74 @@
+{
+    "Header": {
+        "search": "Sök",
+        "helpCenter": "Markood Hjälpcenter",
+        "viewAll": "Visa alla",
+        "searchPlaceholder": "Sök i Markood Hjälp...",
+        "sellOnMarkood": {
+            "title": "Sälja på Markood",
+            "description": "Allt säljare behöver för att starta, hantera och växa sin verksamhet.",
+            "items": {
+                "gettingStarted": "Kom igång",
+                "addProducts": "Lägg till produkter",
+                "orders": "Beställningar",
+                "pricingFees": "Priser och avgifter",
+                "delivery": "Frakt och leverans",
+                "returns": "Returer och återbetalningar"
+            }
+        },
+        "buyOnMarkood": {
+            "title": "Köpa på Markood",
+            "description": "Lär dig hur du hittar produkter, gör beställningar och får support.",
+            "items": {
+                "gettingStarted": "Kom igång",
+                "searchOrder": "Sök och beställ",
+                "payments": "Betalningar",
+                "delivery": "Leverans",
+                "cancellation": "Avbeställning",
+                "returns": "Returer och återbetalningar"
+            }
+        },
+        "delivery": {
+            "title": "Leverans",
+            "description": "Allt om Markood-leveranser för kunder, säljare och bud.",
+            "items": {
+                "howItWorks": "Hur leveransen fungerar",
+                "zones": "Leveranszoner",
+                "sellerResponsibilities": "Säljarens ansvar",
+                "riderResponsibilities": "Budets ansvar",
+                "failedDeliveries": "Misslyckade leveranser",
+                "lostDamagedOrders": "Förlorade och skadade beställningar"
+            }
+        },
+        "policies": {
+            "title": "Policyer och villkor",
+            "description": "Markoods regler, avtal och viktiga juridiska policyer.",
+            "items": {
+                "terms": "Användarvillkor",
+                "sellerAgreement": "Säljaravtal",
+                "refund": "Återbetalningspolicy",
+                "cancellation": "Avbeställningspolicy"
+            }
+        },
+        "updates": {
+            "title": "Uppdateringar",
+            "description": "Se vad som är nytt och vad som har ändrats i Markood.",
+            "items": {
+                "whatsNew": "Vad som är nytt",
+                "policyUpdates": "Policyuppdateringar",
+                "deliveryUpdates": "Leveransuppdateringar",
+                "marketplaceUpdates": "Marknadsplatsuppdateringar"
+            }
+        }
+    },
+    "SellerDelivery": {
+        "badge": "SÄLJARANSVARSGUIDE FÖR LEVERANS",
+        "titlePrefix": "Säljarens ansvar ",
+        "titleHighlight": "för leverans.",
+        "description": "Förstå vad säljare behöver göra när de förbereder, packar och överlämnar beställningar för Markood-leverans.",
+        "readTime": "5 min lästid",
+        "lastUpdated": "Senast uppdaterad augusti 2026",
+        "cardTitle": "Leveransen börjar med säljaren",
+        "cardDescription": "En smidig leverans beror på att säljarna förbereder rätt produkter, packar dem ordentligt och gör beställningarna redo för upphämtning i tid. Din förberedelse hjälper till att skydda kundupplevelsen från det ögonblick en beställning görs."
+    }
+}

@@ -1,0 +1,64 @@
+{
+    "Header": {
+        "search": "بحث",
+        "helpCenter": "مركز مساعدة ماركود",
+        "viewAll": "عرض الكل",
+        "searchPlaceholder": "البحث في مساعدة ماركود...",
+        "sellOnMarkood": {
+            "title": "البيع على ماركود",
+            "description": "كل ما يحتاجه البائعون لبدء وإدارة وتنمية أعمالهم.",
+            "items": {
+                "gettingStarted": "البداية",
+                "addProducts": "إضافة منتجات",
+                "orders": "الطلبات",
+                "pricingFees": "الأسعار والرسوم",
+                "delivery": "الشحن والتوصيل",
+                "returns": "الإرجاع والاسترداد"
+            }
+        },
+        "buyOnMarkood": {
+            "title": "الشراء من ماركود",
+            "description": "تعلم كيفية اكتشاف المنتجات وإجراء الطلبات والحصول على الدعم.",
+            "items": {
+                "gettingStarted": "البداية",
+                "searchOrder": "البحث والطلب",
+                "payments": "المدفوعات",
+                "delivery": "التوصيل",
+                "cancellation": "الإلغاء",
+                "returns": "الإرجاع والاسترداد"
+            }
+        },
+        "delivery": {
+            "title": "التوصيل",
+            "description": "كل شيء عن توصيل ماركود للعملاء والبائعين والمندوبين.",
+            "items": {
+                "howItWorks": "كيف يعمل التوصيل",
+                "zones": "مناطق التوصيل",
+                "sellerResponsibilities": "مسؤوليات البائع",
+                "riderResponsibilities": "مسؤوليات المندوب",
+                "failedDeliveries": "التوصيل غير الناجح",
+                "lostDamagedOrders": "الطلبات المفقودة والتالفة"
+            }
+        },
+        "policies": {
+            "title": "السياسات والشروط",
+            "description": "قواعد ماركود واتفاقياته والسياسات القانونية الهامة.",
+            "items": {
+                "terms": "الشروط والأحكام",
+                "sellerAgreement": "اتفاقية البائع",
+                "refund": "سياسة الاسترداد",
+                "cancellation": "سياسة الإلغاء"
+            }
+        },
+        "updates": {
+            "title": "التحديثات",
+            "description": "شاهد ما هو جديد وما الذي تغير عبر ماركود.",
+            "items": {
+                "whatsNew": "ما الجديد",
+                "policyUpdates": "تحديثات السياسة",
+                "deliveryUpdates": "تحديثات التوصيل",
+                "marketplaceUpdates": "تحديثات السوق"
+            }
+        }
+    }
+}

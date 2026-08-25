@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTranslations, useLocale } from "next-intl";
 import {
   ChevronDown,
   Search,
@@ -15,119 +16,159 @@ import {
   Megaphone,
   ArrowRight,
 } from "lucide-react";
-
-const menus = [
-  {
-    label: "Sell on Markood",
-    icon: Store,
-    description:
-      "Everything sellers need to start, manage and grow their business.",
-    href: "/help/selling",
-    items: [
-      { label: "Getting Started", href: "/help/selling/getting-started" },
-      { label: "Add Products", href: "/help/selling/products" },
-      { label: "Orders", href: "/help/selling/orders" },
-      { label: "Pricing & Fees", href: "/help/selling/pricing-fees" },
-      { label: "Shipping & Delivery", href: "/help/selling/delivery" },
-      { label: "Returns & Refunds", href: "/help/selling/returns" },
-    ],
-  },
-  {
-    label: "Buy on Markood",
-    icon: ShoppingBag,
-    description:
-      "Learn how to discover products, place orders and get support.",
-    href: "/help/buying",
-    items: [
-      { label: "Getting Started", href: "/help/buying/getting-started" },
-      { label: "Search & Order", href: "/help/buying/search-order" },
-      { label: "Payments", href: "/help/buying/payments" },
-      { label: "Delivery", href: "/help/buying/delivery" },
-      { label: "Cancellation", href: "/help/buying/cancellation" },
-      { label: "Returns & Refunds", href: "/help/buying/returns" },
-    ],
-  },
-  {
-    label: "Delivery",
-    icon: Truck,
-    description:
-      "Everything about Markood delivery for customers, sellers and riders.",
-    href: "/help/delivery",
-    items: [
-      { label: "How Delivery Works", href: "/help/delivery/how-it-works" },
-      { label: "Delivery Zones", href: "/help/delivery/zones" },
-      {
-        label: "Seller Responsibilities",
-        href: "/help/delivery/seller-responsibilities",
-      },
-      {
-        label: "Rider Responsibilities",
-        href: "/help/delivery/rider-responsibilities",
-      },
-      {
-        label: "Failed Deliveries",
-        href: "/help/delivery/failed-deliveries",
-      },
-      {
-        label: "Lost & Damaged Orders",
-        href: "/help/delivery/lost-damaged-orders",
-      },
-    ],
-  },
-  {
-    label: "Policies & Legal",
-    icon: FileText,
-    description: "Markood's rules, agreements and important legal policies.",
-    href: "/help/policies",
-    items: [
-      {
-        label: "Terms & Conditions",
-        href: "/help/policies/terms",
-      },
-      {
-        label: "Seller Agreement",
-        href: "/help/policies/seller-agreement",
-      },
-      {
-        label: "Refund Policy",
-        href: "/help/policies/refund",
-      },
-      {
-        label: "Cancellation Policy",
-        href: "/help/policies/cancellation",
-      },
-    ],
-  },
-  {
-    label: "Updates",
-    icon: Megaphone,
-    description: "See what's new and what's changed across Markood.",
-    href: "/help/updates",
-    items: [
-      {
-        label: "What's New",
-        href: "/help/updates",
-      },
-      {
-        label: "Policy Updates",
-        href: "/help/updates/policies",
-      },
-      {
-        label: "Delivery Updates",
-        href: "/help/updates/delivery",
-      },
-      {
-        label: "Marketplace Updates",
-        href: "/help/updates/marketplace",
-      },
-    ],
-  },
-];
+import LanguageSwitcher from "./lanaguageswitcher";
 
 export default function MarkoodHeader() {
+  const t = useTranslations("Header");
+  const locale = useLocale();
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openMobileMenu, setOpenMobileMenu] = useState<string | null>(null);
   const [searchOpen, setSearchOpen] = useState(false);
+
+  const menus = [
+    {
+      label: t("sellOnMarkood.title"),
+      icon: Store,
+      description: t("sellOnMarkood.description"),
+      href: `/${locale}/help/selling`,
+      items: [
+        {
+          label: t("sellOnMarkood.items.gettingStarted"),
+          href: `/${locale}/help/selling/getting-started`,
+        },
+        {
+          label: t("sellOnMarkood.items.addProducts"),
+          href: `/${locale}/help/selling/products`,
+        },
+        {
+          label: t("sellOnMarkood.items.orders"),
+          href: `/${locale}/help/selling/orders`,
+        },
+        {
+          label: t("sellOnMarkood.items.pricingFees"),
+          href: `/${locale}/help/selling/pricing-fees`,
+        },
+        {
+          label: t("sellOnMarkood.items.delivery"),
+          href: `/${locale}/help/selling/delivery`,
+        },
+        {
+          label: t("sellOnMarkood.items.returns"),
+          href: `/${locale}/help/selling/returns`,
+        },
+      ],
+    },
+    {
+      label: t("buyOnMarkood.title"),
+      icon: ShoppingBag,
+      description: t("buyOnMarkood.description"),
+      href: `/${locale}/help/buying`,
+      items: [
+        {
+          label: t("buyOnMarkood.items.gettingStarted"),
+          href: `/${locale}/help/buying/getting-started`,
+        },
+        {
+          label: t("buyOnMarkood.items.searchOrder"),
+          href: `/${locale}/help/buying/search-order`,
+        },
+        {
+          label: t("buyOnMarkood.items.payments"),
+          href: `/${locale}/help/buying/payments`,
+        },
+        {
+          label: t("buyOnMarkood.items.delivery"),
+          href: `/${locale}/help/buying/delivery`,
+        },
+        {
+          label: t("buyOnMarkood.items.cancellation"),
+          href: `/${locale}/help/buying/cancellation`,
+        },
+        {
+          label: t("buyOnMarkood.items.returns"),
+          href: `/${locale}/help/buying/returns`,
+        },
+      ],
+    },
+    {
+      label: t("delivery.title"),
+      icon: Truck,
+      description: t("delivery.description"),
+      href: `/${locale}/help/delivery`,
+      items: [
+        {
+          label: t("delivery.items.howItWorks"),
+          href: `/${locale}/help/delivery/how-it-works`,
+        },
+        {
+          label: t("delivery.items.zones"),
+          href: `/${locale}/help/delivery/zones`,
+        },
+        {
+          label: t("delivery.items.sellerResponsibilities"),
+          href: `/${locale}/help/delivery/seller-responsibilities`,
+        },
+        {
+          label: t("delivery.items.riderResponsibilities"),
+          href: `/${locale}/help/delivery/rider-responsibilities`,
+        },
+        {
+          label: t("delivery.items.failedDeliveries"),
+          href: `/${locale}/help/delivery/failed-deliveries`,
+        },
+        {
+          label: t("delivery.items.lostDamagedOrders"),
+          href: `/${locale}/help/delivery/lost-damaged-orders`,
+        },
+      ],
+    },
+    {
+      label: t("policies.title"),
+      icon: FileText,
+      description: t("policies.description"),
+      href: `/${locale}/help/policies`,
+      items: [
+        {
+          label: t("policies.items.terms"),
+          href: `/${locale}/help/policies/terms`,
+        },
+        {
+          label: t("policies.items.sellerAgreement"),
+          href: `/${locale}/help/policies/seller-agreement`,
+        },
+        {
+          label: t("policies.items.refund"),
+          href: `/${locale}/help/policies/refund`,
+        },
+        {
+          label: t("policies.items.cancellation"),
+          href: `/${locale}/help/policies/cancellation`,
+        },
+      ],
+    },
+    {
+      label: t("updates.title"),
+      icon: Megaphone,
+      description: t("updates.description"),
+      href: `/${locale}/help/updates`,
+      items: [
+        { label: t("updates.items.whatsNew"), href: `/${locale}/help/updates` },
+        {
+          label: t("updates.items.policyUpdates"),
+          href: `/${locale}/help/updates/policies`,
+        },
+        {
+          label: t("updates.items.deliveryUpdates"),
+          href: `/${locale}/help/updates/delivery`,
+        },
+        {
+          label: t("updates.items.marketplaceUpdates"),
+          href: `/${locale}/help/updates/marketplace`,
+        },
+      ],
+    },
+  ];
 
   const toggleMobileMenu = (label: string) => {
     setOpenMobileMenu((current) => (current === label ? null : label));
@@ -139,7 +180,7 @@ export default function MarkoodHeader() {
         <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* ================= LOGO ================= */}
           <Link
-            href="/"
+            href={`/${locale}`}
             className="group flex shrink-0 items-center"
             onClick={() => setMobileOpen(false)}
           >
@@ -199,6 +240,7 @@ export default function MarkoodHeader() {
                       top-[72px]
                       w-[330px]
                       -translate-x-1/2
+                      rtl:translate-x-1/2
                       translate-y-2
                       rounded-2xl
                       border
@@ -247,7 +289,10 @@ export default function MarkoodHeader() {
                             {menu.label}
                           </p>
 
-                          <ArrowRight size={15} className="text-slate-400" />
+                          <ArrowRight
+                            size={15}
+                            className="text-slate-400 rtl:rotate-180"
+                          />
                         </div>
 
                         <p className="mt-1 text-xs leading-5 text-slate-500">
@@ -285,7 +330,7 @@ export default function MarkoodHeader() {
               );
             })}
           </nav>
-
+          <LanguageSwitcher />
           {/* ================= DESKTOP SEARCH ================= */}
           <button
             type="button"
@@ -308,7 +353,7 @@ export default function MarkoodHeader() {
             "
           >
             <Search size={17} />
-            <span>Search</span>
+            <span>{t("search")}</span>
           </button>
 
           {/* ================= MOBILE ACTIONS ================= */}
@@ -316,7 +361,7 @@ export default function MarkoodHeader() {
             {/* Mobile Search */}
             <button
               type="button"
-              aria-label="Search"
+              aria-label={t("search")}
               onClick={() => setSearchOpen(true)}
               className="
                 flex h-10 w-10
@@ -371,7 +416,7 @@ export default function MarkoodHeader() {
           <div className="max-h-[calc(100vh-72px)] overflow-y-auto px-4 pb-6 pt-3 sm:px-6">
             {/* Mobile Home */}
             <Link
-              href="/help"
+              href={`/${locale}/help`}
               onClick={() => setMobileOpen(false)}
               className="
                 mb-2
@@ -387,8 +432,8 @@ export default function MarkoodHeader() {
                 hover:bg-slate-50
               "
             >
-              Markood Help Center
-              <ArrowRight size={16} className="text-slate-400" />
+              {t("helpCenter")}
+              <ArrowRight size={16} className="text-slate-400 rtl:rotate-180" />
             </Link>
 
             {/* Mobile Categories */}
@@ -413,6 +458,7 @@ export default function MarkoodHeader() {
                         px-4
                         py-3.5
                         text-left
+                        rtl:text-right
                         transition
                         ${
                           isOpen
@@ -451,9 +497,9 @@ export default function MarkoodHeader() {
                       `}
                     >
                       <div className="overflow-hidden">
-                        <div className="ml-7 border-l border-slate-200 py-2 pl-4">
+                        <div className="ml-7 rtl:ml-0 rtl:mr-7 border-l rtl:border-l-0 rtl:border-r border-slate-200 py-2 pl-4 rtl:pl-0 rtl:pr-4">
                           {/* Description */}
-                          <p className="mb-2 pr-3 text-xs leading-5 text-slate-500">
+                          <p className="mb-2 pr-3 rtl:pr-0 rtl:pl-3 text-xs leading-5 text-slate-500">
                             {menu.description}
                           </p>
 
@@ -475,8 +521,8 @@ export default function MarkoodHeader() {
                               hover:bg-[#0066FF]/5
                             "
                           >
-                            View all
-                            <ArrowRight size={14} />
+                            {t("viewAll")}
+                            <ArrowRight size={14} className="rtl:rotate-180" />
                           </Link>
 
                           {/* Items */}
@@ -517,7 +563,6 @@ export default function MarkoodHeader() {
                   setSearchOpen(true);
                 }}
                 className="
-
                   flex
                   w-full
                   items-center
@@ -534,7 +579,7 @@ export default function MarkoodHeader() {
                 "
               >
                 <Search size={18} />
-                Search Markood Help
+                {t("searchPlaceholder")}
               </button>
             </div>
           </div>
@@ -564,7 +609,7 @@ export default function MarkoodHeader() {
                 <input
                   type="text"
                   autoFocus
-                  placeholder="Search Markood Help..."
+                  placeholder={t("searchPlaceholder")}
                   className="w-full text-base font-medium text-slate-900 outline-none placeholder:text-slate-400 sm:text-lg"
                 />
                 <button
