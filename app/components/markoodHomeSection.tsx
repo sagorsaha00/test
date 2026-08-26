@@ -71,7 +71,7 @@ const categories: {
     title: "Sell on Markood",
     description:
       "Everything sellers need to register, list products, manage orders and grow.",
-    href: "/help/selling",
+    href: "/en/help/selling/getting-started",
     icon: Store,
   },
   {
@@ -79,7 +79,7 @@ const categories: {
     title: "Buy on Markood",
     description:
       "Learn how to discover products, place orders, make payments and get support.",
-    href: "/help/buying",
+    href: "/en/help/buying/getting-started",
     icon: ShoppingBag,
   },
   {
@@ -87,7 +87,7 @@ const categories: {
     title: "Delivery",
     description:
       "Understand delivery zones, tracking, failed deliveries and responsibilities.",
-    href: "/help/delivery",
+    href: "/en/help/delivery/how-it-works",
     icon: Truck,
   },
   {
@@ -95,7 +95,7 @@ const categories: {
     title: "Policies",
     description:
       "Read Markood terms, privacy, refund, cancellation and marketplace policies.",
-    href: "/help/policies",
+    href: "/en/help/policies/terms",
     icon: ShieldCheck,
   },
 ];
@@ -450,13 +450,7 @@ export default function MarkoodCenter() {
                 </p>
               </div>
 
-              <Link
-                href="/help"
-                className="flex items-center gap-2 text-sm font-bold text-[#0066FF]"
-              >
-                View all
-                <ArrowRight size={16} />
-              </Link>
+              
             </div>
           </motion.div>
 

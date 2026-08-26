@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
+import Link from "next/link";
 
 const reels = [
   {
@@ -79,8 +80,8 @@ export default function MarkoodTrustHero() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="/help/policies"
+              <Link
+                href="/en/help/updates/policies"
                 className="
                   inline-flex
                   items-center
@@ -97,33 +98,13 @@ export default function MarkoodTrustHero() {
                 "
               >
                 Explore our safety policies
-              </a>
+              </Link>
 
-              <a
-                href="/help"
-                className="
-                  inline-flex
-                  items-center
-                  gap-2
-                  rounded-xl
-                  border
-                  border-slate-200
-                  px-6
-                  py-3
-                  text-sm
-                  font-semibold
-                  text-slate-700
-                  transition
-                  hover:border-slate-300
-                  hover:bg-slate-50
-                "
-              >
-                Visit Help Center
-              </a>
+             
             </div>
           </div>
 
-          {/* ================= VIDEO REEL ================= */}
+           
 
           <div className="mx-auto w-full max-w-[380px]">
             <div
