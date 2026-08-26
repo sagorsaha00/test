@@ -484,10 +484,7 @@ export default function ArticleDetailsPage({ params }: PageProps) {
                     </p>
                   </div>
                 </div>
-              </div>
-
-             
-               
+              </div>               
             </div>
           </aside>
         </div>
