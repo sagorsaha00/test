@@ -2,13 +2,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { HelpPost } from "./type";
 
+const BACKEND_URL = "https://markood-policy-center-backend.vercel.app";
 // 1. Core Fetcher Function
 const fetchHelpContent = async (
   categoryKey: string,
   itemKey: string,
 ): Promise<HelpPost> => {
   const response = await fetch(
-    `http://localhost:5000/api/help/${categoryKey}/${itemKey}`,
+    `${BACKEND_URL}/api/help/${categoryKey}/${itemKey}`,
   );
   if (!response.ok) {
     throw new Error(`Failed to fetch help content: ${response.statusText}`);
@@ -29,7 +30,7 @@ export const useHelpContent = (categoryKey: string, itemKey: string) => {
 };
 
 export const getHelpArticle = async (id: string) => {
-  const response = await fetch(`http://localhost:5000/api/article/${id}`);
+  const response = await fetch(`${BACKEND_URL}/api/article/${id}`);
   if (!response.ok) {
     throw new Error("Failed to fetch help article");
   }
@@ -54,16 +55,13 @@ export const useUpdateHelpArticle = (id: string) => {
 
   return useMutation({
     mutationFn: async (updateData: Record<string, any>) => {
-      const response = await fetch(
-        `http://localhost:5000/api/update-articles/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updateData),
+      const response = await fetch(`${BACKEND_URL}/api/update-articles/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify(updateData),
+      });
 
       const result = await response.json();
       console.log("result", result);
@@ -86,7 +84,7 @@ export const useUpdateHelpArticle = (id: string) => {
 };
 
 const getAllPosts = async () => {
-  const response = await fetch("http://localhost:5000/api/allData", {
+  const response = await fetch(`${BACKEND_URL}/api/allData`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
