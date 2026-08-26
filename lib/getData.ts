@@ -27,3 +27,24 @@ export const useHelpContent = (categoryKey: string, itemKey: string) => {
     gcTime: 1000 * 60 * 30,
   });
 };
+
+export const getHelpArticle = async (id: string) => {
+  const response = await fetch(`http://localhost:5000/api/article/${id}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch help article");
+  }
+  const result = await response.json();
+
+  if (!result.success) {
+    throw new Error(result.message || "Article not found");
+  }
+  console.log("result", result.data);
+  return result.data;
+};
+export const useHelpArticle = (id: string) => {
+  return useQuery({
+    queryKey: ["help-article", id],
+    queryFn: () => getHelpArticle(id),
+    enabled: Boolean(id),
+  });
+};
