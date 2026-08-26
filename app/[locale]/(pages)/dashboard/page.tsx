@@ -28,17 +28,17 @@ export default function MarkoodCenterDashboard() {
                   active={activeMenu === "Dashboard"}
                   onClick={() => setActiveMenu("Dashboard")}
                 />
-                <SidebarItem
+                {/* <SidebarItem
                   icon={FileText}
                   label="Articles"
                   active={activeMenu === "Articles"}
                   onClick={() => setActiveMenu("Articles")}
-                />
+                /> */}
 
                 <SidebarItem
-                  icon={Megaphone}
-                  label="Updates"
-                  active={activeMenu === "Updates"}
+                  icon={FileText}
+                  label="Articles"
+                  active={activeMenu === "Articles"}
                   onClick={() => setActiveMenu("Updates")}
                 />
                 <SidebarItem

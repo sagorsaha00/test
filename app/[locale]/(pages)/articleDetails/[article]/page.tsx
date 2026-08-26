@@ -4,7 +4,6 @@ import { use } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
-  ArrowRight,
   Check,
   CheckCircle2,
   Clock3,

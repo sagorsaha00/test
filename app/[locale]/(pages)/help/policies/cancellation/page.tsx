@@ -1,628 +1,574 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import {
-  AlertCircle,
-  Ban,
+  ArrowRight,
   CheckCircle2,
   Clock3,
-  FileCheck2,
-  Package,
-  RefreshCcw,
-  Scale,
+  HelpCircle,
   ShieldCheck,
-  ShoppingBag,
   Store,
-  User,
+  UserPlus,
+  Package,
+  Truck,
 } from "lucide-react";
 
-const fadeUp: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 28,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
+import { useHelpContent } from "@/lib/getData";
 
-const stagger: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
+interface Step {
+  title: string;
+  description: string;
+}
 
-const cardAnimation: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 22,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
+interface Block {
+  type: "paragraph" | "steps" | "list" | "tip" | "image";
+  data: {
+    text?: string;
+    items?: Step[] | string[];
+    label?: string;
+    title?: string;
+    body?: string;
+    url?: string;
+    caption?: string;
+  };
+}
 
-const cancellationCases = [
-  {
-    number: "01",
-    icon: User,
-    title: "Customer cancellation",
-    description:
-      "Customers may be able to cancel an order when cancellation is available for that order and its current status.",
-  },
-  {
-    number: "02",
-    icon: Store,
-    title: "Seller cancellation",
-    description:
-      "A seller may need to cancel an order when an item is unavailable or the order cannot reasonably be fulfilled.",
-  },
-  {
-    number: "03",
-    icon: Package,
-    title: "Order already being prepared",
-    description:
-      "Cancellation options may become limited once the seller has started preparing the order.",
-  },
-  {
-    number: "04",
-    icon: ShoppingBag,
-    title: "Order already dispatched",
-    description:
-      "An order that has already been handed to a delivery partner may no longer be eligible for normal cancellation.",
-  },
-  {
-    number: "05",
-    icon: AlertCircle,
-    title: "Unexpected circumstances",
-    description:
-      "Markood may cancel or restrict an order when operational, safety, payment or other legitimate issues occur.",
-  },
-  {
-    number: "06",
-    icon: Scale,
-    title: "Policy-based cancellation",
-    description:
-      "Orders may be cancelled when required by Markood policies, applicable law or marketplace integrity requirements.",
-  },
-];
+interface NextArticle {
+  label: string;
+  title: string;
+  description: string;
+  href?: string;
+  slug?: string;
+}
 
-const customerSteps = [
-  "Open the relevant order",
-  "Check whether cancellation is available",
-  "Select the cancellation option",
-  "Choose or provide the cancellation reason",
-  "Confirm the cancellation request",
-  "Check the updated order status",
-];
+interface Article {
+  _id: string;
+  categoryKey: string;
+  itemKey: string;
+  title: string;
+  slug: string;
+  summary: string;
+  readTime: string;
+  blocks: Block[];
+  nextArticle?: NextArticle;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
 
-const sellerResponsibilities = [
-  "Keep product availability accurate",
-  "Accept orders only when they can reasonably be fulfilled",
-  "Prepare accepted orders within the applicable timeframe",
-  "Inform Markood when an order cannot be fulfilled",
-  "Avoid unnecessary seller-initiated cancellations",
-  "Keep inventory information updated",
-];
+const STEP_ICONS = [UserPlus, Store, Package, ShieldCheck, Truck];
 
-const cancellationReasons = [
-  "Product is unavailable",
-  "Incorrect or unavailable inventory",
-  "Customer requested cancellation",
-  "Payment or transaction issue",
-  "Delivery or operational issue",
-  "Safety, fraud or policy concern",
-];
+export default function DynamicHelpArticle() {
+  const catKey = "policies";
+  const itemKey = "cancellation";
+  const { data, isLoading, error } = useHelpContent(catKey, itemKey);
 
-export default function CancellationContent() {
+  console.log("get Data", data);
+
+  // ============================================================
+  // 2. STORE ALL ARTICLES IN STATE
+  // ============================================================
+
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  // ============================================================
+  // 3. STORE CURRENTLY SELECTED SLUG
+  // ============================================================
+
+  const [selectedSlug, setSelectedSlug] = useState<string>("");
+
+  // ============================================================
+  // 4. WHEN API DATA ARRIVES, STORE IT IN STATE
+  // ============================================================
+
+  useEffect(() => {
+    if (!data || !Array.isArray(data)) {
+      return;
+    }
+
+    setArticles(data);
+
+    // If there is no selected article yet,
+    // automatically select the first article.
+    if (data.length > 0) {
+      setSelectedSlug((currentSlug) => {
+        // Keep current article if it still exists
+        const currentArticle = data.find(
+          (article: Article) => article.slug === currentSlug,
+        );
+
+        if (currentArticle) {
+          return currentSlug;
+        }
+
+        // Otherwise select first article
+        return data[0].slug;
+      });
+    }
+  }, [data]);
+
+  // ============================================================
+  // 5. FIND CURRENT ARTICLE USING SLUG
+  // ============================================================
+
+  const selectedArticle = useMemo(() => {
+    if (!selectedSlug || articles.length === 0) {
+      return null;
+    }
+
+    return articles.find((article) => article.slug === selectedSlug) || null;
+  }, [articles, selectedSlug]);
+
+  // ============================================================
+  // 6. HANDLE SIDEBAR ARTICLE CLICK
+  // ============================================================
+
+  const handleArticleClick = (slug: string) => {
+    setSelectedSlug(slug);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // ============================================================
+  // 7. LOADING
+  // ============================================================
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[500px] items-center justify-center">
+        <div className="text-sm font-semibold text-slate-500">
+          Loading article...
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // 8. ERROR
+  // ============================================================
+
+  if (error) {
+    return (
+      <div className="flex min-h-[500px] items-center justify-center">
+        <div className="text-sm font-semibold text-red-500">
+          Failed to load help content.
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // 9. NO DATA
+  // ============================================================
+
+  if (!articles.length || !selectedArticle) {
+    return (
+      <div className="flex min-h-[500px] items-center justify-center">
+        <div className="text-sm font-semibold text-slate-500">
+          No help article found.
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // 10. FORMAT DATE
+  // ============================================================
+
+  const formattedDate = selectedArticle.updatedAt
+    ? new Date(selectedArticle.updatedAt).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      })
+    : "";
+
+  // ============================================================
+  // 11. FIND NEXT ARTICLE
+  // ============================================================
+
+  const nextArticle = selectedArticle.nextArticle?.slug
+    ? articles.find(
+        (article) => article.slug === selectedArticle.nextArticle?.slug,
+      )
+    : null;
+
   return (
-    <section className="relative overflow-hidden bg-[#f8fafc]">
-      {/* Background decoration */}
+    <section className="relative min-h-screen overflow-hidden bg-[#f8fafc]">
+      {/* ======================================================
+          BACKGROUND
+      ====================================================== */}
+
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-180px] top-40 h-[400px] w-[400px] rounded-full bg-blue-100/40 blur-3xl" />
 
-        <div className="absolute right-[-180px] top-[800px] h-[400px] w-[400px] rounded-full bg-sky-100/40 blur-3xl" />
-
-        <div className="absolute left-[35%] top-[1550px] h-[320px] w-[320px] rounded-full bg-indigo-100/30 blur-3xl" />
+        <div className="absolute right-[-180px] top-[700px] h-[400px] w-[400px] rounded-full bg-sky-100/40 blur-3xl" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_250px]">
-          <article className="max-w-4xl">
-            {/* =================================================
-                HEADER
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
+          {/* ==================================================
+              LEFT SIDE
+              CURRENT ARTICLE
+          ================================================== */}
+
+          <main className="max-w-4xl">
+            {/* ================================================
+                ARTICLE HEADER
             ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-            >
+
+            <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-2 shadow-sm">
-                <Ban size={14} className="text-[#0066FF]" />
+                <Store size={14} className="text-[#0066FF]" />
 
                 <span className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-600">
-                  Cancellation Policy
+                  Seller Guide
                 </span>
               </div>
 
               <h1 className="mt-6 text-4xl font-black tracking-[-1.8px] text-slate-950 sm:text-5xl lg:text-6xl lg:leading-[1.05]">
-                Markood
-                <br />
-                <span className="text-[#0066FF]">Cancellation Policy.</span>
+                {selectedArticle.title}
               </h1>
 
-              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-500 sm:text-lg">
-                Understand when an order can be cancelled, how cancellation
-                works and what happens to your payment after an order is
-                cancelled.
-              </p>
+              {selectedArticle.summary && (
+                <p className="mt-6 max-w-2xl text-base leading-8 text-slate-500 sm:text-lg">
+                  {selectedArticle.summary}
+                </p>
+              )}
 
               <div className="mt-7 flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-400">
-                <div className="flex items-center gap-2">
-                  <Clock3 size={14} className="text-[#0066FF]" />6 min read
-                </div>
+                {selectedArticle.readTime && (
+                  <div className="flex items-center gap-2">
+                    <Clock3 size={14} className="text-[#0066FF]" />
 
-                <span className="h-1 w-1 rounded-full bg-slate-300" />
+                    {selectedArticle.readTime}
+                  </div>
+                )}
 
-                <span>Last updated August 2026</span>
+                {selectedArticle.readTime && formattedDate && (
+                  <span className="h-1 w-1 rounded-full bg-slate-300" />
+                )}
+
+                {formattedDate && <span>Last updated {formattedDate}</span>}
               </div>
-            </motion.div>
+            </div>
 
             {/* =================================================
-                INTRO
+                DYNAMIC BLOCKS
             ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-12 rounded-[28px] border border-blue-100 bg-white p-6 shadow-[0_15px_50px_rgba(15,23,42,0.05)] sm:p-8"
-            >
-              <div className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
-                  <FileCheck2 size={20} />
-                </div>
 
-                <div>
-                  <h2 className="text-base font-black text-slate-950">
-                    Cancellations at Markood
-                  </h2>
+            <div className="mt-12 space-y-16">
+              {selectedArticle.blocks?.map((block, index) => {
+                // =================================================
+                // PARAGRAPH
+                // =================================================
 
-                  <p className="mt-2 text-sm leading-7 text-slate-500">
-                    Cancellation availability depends on the order status,
-                    seller preparation, delivery progress, payment status and
-                    other applicable Markood policies.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+                if (block.type === "paragraph") {
+                  return (
+                    <div
+                      key={index}
+                      className="rounded-[28px] border border-blue-100 bg-white p-6 shadow-[0_15px_50px_rgba(15,23,42,0.05)] sm:p-8"
+                    >
+                      <div className="flex gap-4">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
+                          <ShieldCheck size={20} />
+                        </div>
 
-            {/* =================================================
-                WHEN CAN ORDER BE CANCELLED
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{
-                once: true,
-                amount: 0.15,
-              }}
-              variants={stagger}
-              className="mt-20"
-            >
-              <motion.div variants={cardAnimation}>
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                  Cancellation scenarios
-                </p>
+                        <p className="text-sm leading-7 text-slate-600 sm:text-base">
+                          {block.data.text}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                }
 
-                <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                  When an order may be cancelled
-                </h2>
+                // =================================================
+                // STEPS
+                // =================================================
 
-                <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-500">
-                  Cancellation rules can vary depending on who requests the
-                  cancellation and how far the order has progressed.
-                </p>
-              </motion.div>
-
-              <div className="mt-9 space-y-4">
-                {cancellationCases.map((item) => {
-                  const Icon = item.icon;
+                if (block.type === "steps") {
+                  const steps = (block.data.items as Step[]) || [];
 
                   return (
-                    <motion.div
-                      key={item.number}
-                      variants={cardAnimation}
-                      whileHover={{ y: -4 }}
-                      transition={{ duration: 0.25 }}
-                      className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)] transition-all duration-300 hover:border-blue-100 hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:p-7"
-                    >
-                      <div className="flex gap-5">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-xs font-black text-[#0066FF] transition-colors duration-300 group-hover:bg-blue-50">
-                          {item.number}
-                        </div>
+                    <div key={index}>
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                        Step by step
+                      </p>
 
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between gap-4">
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <Icon size={17} className="text-[#0066FF]" />
+                      <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                        Follow these steps
+                      </h2>
 
-                                <h3 className="text-base font-black text-slate-950 sm:text-lg">
-                                  {item.title}
-                                </h3>
+                      <div className="mt-9 space-y-4">
+                        {steps.map((step, stepIndex) => {
+                          const Icon =
+                            STEP_ICONS[stepIndex % STEP_ICONS.length] ||
+                            HelpCircle;
+
+                          return (
+                            <div
+                              key={stepIndex}
+                              className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-100 hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:p-7"
+                            >
+                              <div className="flex gap-5">
+                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-xs font-black text-[#0066FF]">
+                                  {String(stepIndex + 1).padStart(2, "0")}
+                                </div>
+
+                                <div className="flex-1">
+                                  <div className="flex items-start justify-between gap-4">
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <Icon
+                                          size={17}
+                                          className="text-[#0066FF]"
+                                        />
+
+                                        <h3 className="text-base font-black text-slate-950 sm:text-lg">
+                                          {step.title}
+                                        </h3>
+                                      </div>
+
+                                      <p className="mt-2 text-sm leading-7 text-slate-500">
+                                        {step.description}
+                                      </p>
+                                    </div>
+
+                                    <CheckCircle2
+                                      size={19}
+                                      className="mt-1 shrink-0 text-slate-200"
+                                    />
+                                  </div>
+                                </div>
                               </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                }
 
-                              <p className="mt-2 text-sm leading-7 text-slate-500">
-                                {item.description}
-                              </p>
+                // =================================================
+                // LIST
+                // =================================================
+
+                if (block.type === "list") {
+                  const items = (block.data.items as string[]) || [];
+
+                  return (
+                    <div key={index}>
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                        Before you start
+                      </p>
+
+                      <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                        What you will need
+                      </h2>
+
+                      <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                        {items.map((item, itemIndex) => (
+                          <div
+                            key={itemIndex}
+                            className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4"
+                          >
+                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50">
+                              <CheckCircle2
+                                size={15}
+                                className="text-[#0066FF]"
+                              />
                             </div>
 
-                            <CheckCircle2
-                              size={19}
-                              className="mt-1 shrink-0 text-slate-200 transition-colors duration-300 group-hover:text-[#0066FF]"
-                            />
+                            <span className="text-sm font-semibold text-slate-700">
+                              {item}
+                            </span>
                           </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+
+                // =================================================
+                // TIP
+                // =================================================
+
+                if (block.type === "tip") {
+                  return (
+                    <div
+                      key={index}
+                      className="relative overflow-hidden rounded-[30px] bg-slate-950 p-7 sm:p-10"
+                    >
+                      <div className="relative flex gap-5">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-blue-300">
+                          <ShieldCheck size={20} />
+                        </div>
+
+                        <div>
+                          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-300">
+                            {block.data.label || "Tip"}
+                          </p>
+
+                          <h3 className="mt-2 text-xl font-black text-white">
+                            {block.data.title}
+                          </h3>
+
+                          <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
+                            {block.data.body}
+                          </p>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   );
-                })}
-              </div>
-            </motion.div>
+                }
 
-            {/* =================================================
-                CUSTOMER PROCESS
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{
-                once: true,
-                amount: 0.15,
-              }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                Customer cancellation
-              </p>
+                // =================================================
+                // IMAGE
+                // =================================================
 
-              <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                How to cancel an order
-              </h2>
-
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-500">
-                If cancellation is available, you can usually request it from
-                the order details before the order reaches a restricted stage.
-              </p>
-
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {customerSteps.map((item, index) => (
-                  <motion.div
-                    key={item}
-                    initial={{
-                      opacity: 0,
-                      x: index % 2 === 0 ? -15 : 15,
-                    }}
-                    whileInView={{
-                      opacity: 1,
-                      x: 0,
-                    }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.45,
-                      delay: index * 0.05,
-                    }}
-                    className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 transition-all duration-300 hover:border-blue-100 hover:shadow-md"
-                  >
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 text-xs font-black text-[#0066FF]">
-                      {String(index + 1).padStart(2, "0")}
-                    </div>
-
-                    <span className="text-sm font-semibold text-slate-700">
-                      {item}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* =================================================
-                ORDER STATUS
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <div className="rounded-[30px] bg-slate-950 p-7 sm:p-10">
-                <div className="flex gap-5">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-blue-300">
-                    <Package size={20} />
-                  </div>
-
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-300">
-                      Order status
-                    </p>
-
-                    <h2 className="mt-2 text-2xl font-black text-white">
-                      Cancellation depends on order progress
-                    </h2>
-
-                    <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
-                      The sooner a cancellation is requested, the more likely it
-                      is that the order can be stopped before preparation or
-                      delivery begins.
-                    </p>
-
-                    <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                      {[
-                        {
-                          title: "Placed",
-                          text: "Cancellation may be available.",
-                        },
-                        {
-                          title: "Preparing",
-                          text: "Cancellation may become limited.",
-                        },
-                        {
-                          title: "Dispatched",
-                          text: "Normal cancellation may no longer be available.",
-                        },
-                      ].map((item) => (
-                        <div
-                          key={item.title}
-                          className="rounded-2xl bg-white/5 p-4"
-                        >
-                          <div className="flex items-center gap-2">
-                            <div className="h-2 w-2 rounded-full bg-blue-300" />
-
-                            <h3 className="text-sm font-black text-white">
-                              {item.title}
-                            </h3>
-                          </div>
-
-                          <p className="mt-2 text-xs leading-6 text-slate-400">
-                            {item.text}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* =================================================
-                SELLER RESPONSIBILITIES
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                Seller responsibilities
-              </p>
-
-              <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                Avoid unnecessary cancellations
-              </h2>
-
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-500">
-                Sellers should maintain accurate inventory and accept orders
-                only when they can reasonably fulfill them.
-              </p>
-
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {sellerResponsibilities.map((item, index) => (
-                  <motion.div
-                    key={item}
-                    initial={{
-                      opacity: 0,
-                      y: 15,
-                    }}
-                    whileInView={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.4,
-                      delay: index * 0.05,
-                    }}
-                    className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 transition-all duration-300 hover:border-blue-100 hover:shadow-md"
-                  >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50">
-                      <CheckCircle2 size={15} className="text-[#0066FF]" />
-                    </div>
-
-                    <span className="text-sm font-semibold text-slate-700">
-                      {item}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* =================================================
-                COMMON REASONS
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <div className="rounded-[28px] border border-blue-100 bg-white p-7 shadow-[0_15px_50px_rgba(15,23,42,0.05)] sm:p-9">
-                <div className="flex gap-5">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
-                    <RefreshCcw size={20} />
-                  </div>
-
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                      Common reasons
-                    </p>
-
-                    <h2 className="mt-2 text-2xl font-black text-slate-950">
-                      Why an order may be cancelled
-                    </h2>
-
-                    <p className="mt-3 text-sm leading-7 text-slate-500">
-                      Cancellation can happen for several customer, seller,
-                      payment, delivery or marketplace reasons.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                  {cancellationReasons.map((item) => (
+                if (block.type === "image") {
+                  return (
                     <div
-                      key={item}
-                      className="flex items-center gap-3 rounded-2xl bg-slate-50 p-4"
+                      key={index}
+                      className="overflow-hidden rounded-[26px] border border-slate-200 bg-white p-3 shadow-sm"
                     >
-                      <CheckCircle2
-                        size={16}
-                        className="shrink-0 text-[#0066FF]"
-                      />
+                      <div className="relative h-64 w-full overflow-hidden rounded-2xl sm:h-96">
+                        <img
+                          src={block.data.url}
+                          alt={block.data.caption || "Article image"}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
 
-                      <span className="text-sm font-semibold text-slate-700">
-                        {item}
-                      </span>
+                      {block.data.caption && (
+                        <p className="mt-3 text-center text-xs font-semibold text-slate-400">
+                          {block.data.caption}
+                        </p>
+                      )}
                     </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
+                  );
+                }
+
+                return null;
+              })}
+            </div>
 
             {/* =================================================
-                REFUND AFTER CANCELLATION
+                NEXT ARTICLE
             ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <div className="rounded-[30px] border border-slate-200 bg-white p-7 shadow-[0_10px_35px_rgba(15,23,42,0.035)] sm:p-10">
-                <div className="flex gap-5">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
-                    <ShieldCheck size={20} />
-                  </div>
 
+            {nextArticle && (
+              <div className="mt-16">
+                <button
+                  type="button"
+                  onClick={() => handleArticleClick(nextArticle.slug)}
+                  className="group flex w-full items-center justify-between rounded-[26px] border border-slate-200 bg-white p-6 text-left transition-all duration-300 hover:border-blue-100 hover:shadow-lg sm:p-7"
+                >
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                      Payment handling
+                    <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
+                      {selectedArticle.nextArticle?.label || "Next article"}
                     </p>
 
-                    <h2 className="mt-2 text-2xl font-black text-slate-950">
-                      What happens to your payment?
-                    </h2>
+                    <h3 className="mt-2 text-lg font-black text-slate-950">
+                      {nextArticle.title}
+                    </h3>
 
-                    <p className="mt-3 text-sm leading-7 text-slate-500">
-                      If an eligible cancelled order has already been paid,
-                      Markood may initiate the applicable refund according to
-                      the payment method and refund policy.
+                    <p className="mt-1 text-sm text-slate-500">
+                      {selectedArticle.nextArticle?.description}
                     </p>
-
-                    <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                      {[
-                        "Cancellation confirmed",
-                        "Refund eligibility checked",
-                        "Refund processed when applicable",
-                      ].map((item) => (
-                        <div key={item} className="rounded-2xl bg-slate-50 p-4">
-                          <CheckCircle2 size={16} className="text-[#0066FF]" />
-
-                          <p className="mt-3 text-sm font-semibold leading-6 text-slate-700">
-                            {item}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
                   </div>
-                </div>
+
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[#0066FF]">
+                    <ArrowRight size={18} />
+                  </div>
+                </button>
               </div>
-            </motion.div>
+            )}
+          </main>
 
-            {/* =================================================
-                IMPORTANT NOTICE
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-20 rounded-[26px] border border-amber-100 bg-amber-50/60 p-6"
-            >
-              <div className="flex gap-4">
-                <AlertCircle
-                  size={20}
-                  className="mt-0.5 shrink-0 text-amber-500"
-                />
+          {/* ==================================================
+              RIGHT SIDEBAR
+          ================================================== */}
 
-                <div>
-                  <h3 className="text-sm font-black text-slate-950">
-                    Important
-                  </h3>
+          <aside className="hidden lg:block">
+            <div className="sticky top-24">
+              <div className="rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm">
+                {/* Sidebar title */}
 
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
-                    Cancellation availability is not guaranteed for every order.
-                    Once preparation or delivery has progressed, cancellation
-                    may no longer be possible.
+                <div className="mb-5">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                    Seller Guide
                   </p>
+
+                  <h2 className="mt-2 text-lg font-black text-slate-950">
+                    Sell on Markood
+                  </h2>
+                </div>
+
+                {/* =============================================
+                    DYNAMIC ARTICLE LIST
+                ============================================= */}
+
+                <div className="space-y-2">
+                  {articles.map((article, index) => {
+                    const isActive = article.slug === selectedSlug;
+
+                    return (
+                      <button
+                        key={article._id}
+                        type="button"
+                        onClick={() => handleArticleClick(article.slug)}
+                        className={`group flex w-full items-start gap-3 rounded-xl px-4 py-3 text-left transition-all ${
+                          isActive
+                            ? "bg-blue-50 text-[#0066FF]"
+                            : "text-slate-600 hover:bg-slate-50 hover:text-[#0066FF]"
+                        }`}
+                      >
+                        {/* Number */}
+
+                        <span
+                          className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-black ${
+                            isActive
+                              ? "bg-[#0066FF] text-white"
+                              : "bg-slate-100 text-slate-400"
+                          }`}
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+
+                        {/* Article title */}
+
+                        <span
+                          className={`text-sm leading-5 ${
+                            isActive ? "font-black" : "font-semibold"
+                          }`}
+                        >
+                          {article.title}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-            </motion.div>
 
-            {/* =================================================
-                FINAL CARD
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-10 rounded-[26px] border border-slate-200 bg-white p-7 text-center shadow-[0_10px_35px_rgba(15,23,42,0.035)] sm:p-9"
-            >
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
-                <Ban size={22} />
+              {/* =================================================
+                  CURRENT SLUG
+              ================================================= */}
+
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4">
+                <p className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400">
+                  Current article
+                </p>
+
+                <p className="mt-2 break-all text-xs font-semibold leading-5 text-slate-500">
+                  {selectedArticle.slug}
+                </p>
               </div>
-
-              <h2 className="mt-5 text-xl font-black text-slate-950">
-                Need to cancel an order?
-              </h2>
-
-              <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-slate-500">
-                Check your order as soon as possible. If the cancellation option
-                is available, submitting the request early gives the order the
-                best chance of being stopped before fulfillment.
-              </p>
-            </motion.div>
-          </article>
+            </div>
+          </aside>
         </div>
       </div>
     </section>

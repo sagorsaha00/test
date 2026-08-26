@@ -1,732 +1,574 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
 import {
-  AlertCircle,
+  ArrowRight,
   CheckCircle2,
   Clock3,
-  FileCheck2,
-  Handshake,
-  Package,
-  Scale,
+  HelpCircle,
   ShieldCheck,
   Store,
+  UserPlus,
+  Package,
   Truck,
-  Wallet,
 } from "lucide-react";
 
-const fadeUp: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 28,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
+import { useHelpContent } from "@/lib/getData";
 
-const stagger: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
+interface Step {
+  title: string;
+  description: string;
+}
 
-const cardAnimation: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 22,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
+interface Block {
+  type: "paragraph" | "steps" | "list" | "tip" | "image";
+  data: {
+    text?: string;
+    items?: Step[] | string[];
+    label?: string;
+    title?: string;
+    body?: string;
+    url?: string;
+    caption?: string;
+  };
+}
 
-const agreementSections = [
-  {
-    number: "01",
-    icon: Store,
-    title: "Seller account",
-    description:
-      "You must provide accurate seller information and maintain an active account that represents your business or selling activity correctly.",
-  },
-  {
-    number: "02",
-    icon: Package,
-    title: "Product listings",
-    description:
-      "All products must have accurate descriptions, images, prices, availability and other information required by Markood.",
-  },
-  {
-    number: "03",
-    icon: ShieldCheck,
-    title: "Product quality",
-    description:
-      "Sellers are responsible for ensuring that products offered through Markood are genuine, safe, legal and consistent with their listings.",
-  },
-  {
-    number: "04",
-    icon: Handshake,
-    title: "Order fulfillment",
-    description:
-      "Once an order is accepted, sellers should prepare the correct items and make them ready for delivery within the applicable timeframe.",
-  },
-  {
-    number: "05",
-    icon: Truck,
-    title: "Delivery cooperation",
-    description:
-      "Sellers must cooperate with Markood delivery processes and provide orders to authorized riders or delivery partners as required.",
-  },
-  {
-    number: "06",
-    icon: Wallet,
-    title: "Payments and fees",
-    description:
-      "Seller payments, commissions, service charges and other applicable fees are handled according to Markood's current payment and fee policies.",
-  },
-];
+interface NextArticle {
+  label: string;
+  title: string;
+  description: string;
+  href?: string;
+  slug?: string;
+}
 
-const sellerRequirements = [
-  "Maintain accurate seller and store information",
-  "Keep product prices and availability up to date",
-  "Upload clear and relevant product images",
-  "Provide truthful product descriptions",
-  "Prepare accepted orders correctly",
-  "Follow Markood delivery and packaging requirements",
-  "Comply with applicable marketplace policies",
-  "Respond appropriately to customer and platform requests",
-];
+interface Article {
+  _id: string;
+  categoryKey: string;
+  itemKey: string;
+  title: string;
+  slug: string;
+  summary: string;
+  readTime: string;
+  blocks: Block[];
+  nextArticle?: NextArticle;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
 
-const prohibitedActivities = [
-  "Listing counterfeit, stolen or prohibited products",
-  "Providing intentionally false product information",
-  "Manipulating prices, orders, ratings or reviews",
-  "Accepting orders that the seller cannot reasonably fulfill",
-  "Using another seller's identity or business information",
-  "Attempting to move Markood customers to unauthorized payment channels",
-  "Creating misleading listings or promotional information",
-  "Abusing refunds, cancellations or other marketplace processes",
-];
+const STEP_ICONS = [UserPlus, Store, Package, ShieldCheck, Truck];
 
-export default function SellerAgreementContent() {
+export default function DynamicHelpArticle() {
+  const catKey = "policies";
+  const itemKey = "sellerAgreement";
+  const { data, isLoading, error } = useHelpContent(catKey, itemKey);
+
+  console.log("get Data", data);
+
+  // ============================================================
+  // 2. STORE ALL ARTICLES IN STATE
+  // ============================================================
+
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  // ============================================================
+  // 3. STORE CURRENTLY SELECTED SLUG
+  // ============================================================
+
+  const [selectedSlug, setSelectedSlug] = useState<string>("");
+
+  // ============================================================
+  // 4. WHEN API DATA ARRIVES, STORE IT IN STATE
+  // ============================================================
+
+  useEffect(() => {
+    if (!data || !Array.isArray(data)) {
+      return;
+    }
+
+    setArticles(data);
+
+    // If there is no selected article yet,
+    // automatically select the first article.
+    if (data.length > 0) {
+      setSelectedSlug((currentSlug) => {
+        // Keep current article if it still exists
+        const currentArticle = data.find(
+          (article: Article) => article.slug === currentSlug,
+        );
+
+        if (currentArticle) {
+          return currentSlug;
+        }
+
+        // Otherwise select first article
+        return data[0].slug;
+      });
+    }
+  }, [data]);
+
+  // ============================================================
+  // 5. FIND CURRENT ARTICLE USING SLUG
+  // ============================================================
+
+  const selectedArticle = useMemo(() => {
+    if (!selectedSlug || articles.length === 0) {
+      return null;
+    }
+
+    return articles.find((article) => article.slug === selectedSlug) || null;
+  }, [articles, selectedSlug]);
+
+  // ============================================================
+  // 6. HANDLE SIDEBAR ARTICLE CLICK
+  // ============================================================
+
+  const handleArticleClick = (slug: string) => {
+    setSelectedSlug(slug);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // ============================================================
+  // 7. LOADING
+  // ============================================================
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[500px] items-center justify-center">
+        <div className="text-sm font-semibold text-slate-500">
+          Loading article...
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // 8. ERROR
+  // ============================================================
+
+  if (error) {
+    return (
+      <div className="flex min-h-[500px] items-center justify-center">
+        <div className="text-sm font-semibold text-red-500">
+          Failed to load help content.
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // 9. NO DATA
+  // ============================================================
+
+  if (!articles.length || !selectedArticle) {
+    return (
+      <div className="flex min-h-[500px] items-center justify-center">
+        <div className="text-sm font-semibold text-slate-500">
+          No help article found.
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // 10. FORMAT DATE
+  // ============================================================
+
+  const formattedDate = selectedArticle.updatedAt
+    ? new Date(selectedArticle.updatedAt).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      })
+    : "";
+
+  // ============================================================
+  // 11. FIND NEXT ARTICLE
+  // ============================================================
+
+  const nextArticle = selectedArticle.nextArticle?.slug
+    ? articles.find(
+        (article) => article.slug === selectedArticle.nextArticle?.slug,
+      )
+    : null;
+
   return (
-    <section className="relative overflow-hidden bg-[#f8fafc]">
-      {/* Background decoration */}
+    <section className="relative min-h-screen overflow-hidden bg-[#f8fafc]">
+      {/* ======================================================
+          BACKGROUND
+      ====================================================== */}
+
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-180px] top-40 h-[400px] w-[400px] rounded-full bg-blue-100/40 blur-3xl" />
 
-        <div className="absolute right-[-180px] top-[850px] h-[400px] w-[400px] rounded-full bg-sky-100/40 blur-3xl" />
-
-        <div className="absolute left-[35%] top-[1600px] h-[320px] w-[320px] rounded-full bg-indigo-100/30 blur-3xl" />
+        <div className="absolute right-[-180px] top-[700px] h-[400px] w-[400px] rounded-full bg-sky-100/40 blur-3xl" />
       </div>
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="mt-10 grid gap-12 lg:grid-cols-[minmax(0,1fr)_250px]">
-          <article className="max-w-4xl">
-            {/* =================================================
-                HEADER
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
+          {/* ==================================================
+              LEFT SIDE
+              CURRENT ARTICLE
+          ================================================== */}
+
+          <main className="max-w-4xl">
+            {/* ================================================
+                ARTICLE HEADER
             ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-            >
+
+            <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-2 shadow-sm">
-                <Handshake size={14} className="text-[#0066FF]" />
+                <Store size={14} className="text-[#0066FF]" />
 
                 <span className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-600">
-                  Seller Policy
+                  Seller Guide
                 </span>
               </div>
 
               <h1 className="mt-6 text-4xl font-black tracking-[-1.8px] text-slate-950 sm:text-5xl lg:text-6xl lg:leading-[1.05]">
-                Markood
-                <br />
-                <span className="text-[#0066FF]">Seller Agreement.</span>
+                {selectedArticle.title}
               </h1>
 
-              <p className="mt-6 max-w-2xl text-base leading-8 text-slate-500 sm:text-lg">
-                The agreement between Markood and sellers that explains your
-                responsibilities when listing products, accepting orders and
-                selling through the marketplace.
-              </p>
+              {selectedArticle.summary && (
+                <p className="mt-6 max-w-2xl text-base leading-8 text-slate-500 sm:text-lg">
+                  {selectedArticle.summary}
+                </p>
+              )}
 
               <div className="mt-7 flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-400">
-                <div className="flex items-center gap-2">
-                  <Clock3 size={14} className="text-[#0066FF]" />8 min read
-                </div>
+                {selectedArticle.readTime && (
+                  <div className="flex items-center gap-2">
+                    <Clock3 size={14} className="text-[#0066FF]" />
 
-                <span className="h-1 w-1 rounded-full bg-slate-300" />
+                    {selectedArticle.readTime}
+                  </div>
+                )}
 
-                <span>Last updated August 2026</span>
+                {selectedArticle.readTime && formattedDate && (
+                  <span className="h-1 w-1 rounded-full bg-slate-300" />
+                )}
+
+                {formattedDate && <span>Last updated {formattedDate}</span>}
               </div>
-            </motion.div>
+            </div>
 
             {/* =================================================
-                INTRO
+                DYNAMIC BLOCKS
             ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-12 rounded-[28px] border border-blue-100 bg-white p-6 shadow-[0_15px_50px_rgba(15,23,42,0.05)] sm:p-8"
-            >
-              <div className="flex gap-4">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
-                  <FileCheck2 size={20} />
-                </div>
 
-                <div>
-                  <h2 className="text-base font-black text-slate-950">
-                    Your agreement with Markood
-                  </h2>
+            <div className="mt-12 space-y-16">
+              {selectedArticle.blocks?.map((block, index) => {
+                // =================================================
+                // PARAGRAPH
+                // =================================================
 
-                  <p className="mt-2 text-sm leading-7 text-slate-500">
-                    By registering as a seller or listing products on Markood,
-                    you agree to follow this Seller Agreement together with
-                    Markood's Terms, marketplace policies and applicable
-                    requirements.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* =================================================
-                CORE AGREEMENT
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{
-                once: true,
-                amount: 0.15,
-              }}
-              variants={stagger}
-              className="mt-20"
-            >
-              <motion.div variants={cardAnimation}>
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                  Seller agreement
-                </p>
-
-                <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                  Your responsibilities as a seller
-                </h2>
-
-                <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-500">
-                  These are the main responsibilities sellers agree to when
-                  participating in the Markood marketplace.
-                </p>
-              </motion.div>
-
-              <div className="mt-9 space-y-4">
-                {agreementSections.map((section) => {
-                  const Icon = section.icon;
-
+                if (block.type === "paragraph") {
                   return (
-                    <motion.div
-                      key={section.number}
-                      variants={cardAnimation}
-                      whileHover={{ y: -4 }}
-                      transition={{ duration: 0.25 }}
-                      className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)] transition-all duration-300 hover:border-blue-100 hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:p-7"
+                    <div
+                      key={index}
+                      className="rounded-[28px] border border-blue-100 bg-white p-6 shadow-[0_15px_50px_rgba(15,23,42,0.05)] sm:p-8"
                     >
-                      <div className="flex gap-5">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-xs font-black text-[#0066FF] transition-colors duration-300 group-hover:bg-blue-50">
-                          {section.number}
+                      <div className="flex gap-4">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
+                          <ShieldCheck size={20} />
                         </div>
 
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between gap-4">
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <Icon size={17} className="text-[#0066FF]" />
+                        <p className="text-sm leading-7 text-slate-600 sm:text-base">
+                          {block.data.text}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                }
 
-                                <h3 className="text-base font-black text-slate-950 sm:text-lg">
-                                  {section.title}
-                                </h3>
+                // =================================================
+                // STEPS
+                // =================================================
+
+                if (block.type === "steps") {
+                  const steps = (block.data.items as Step[]) || [];
+
+                  return (
+                    <div key={index}>
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                        Step by step
+                      </p>
+
+                      <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                        Follow these steps
+                      </h2>
+
+                      <div className="mt-9 space-y-4">
+                        {steps.map((step, stepIndex) => {
+                          const Icon =
+                            STEP_ICONS[stepIndex % STEP_ICONS.length] ||
+                            HelpCircle;
+
+                          return (
+                            <div
+                              key={stepIndex}
+                              className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-100 hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:p-7"
+                            >
+                              <div className="flex gap-5">
+                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-xs font-black text-[#0066FF]">
+                                  {String(stepIndex + 1).padStart(2, "0")}
+                                </div>
+
+                                <div className="flex-1">
+                                  <div className="flex items-start justify-between gap-4">
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <Icon
+                                          size={17}
+                                          className="text-[#0066FF]"
+                                        />
+
+                                        <h3 className="text-base font-black text-slate-950 sm:text-lg">
+                                          {step.title}
+                                        </h3>
+                                      </div>
+
+                                      <p className="mt-2 text-sm leading-7 text-slate-500">
+                                        {step.description}
+                                      </p>
+                                    </div>
+
+                                    <CheckCircle2
+                                      size={19}
+                                      className="mt-1 shrink-0 text-slate-200"
+                                    />
+                                  </div>
+                                </div>
                               </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                }
 
-                              <p className="mt-2 text-sm leading-7 text-slate-500">
-                                {section.description}
-                              </p>
+                // =================================================
+                // LIST
+                // =================================================
+
+                if (block.type === "list") {
+                  const items = (block.data.items as string[]) || [];
+
+                  return (
+                    <div key={index}>
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                        Before you start
+                      </p>
+
+                      <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                        What you will need
+                      </h2>
+
+                      <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                        {items.map((item, itemIndex) => (
+                          <div
+                            key={itemIndex}
+                            className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4"
+                          >
+                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50">
+                              <CheckCircle2
+                                size={15}
+                                className="text-[#0066FF]"
+                              />
                             </div>
 
-                            <CheckCircle2
-                              size={19}
-                              className="mt-1 shrink-0 text-slate-200 transition-colors duration-300 group-hover:text-[#0066FF]"
-                            />
+                            <span className="text-sm font-semibold text-slate-700">
+                              {item}
+                            </span>
                           </div>
-                        </div>
+                        ))}
                       </div>
-                    </motion.div>
+                    </div>
                   );
-                })}
-              </div>
-            </motion.div>
+                }
 
-            {/* =================================================
-                SELLER CHECKLIST
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{
-                once: true,
-                amount: 0.15,
-              }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                Seller checklist
-              </p>
+                // =================================================
+                // TIP
+                // =================================================
 
-              <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                What sellers agree to do
-              </h2>
-
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-500">
-                Keep these responsibilities in mind when operating your Markood
-                store.
-              </p>
-
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {sellerRequirements.map((item, index) => (
-                  <motion.div
-                    key={item}
-                    initial={{
-                      opacity: 0,
-                      x: index % 2 === 0 ? -15 : 15,
-                    }}
-                    whileInView={{
-                      opacity: 1,
-                      x: 0,
-                    }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.45,
-                      delay: index * 0.05,
-                    }}
-                    className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 transition-all duration-300 hover:border-blue-100 hover:shadow-md"
-                  >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50">
-                      <CheckCircle2 size={15} className="text-[#0066FF]" />
-                    </div>
-
-                    <span className="text-sm font-semibold text-slate-700">
-                      {item}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* =================================================
-                PRODUCTS
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <div className="rounded-[30px] border border-blue-100 bg-white p-7 shadow-[0_15px_50px_rgba(15,23,42,0.05)] sm:p-10">
-                <div className="flex gap-5">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
-                    <Package size={20} />
-                  </div>
-
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                      Product listings
-                    </p>
-
-                    <h2 className="mt-2 text-2xl font-black text-slate-950">
-                      Keep every listing accurate
-                    </h2>
-
-                    <p className="mt-3 text-sm leading-7 text-slate-500">
-                      Sellers are responsible for making sure product
-                      information accurately represents what customers will
-                      receive.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                  {[
-                    "Use accurate product titles",
-                    "Provide clear product descriptions",
-                    "Use appropriate product images",
-                    "Set accurate prices",
-                    "Maintain correct stock availability",
-                    "Select the appropriate category",
-                  ].map((item) => (
-                    <div
-                      key={item}
-                      className="flex items-center gap-3 rounded-2xl bg-slate-50 p-4"
-                    >
-                      <CheckCircle2
-                        size={16}
-                        className="shrink-0 text-[#0066FF]"
-                      />
-
-                      <span className="text-sm font-semibold text-slate-700">
-                        {item}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            {/* =================================================
-                ORDER FULFILLMENT
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{
-                once: true,
-                amount: 0.15,
-              }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                Order fulfillment
-              </p>
-
-              <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                When you receive an order
-              </h2>
-
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-500">
-                Accepting an order means you should take reasonable steps to
-                prepare and fulfill it correctly.
-              </p>
-
-              <div className="mt-8 grid gap-5 md:grid-cols-3">
-                {[
-                  {
-                    icon: Package,
-                    title: "Prepare",
-                    text: "Prepare the correct product and quantity according to the order.",
-                  },
-                  {
-                    icon: ShieldCheck,
-                    title: "Check",
-                    text: "Verify the product, packaging and order details before handoff.",
-                  },
-                  {
-                    icon: Truck,
-                    title: "Handover",
-                    text: "Make the order ready for the authorized delivery partner.",
-                  },
-                ].map((item) => {
-                  const Icon = item.icon;
-
+                if (block.type === "tip") {
                   return (
                     <div
-                      key={item.title}
-                      className="rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)]"
+                      key={index}
+                      className="relative overflow-hidden rounded-[30px] bg-slate-950 p-7 sm:p-10"
                     >
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
-                        <Icon size={19} />
+                      <div className="relative flex gap-5">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-blue-300">
+                          <ShieldCheck size={20} />
+                        </div>
+
+                        <div>
+                          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-300">
+                            {block.data.label || "Tip"}
+                          </p>
+
+                          <h3 className="mt-2 text-xl font-black text-white">
+                            {block.data.title}
+                          </h3>
+
+                          <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
+                            {block.data.body}
+                          </p>
+                        </div>
                       </div>
-
-                      <h3 className="mt-5 text-base font-black text-slate-950">
-                        {item.title}
-                      </h3>
-
-                      <p className="mt-2 text-sm leading-7 text-slate-500">
-                        {item.text}
-                      </p>
                     </div>
                   );
-                })}
-              </div>
-            </motion.div>
+                }
 
-            {/* =================================================
-                PAYMENTS
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <div className="rounded-[28px] border border-slate-200 bg-white p-7 shadow-[0_10px_35px_rgba(15,23,42,0.035)] sm:p-8">
-                <div className="flex gap-4">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
-                    <Wallet size={20} />
-                  </div>
+                // =================================================
+                // IMAGE
+                // =================================================
 
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                      Payments & fees
-                    </p>
+                if (block.type === "image") {
+                  return (
+                    <div
+                      key={index}
+                      className="overflow-hidden rounded-[26px] border border-slate-200 bg-white p-3 shadow-sm"
+                    >
+                      <div className="relative h-64 w-full overflow-hidden rounded-2xl sm:h-96">
+                        <img
+                          src={block.data.url}
+                          alt={block.data.caption || "Article image"}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
 
-                    <h2 className="mt-2 text-2xl font-black text-slate-950">
-                      Seller payments
-                    </h2>
-
-                    <p className="mt-3 text-sm leading-7 text-slate-500">
-                      Seller payouts are subject to the applicable Markood
-                      payment schedule, commissions, service charges,
-                      adjustments, refunds and other applicable fees.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="mt-7 rounded-2xl bg-slate-50 p-5">
-                  <p className="text-sm font-semibold leading-7 text-slate-600">
-                    The exact fees, payout timing and payment methods may vary
-                    depending on the seller, location, product category,
-                    transaction and Markood's current policies.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* =================================================
-                PROHIBITED SELLER ACTIVITY
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{
-                once: true,
-                amount: 0.15,
-              }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                Marketplace integrity
-              </p>
-
-              <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                Prohibited seller activity
-              </h2>
-
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-500">
-                Sellers must not engage in activity that compromises customer
-                trust or the integrity of the Markood marketplace.
-              </p>
-
-              <div className="mt-8 space-y-3">
-                {prohibitedActivities.map((item, index) => (
-                  <motion.div
-                    key={item}
-                    initial={{
-                      opacity: 0,
-                      y: 12,
-                    }}
-                    whileInView={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.4,
-                      delay: index * 0.05,
-                    }}
-                    className="flex items-center gap-4 rounded-2xl border border-red-100 bg-white p-4"
-                  >
-                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-50">
-                      <AlertCircle size={16} className="text-red-500" />
+                      {block.data.caption && (
+                        <p className="mt-3 text-center text-xs font-semibold text-slate-400">
+                          {block.data.caption}
+                        </p>
+                      )}
                     </div>
+                  );
+                }
 
-                    <span className="text-sm font-semibold text-slate-700">
-                      {item}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+                return null;
+              })}
+            </div>
 
             {/* =================================================
-                RETURNS / CANCELLATIONS
+                NEXT ARTICLE
             ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <div className="rounded-[30px] bg-slate-950 p-7 sm:p-10">
-                <div className="flex gap-5">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-blue-300">
-                    <Scale size={20} />
-                  </div>
 
+            {nextArticle && (
+              <div className="mt-16">
+                <button
+                  type="button"
+                  onClick={() => handleArticleClick(nextArticle.slug)}
+                  className="group flex w-full items-center justify-between rounded-[26px] border border-slate-200 bg-white p-6 text-left transition-all duration-300 hover:border-blue-100 hover:shadow-lg sm:p-7"
+                >
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-300">
-                      Orders & customer issues
+                    <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
+                      {selectedArticle.nextArticle?.label || "Next article"}
                     </p>
 
-                    <h2 className="mt-2 text-2xl font-black text-white">
-                      Cancellations, returns and disputes
-                    </h2>
-
-                    <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
-                      Sellers agree to cooperate with Markood's applicable
-                      cancellation, return, refund, damaged-order and dispute
-                      processes.
-                    </p>
-
-                    <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                      {[
-                        "Respond to order-related issues",
-                        "Cooperate with return requests",
-                        "Provide requested information",
-                        "Follow Markood dispute procedures",
-                      ].map((item) => (
-                        <div
-                          key={item}
-                          className="flex items-center gap-3 rounded-2xl bg-white/5 p-4"
-                        >
-                          <CheckCircle2
-                            size={16}
-                            className="shrink-0 text-blue-300"
-                          />
-
-                          <span className="text-sm font-semibold text-slate-300">
-                            {item}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* =================================================
-                SUSPENSION
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-20"
-            >
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                Account enforcement
-              </p>
-
-              <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-                Seller account restrictions
-              </h2>
-
-              <p className="mt-4 text-sm leading-7 text-slate-500">
-                Markood may restrict, suspend or take other appropriate action
-                on seller accounts when there are serious policy violations,
-                security concerns, fraudulent activity or other applicable
-                reasons.
-              </p>
-
-              <div className="mt-7 rounded-[24px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)]">
-                <div className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF]">
-                    <ShieldCheck size={18} />
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-black text-slate-950">
-                      Protecting the marketplace
+                    <h3 className="mt-2 text-lg font-black text-slate-950">
+                      {nextArticle.title}
                     </h3>
 
-                    <p className="mt-2 text-sm leading-7 text-slate-500">
-                      Enforcement actions are intended to protect customers,
-                      sellers, delivery partners and the overall integrity of
-                      the Markood marketplace.
+                    <p className="mt-1 text-sm text-slate-500">
+                      {selectedArticle.nextArticle?.description}
                     </p>
                   </div>
-                </div>
+
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[#0066FF]">
+                    <ArrowRight size={18} />
+                  </div>
+                </button>
               </div>
-            </motion.div>
+            )}
+          </main>
 
-            {/* =================================================
-                FINAL NOTICE
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-20 rounded-[26px] border border-amber-100 bg-amber-50/60 p-6"
-            >
-              <div className="flex gap-4">
-                <AlertCircle
-                  size={20}
-                  className="mt-0.5 shrink-0 text-amber-500"
-                />
+          {/* ==================================================
+              RIGHT SIDEBAR
+          ================================================== */}
 
-                <div>
-                  <h3 className="text-sm font-black text-slate-950">
-                    Important legal notice
-                  </h3>
+          <aside className="hidden lg:block">
+            <div className="sticky top-24">
+              <div className="rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm">
+                {/* Sidebar title */}
 
-                  <p className="mt-2 text-sm leading-7 text-slate-600">
-                    This Seller Agreement is structured as a Markood marketplace
-                    policy template. Before making it legally binding, the final
-                    agreement should be reviewed for the applicable laws,
-                    business structure, seller model and jurisdictions in which
-                    Markood operates.
+                <div className="mb-5">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                    Seller Guide
                   </p>
+
+                  <h2 className="mt-2 text-lg font-black text-slate-950">
+                    Sell on Markood
+                  </h2>
+                </div>
+
+                {/* =============================================
+                    DYNAMIC ARTICLE LIST
+                ============================================= */}
+
+                <div className="space-y-2">
+                  {articles.map((article, index) => {
+                    const isActive = article.slug === selectedSlug;
+
+                    return (
+                      <button
+                        key={article._id}
+                        type="button"
+                        onClick={() => handleArticleClick(article.slug)}
+                        className={`group flex w-full items-start gap-3 rounded-xl px-4 py-3 text-left transition-all ${
+                          isActive
+                            ? "bg-blue-50 text-[#0066FF]"
+                            : "text-slate-600 hover:bg-slate-50 hover:text-[#0066FF]"
+                        }`}
+                      >
+                        {/* Number */}
+
+                        <span
+                          className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-black ${
+                            isActive
+                              ? "bg-[#0066FF] text-white"
+                              : "bg-slate-100 text-slate-400"
+                          }`}
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+
+                        {/* Article title */}
+
+                        <span
+                          className={`text-sm leading-5 ${
+                            isActive ? "font-black" : "font-semibold"
+                          }`}
+                        >
+                          {article.title}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
-            </motion.div>
 
-            {/* =================================================
-                ACCEPTANCE
-            ================================================= */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              className="mt-10 rounded-[26px] border border-slate-200 bg-white p-7 text-center shadow-[0_10px_35px_rgba(15,23,42,0.035)] sm:p-9"
-            >
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
-                <Handshake size={22} />
+              {/* =================================================
+                  CURRENT SLUG
+              ================================================= */}
+
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4">
+                <p className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400">
+                  Current article
+                </p>
+
+                <p className="mt-2 break-all text-xs font-semibold leading-5 text-slate-500">
+                  {selectedArticle.slug}
+                </p>
               </div>
-
-              <h2 className="mt-5 text-xl font-black text-slate-950">
-                Built for a trusted marketplace
-              </h2>
-
-              <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-slate-500">
-                By selling on Markood, you agree to maintain accurate listings,
-                fulfill accepted orders responsibly and help create a safe,
-                reliable experience for customers and other marketplace
-                participants.
-              </p>
-            </motion.div>
-          </article>
+            </div>
+          </aside>
         </div>
       </div>
     </section>

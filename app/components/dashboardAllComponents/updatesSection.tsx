@@ -1,17 +1,199 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Megaphone,
   CheckCircle2,
-  FileEdit,
-  Users,
   CalendarDays,
-  ArrowUpRight,
-  Bell,
-  Plus,
+  Pencil,
+  Trash2,
+ 
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
-import { SmallStat, StatusBadge, WorkflowStep } from "../lib/icons";
-import { containerVariants, itemVariants, updates } from "../lib/constant";
+import { useRouter } from "next/navigation";
+
+interface UpdatePost {
+  _id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ApiResponse {
+  success: boolean;
+  data: UpdatePost[];
+  message?: string;
+}
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 10,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+  },
+};
+
 export default function UpdatesSection() {
+  const router = useRouter();
+  const [posts, setPosts] = useState<UpdatePost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const getAllPosts = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      const response = await fetch("http://localhost:5000/api/allData", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        cache: "no-store",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch updates");
+      }
+
+      const result: ApiResponse = await response.json();
+
+      if (result.success) {
+        setPosts(result.data || []);
+      } else {
+        throw new Error(result.message || "Failed to fetch updates");
+      }
+    } catch (error) {
+      console.error("Get updates error:", error);
+
+      setError(error instanceof Error ? error.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getAllPosts();
+  }, []);
+
+  const handleEdit = (id: string) => {
+    console.log("id", id);
+    router.push(`/en/editData/${id}`);
+  };
+
+  const handleDelete = async (id: string) => {
+    const confirmDelete = window.confirm(`${id}`);
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      setDeletingId(id);
+
+      const response = await fetch(`http://localhost:5000/api/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Failed to delete update");
+      }
+
+      // Remove deleted post from UI immediately
+      setPosts((currentPosts) =>
+        currentPosts.filter((post) => post._id !== id),
+      );
+    } catch (error) {
+      console.error("Delete update error:", error);
+
+      alert(error instanceof Error ? error.message : "Failed to delete update");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const formatDate = (date: string) => {
+    return new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  // ============================================================
+  // LOADING
+  // ============================================================
+
+  if (loading) {
+    return (
+      <div className="mx-auto max-w-[1500px] px-5 py-7 sm:px-7 lg:px-9 lg:py-9">
+        <div className="flex min-h-[300px] items-center justify-center">
+          <div className="flex items-center gap-3 text-sm font-semibold text-slate-500">
+            <Loader2 size={20} className="animate-spin text-[#0066FF]" />
+            Loading updates...
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // ERROR
+  // ============================================================
+
+  if (error) {
+    return (
+      <div className="mx-auto max-w-[1500px] px-5 py-7 sm:px-7 lg:px-9 lg:py-9">
+        <div className="rounded-2xl border border-red-100 bg-red-50 p-6">
+          <div className="flex items-center gap-3 text-red-600">
+            <AlertCircle size={20} />
+
+            <div>
+              <h3 className="text-sm font-black">Failed to load updates</h3>
+
+              <p className="mt-1 text-xs text-red-500">{error}</p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={getAllPosts}
+            className="mt-4 rounded-xl bg-red-600 px-4 py-2 text-xs font-bold text-white transition hover:bg-red-700"
+          >
+            Try again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // MAIN
+  // ============================================================
+
   return (
     <motion.div
       variants={containerVariants}
@@ -19,7 +201,10 @@ export default function UpdatesSection() {
       animate="visible"
       className="mx-auto max-w-[1500px] px-5 py-7 sm:px-7 lg:px-9 lg:py-9"
     >
-      {/* Header */}
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+
       <motion.div
         variants={itemVariants}
         className="flex flex-col justify-between gap-5 md:flex-row md:items-end"
@@ -34,23 +219,63 @@ export default function UpdatesSection() {
           </h2>
 
           <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500">
-            Publish important changes, policy announcements and marketplace
-            updates for your users.
+            Manage announcements, policy changes and marketplace updates.
           </p>
         </div>
       </motion.div>
 
-      {/* Update overview */}
+      {/* =====================================================
+          STATS
+      ===================================================== */}
+
       <motion.div
         variants={itemVariants}
         className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-3"
       >
-        <SmallStat icon={Megaphone} label="Total Updates" value="18" />
+        {/* TOTAL */}
 
-        <SmallStat icon={CheckCircle2} label="Published" value="15" />
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)]">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF]">
+              <Megaphone size={18} />
+            </div>
 
-        <SmallStat icon={FileEdit} label="Drafts" value="03" />
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                Total Updates
+              </p>
+
+              <p className="mt-1 text-2xl font-black text-slate-950">
+                {posts.length}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* PUBLISHED */}
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)]">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+              <CheckCircle2 size={18} />
+            </div>
+
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                Published
+              </p>
+
+              <p className="mt-1 text-2xl font-black text-slate-950">
+                {posts.length}
+              </p>
+            </div>
+          </div>
+        </div>
       </motion.div>
+
+      {/* =====================================================
+          ALL UPDATES
+      ===================================================== */}
 
       <motion.section
         variants={itemVariants}
@@ -63,97 +288,110 @@ export default function UpdatesSection() {
             </p>
 
             <h3 className="mt-1 text-lg font-black text-slate-950">
-              Recent Updates
+              All Updates
             </h3>
           </div>
 
-          <button className="text-xs font-bold text-[#0066FF] hover:underline">
-            View archive
-          </button>
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-[10px] font-bold text-slate-500">
+            {posts.length} posts
+          </span>
         </div>
 
-        <div className="mt-6 space-y-3">
-          {updates.map((update) => (
-            <div
-              key={update.id}
-              className="group flex flex-col gap-4 rounded-2xl border border-slate-100 p-4 transition hover:border-blue-100 hover:bg-slate-50/60 sm:flex-row sm:items-center"
-            >
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF]">
-                <Megaphone size={18} />
-              </div>
+        {/* =================================================
+            EMPTY
+        ================================================= */}
 
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <h4 className="text-sm font-black text-slate-900">
-                    {update.title}
-                  </h4>
+        {posts.length === 0 && (
+          <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-16 text-center">
+            <Megaphone size={30} className="mx-auto text-slate-300" />
 
-                  <StatusBadge status={update.status} />
-                </div>
-
-                <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] text-slate-400">
-                  <span>{update.type}</span>
-
-                  <span className="flex items-center gap-1">
-                    <Users size={11} />
-                    {update.audience}
-                  </span>
-
-                  <span className="flex items-center gap-1">
-                    <CalendarDays size={11} />
-                    {update.date}
-                  </span>
-                </div>
-              </div>
-
-              <button className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-slate-100 text-slate-400 transition hover:border-blue-100 hover:bg-blue-50 hover:text-[#0066FF]">
-                <ArrowUpRight size={16} />
-              </button>
-            </div>
-          ))}
-        </div>
-      </motion.section>
-
-      {/* Publishing workflow */}
-      <motion.section
-        variants={itemVariants}
-        className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)] sm:p-6"
-      >
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-            <Bell size={18} />
-          </div>
-
-          <div>
-            <h3 className="text-sm font-black text-slate-900">
-              Publishing workflow
+            <h3 className="mt-4 text-sm font-black text-slate-900">
+              No updates found
             </h3>
 
-            <p className="mt-1 text-[11px] text-slate-400">
-              Keep users informed whenever Markood rules or services change.
+            <p className="mt-1 text-xs text-slate-400">
+              Create your first marketplace update.
             </p>
           </div>
-        </div>
+        )}
 
-        <div className="mt-5 grid gap-3 md:grid-cols-3">
-          <WorkflowStep
-            number="01"
-            title="Create"
-            description="Write your announcement or policy update."
-          />
+        {/* =================================================
+            POST LIST
+        ================================================= */}
 
-          <WorkflowStep
-            number="02"
-            title="Review"
-            description="Check the content, audience and effective date."
-          />
+        {posts.length > 0 && (
+          <div className="mt-6 space-y-3">
+            {posts.map((post) => (
+              <div
+                key={post._id}
+                className="group rounded-2xl border border-slate-100 p-4 transition hover:border-blue-100 hover:bg-slate-50/60"
+              >
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
+                  {/* ICON */}
 
-          <WorkflowStep
-            number="03"
-            title="Publish"
-            description="Make the update visible in Markood Center."
-          />
-        </div>
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF]">
+                    <Megaphone size={18} />
+                  </div>
+
+                  {/* CONTENT */}
+
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-sm font-black text-slate-900">
+                      {post.title}
+                    </h4>
+
+                    <p className="mt-2 line-clamp-2 text-xs leading-5 text-slate-500">
+                      {post.summary}
+                    </p>
+
+                    <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-[10px] text-slate-400">
+                      <span className="flex items-center gap-1">
+                        <CalendarDays size={11} />
+                        {formatDate(post.createdAt)}
+                      </span>
+
+                      <span className="truncate">{post.slug}</span>
+                    </div>
+                  </div>
+
+                  {/* ACTIONS */}
+
+                  <div className="flex shrink-0 items-center gap-2">
+                    {/* EDIT */}
+{/* 
+                    <button
+                      type="button"
+                      onClick={() => handleEdit(post._id)}
+                      className="flex h-9 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-600 transition hover:border-blue-100 hover:bg-blue-50 hover:text-[#0066FF]"
+                    >
+                      <Pencil size={14} />
+                      <span>Edit</span>
+                    </button> */}
+
+                    {/* DELETE */}
+
+                    <button
+                      type="button"
+                      disabled={deletingId === post._id}
+                      onClick={() => handleDelete(post._id)}
+                      className="flex h-9 items-center gap-2 rounded-xl border border-red-100 bg-white px-3 text-xs font-bold text-red-500 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                      {deletingId === post._id ? (
+                        <Loader2 size={14} className="animate-spin" />
+                      ) : (
+                        <Trash2 size={14} />
+                      )}
+
+                      <span>
+                        {deletingId === post._id ? "Deleting..." : "Delete"}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </motion.section>
     </motion.div>
   );

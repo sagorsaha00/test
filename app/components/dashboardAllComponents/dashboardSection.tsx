@@ -1,11 +1,11 @@
+"use client";
+
 import { motion, type Variants } from "framer-motion";
 import {
-  Activity,
   Eye,
   FileEdit,
   FileText,
   Megaphone,
-  Plus,
   TrendingUp,
   ChevronRight,
   RefreshCw,
@@ -14,137 +14,337 @@ import {
   Store,
   ShoppingBag,
   Truck,
+  Pencil,
+  Trash2,
+  Plus,
 } from "lucide-react";
-import { QuickAction, ActivityItem, StatusBadge } from "../lib/icons";
+import { useRouter } from "next/navigation";
+import type { ElementType } from "react";
+import { StatusBadge } from "../lib/icons";
+import { useAllPosts } from "@/lib/getData";
+
+// ======================================================
+// TYPES
+// ======================================================
 
 type Article = {
-  id: number;
+  _id: string;
+  categoryKey?: string;
+  itemKey?: string;
   title: string;
-  category: string;
-  audience: string;
-  status: "Published" | "Draft";
-  updated: string;
-  views: string;
+  slug: string;
+  summary?: string;
+  readTime?: string;
+  blocks?: {
+    type: string;
+    data: unknown;
+  }[];
+  nextArticle?: unknown;
+  status?: "draft" | "published";
+  createdAt: string;
+  updatedAt: string;
 };
-const stats = [
+
+type ApiResponse = {
+  success: boolean;
+  data: Article[];
+  message?: string;
+};
+
+type CategoryItem = {
+  key: string;
+  label: string;
+};
+
+type CategoryConfig = {
+  key: string;
+  title: string;
+  description: string;
+  icon: ElementType;
+  items: CategoryItem[];
+};
+
+// ======================================================
+// CATEGORY CONFIG
+// This matches your Header JSON exactly
+// ======================================================
+
+const categoryConfig: CategoryConfig[] = [
   {
-    label: "Total Articles",
-    value: "48",
-    change: "+8.4%",
-    icon: FileText,
-    description: "Published content",
-  },
-  {
-    label: "Published",
-    value: "42",
-    change: "+5.2%",
-    icon: CheckCircle2,
-    description: "Live articles",
-  },
-  {
-    label: "Drafts",
-    value: "06",
-    change: "+2",
-    icon: FileEdit,
-    description: "Waiting for review",
-  },
-  {
-    label: "Total Views",
-    value: "12.8K",
-    change: "+14.6%",
-    icon: Eye,
-    description: "This month",
-  },
-];
-const categories = [
-  {
+    key: "sellOnMarkood",
     title: "Sell on Markood",
-    description: "Seller guides, products, orders and fees",
+    description:
+      "Everything sellers need to start, manage and grow their business.",
     icon: Store,
-    articles: 12,
+    items: [
+      {
+        key: "gettingStarted",
+        label: "Getting Started",
+      },
+      {
+        key: "addProducts",
+        label: "Add Products",
+      },
+      {
+        key: "orders",
+        label: "Orders",
+      },
+      {
+        key: "pricingFees",
+        label: "Pricing & Fees",
+      },
+      {
+        key: "delivery",
+        label: "Shipping & Delivery",
+      },
+      {
+        key: "returns",
+        label: "Returns & Refunds",
+      },
+    ],
   },
+
   {
+    key: "buyOnMarkood",
     title: "Buy on Markood",
-    description: "Buying, payments, returns and refunds",
+    description:
+      "Learn how to discover products, place orders and get support.",
     icon: ShoppingBag,
-    articles: 9,
+    items: [
+      {
+        key: "gettingStarted",
+        label: "Getting Started",
+      },
+      {
+        key: "searchOrder",
+        label: "Search & Order",
+      },
+      {
+        key: "payments",
+        label: "Payments",
+      },
+      {
+        key: "delivery",
+        label: "Delivery",
+      },
+      {
+        key: "cancellation",
+        label: "Cancellation",
+      },
+      {
+        key: "returns",
+        label: "Returns & Refunds",
+      },
+    ],
   },
+
   {
+    key: "delivery",
     title: "Delivery",
-    description: "Delivery, riders, zones and failed orders",
+    description:
+      "Everything about Markood delivery for customers, sellers and riders.",
     icon: Truck,
-    articles: 10,
+    items: [
+      {
+        key: "howItWorks",
+        label: "How Delivery Works",
+      },
+      {
+        key: "zones",
+        label: "Delivery Zones",
+      },
+      {
+        key: "sellerResponsibilities",
+        label: "Seller Responsibilities",
+      },
+      {
+        key: "riderResponsibilities",
+        label: "Rider Responsibilities",
+      },
+      {
+        key: "failedDeliveries",
+        label: "Failed Deliveries",
+      },
+      {
+        key: "lostDamagedOrders",
+        label: "Lost & Damaged Orders",
+      },
+    ],
   },
+
   {
+    key: "policies",
     title: "Policies & Legal",
-    description: "Terms, agreements and marketplace rules",
+    description: "Markood's rules, agreements and important legal policies.",
     icon: ShieldCheck,
-    articles: 11,
+    items: [
+      {
+        key: "terms",
+        label: "Terms & Conditions",
+      },
+      {
+        key: "sellerAgreement",
+        label: "Seller Agreement",
+      },
+      {
+        key: "refund",
+        label: "Refund Policy",
+      },
+      {
+        key: "cancellation",
+        label: "Cancellation Policy",
+      },
+    ],
   },
+
   {
+    key: "updates",
     title: "Updates",
-    description: "Latest changes across Markood",
+    description: "See what's new and what's changed across Markood.",
     icon: Megaphone,
-    articles: 6,
+    items: [
+      {
+        key: "whatsNew",
+        label: "What's New",
+      },
+      {
+        key: "policyUpdates",
+        label: "Policy Updates",
+      },
+      {
+        key: "deliveryUpdates",
+        label: "Delivery Updates",
+      },
+      {
+        key: "marketplaceUpdates",
+        label: "Marketplace Updates",
+      },
+    ],
   },
 ];
-const articles: Article[] = [
-  {
-    id: 1,
-    title: "Getting Started with Selling on Markood",
-    category: "Sell on Markood",
-    audience: "Seller",
-    status: "Published",
-    updated: "Aug 21, 2026",
-    views: "2.4K",
-  },
-  {
-    id: 2,
-    title: "How to Add Products",
-    category: "Sell on Markood",
-    audience: "Seller",
-    status: "Published",
-    updated: "Aug 20, 2026",
-    views: "1.8K",
-  },
-  {
-    id: 3,
-    title: "How Markood Delivery Works",
-    category: "Delivery",
-    audience: "Everyone",
-    status: "Published",
-    updated: "Aug 19, 2026",
-    views: "3.1K",
-  },
-  {
-    id: 4,
-    title: "Seller Agreement",
-    category: "Policies & Legal",
-    audience: "Seller",
-    status: "Published",
-    updated: "Aug 18, 2026",
-    views: "980",
-  },
-  {
-    id: 5,
-    title: "Refund Policy",
-    category: "Policies & Legal",
-    audience: "Everyone",
-    status: "Draft",
-    updated: "Aug 17, 2026",
-    views: "—",
-  },
-  {
-    id: 6,
-    title: "Buyer Protection",
-    category: "Buy on Markood",
-    audience: "Buyer",
-    status: "Published",
-    updated: "Aug 16, 2026",
-    views: "1.2K",
-  },
-];
+
+// ======================================================
+// HELPERS
+// ======================================================
+
+const formatDate = (date?: string) => {
+  if (!date) return "—";
+
+  const parsedDate = new Date(date);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return "—";
+  }
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(parsedDate);
+};
+
+const formatViews = () => {
+  return "—";
+};
+
+// ======================================================
+// COMPONENT
+// ======================================================
+
 export default function DashboardSection() {
+  const router = useRouter();
+
+  const { data: response, isLoading, isError, error, refetch } = useAllPosts();
+
+  // ====================================================
+  // NORMALIZE RESPONSE
+  //
+  // Supports both:
+  //
+  // 1. response = Article[]
+  //
+  // 2. response = {
+  //      success: true,
+  //      data: Article[]
+  //    }
+  // ====================================================
+
+  const articles: Article[] = Array.isArray(response)
+    ? response
+    : ((response as ApiResponse)?.data ?? []);
+
+  // ====================================================
+  // DEBUG
+  // ====================================================
+
+  console.log("Dashboard response:", response);
+  console.log("Dashboard articles:", articles);
+
+  // ====================================================
+  // STATS
+  // ====================================================
+
+  const totalArticles = articles.length;
+
+  const publishedArticles = articles.filter(
+    (article) => (article.status ?? "published") === "published",
+  ).length;
+
+  const draftArticles = articles.filter(
+    (article) => article.status === "draft",
+  ).length;
+
+  // ====================================================
+  // DYNAMIC CATEGORY DATA
+  //
+  // IMPORTANT:
+  // category count checks categoryKey
+  //
+  // item count checks:
+  // categoryKey + itemKey
+  // ====================================================
+
+  const categories = categoryConfig.map((category) => {
+    const categoryArticles = articles.filter(
+      (article) => article.categoryKey === category.key,
+    );
+
+    const items = category.items.map((item) => {
+      const itemArticles = articles.filter(
+        (article) =>
+          article.categoryKey === category.key && article.itemKey === item.key,
+      );
+
+      return {
+        ...item,
+        articles: itemArticles.length,
+        articleList: itemArticles,
+      };
+    });
+
+    return {
+      ...category,
+      articles: categoryArticles.length,
+      items,
+    };
+  });
+
+  // ====================================================
+  // RECENT ARTICLES
+  // ====================================================
+
+  const recentArticles = [...articles]
+    .sort(
+      (a, b) =>
+        new Date(b.updatedAt || b.createdAt).getTime() -
+        new Date(a.updatedAt || a.createdAt).getTime(),
+    )
+    .slice(0, 6);
+
+  // ====================================================
+  // ANIMATIONS
+  // ====================================================
+
   const containerVariants: Variants = {
     hidden: {},
     visible: {
@@ -153,6 +353,7 @@ export default function DashboardSection() {
       },
     },
   };
+
   const itemVariants: Variants = {
     hidden: {
       opacity: 0,
@@ -167,6 +368,52 @@ export default function DashboardSection() {
       },
     },
   };
+
+  // ====================================================
+  // LOADING
+  // ====================================================
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[400px] items-center justify-center">
+        <div className="flex items-center gap-3 text-sm text-slate-500">
+          <RefreshCw size={18} className="animate-spin" />
+          Loading Markood content...
+        </div>
+      </div>
+    );
+  }
+
+  // ====================================================
+  // ERROR
+  // ====================================================
+
+  if (isError) {
+    return (
+      <div className="mx-auto max-w-[1500px] px-5 py-10">
+        <div className="rounded-2xl border border-red-100 bg-red-50 p-6 text-center">
+          <p className="font-bold text-red-600">Failed to load articles</p>
+
+          <p className="mt-2 text-sm text-red-500">
+            {error instanceof Error ? error.message : "Something went wrong"}
+          </p>
+
+          <button
+            onClick={() => refetch()}
+            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
+          >
+            <RefreshCw size={15} />
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // ====================================================
+  // UI
+  // ====================================================
+
   return (
     <motion.div
       variants={containerVariants}
@@ -174,16 +421,22 @@ export default function DashboardSection() {
       animate="visible"
       className="mx-auto max-w-[1500px] px-5 py-7 sm:px-7 lg:px-9 lg:py-9"
     >
-      {/* Header */}
+      {/* =================================================
+          HEADER
+      ================================================= */}
+
       <motion.div
         variants={itemVariants}
-        initial="hidden"
-        animate="visible"
         className="flex flex-col justify-between gap-5 md:flex-row md:items-end"
       >
         <div>
           <p className="text-sm font-medium text-slate-500">
-            Monday, August 24, 2026
+            {new Intl.DateTimeFormat("en-US", {
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            }).format(new Date())}
           </p>
 
           <h2 className="mt-1 text-3xl font-black tracking-tight text-slate-950">
@@ -195,53 +448,67 @@ export default function DashboardSection() {
             one place.
           </p>
         </div>
+
+        <button
+          onClick={() => router.push("/create")}
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-700"
+        >
+          <Plus size={16} />
+          Create Article
+        </button>
       </motion.div>
+
+      {/* =================================================
+          STATS
+      ================================================= */}
 
       <motion.div
         variants={itemVariants}
         className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4"
       >
-        {stats.map((stat) => {
-          const Icon = stat.icon;
+        <StatCard
+          label="Total Articles"
+          value={totalArticles.toString()}
+          change="Live"
+          description="All articles"
+          icon={FileText}
+        />
 
-          return (
-            <div
-              key={stat.label}
-              className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)] transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-100 hover:shadow-[0_15px_35px_rgba(15,23,42,0.06)]"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF] transition group-hover:bg-[#0066FF] group-hover:text-white">
-                  <Icon size={18} />
-                </div>
+        <StatCard
+          label="Published"
+          value={publishedArticles.toString()}
+          change="Live"
+          description="Published content"
+          icon={CheckCircle2}
+        />
 
-                <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-bold text-emerald-600">
-                  <TrendingUp size={10} />
-                  {stat.change}
-                </span>
-              </div>
+        <StatCard
+          label="Drafts"
+          value={draftArticles.toString()}
+          change="Pending"
+          description="Waiting for review"
+          icon={FileEdit}
+        />
 
-              <div className="mt-5">
-                <p className="text-[11px] font-semibold text-slate-400">
-                  {stat.label}
-                </p>
-
-                <p className="mt-1 text-2xl font-black tracking-tight text-slate-950">
-                  {stat.value}
-                </p>
-
-                <p className="mt-1 text-[10px] text-slate-400">
-                  {stat.description}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+        <StatCard
+          label="Total Views"
+          value="—"
+          change="N/A"
+          description="Views not available"
+          icon={Eye}
+        />
       </motion.div>
 
-      {/* Main content */}
+      {/* =================================================
+          MAIN CONTENT
+      ================================================= */}
+
       <div className="mt-7 grid gap-6 xl:grid-cols-[minmax(0,1.55fr)_minmax(320px,0.8fr)]">
         <div className="space-y-6">
-          {/* Markood Center */}
+          {/* =================================================
+              MARKOOD CENTER
+          ================================================= */}
+
           <motion.section
             variants={itemVariants}
             className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)] sm:p-6"
@@ -255,192 +522,208 @@ export default function DashboardSection() {
                 <h3 className="mt-1 text-lg font-black text-slate-950">
                   Markood Center
                 </h3>
+
+                <p className="mt-1 text-sm text-slate-400">
+                  Content organized by category and help topic.
+                </p>
               </div>
 
-              <button className="text-xs font-bold text-[#0066FF] hover:underline">
-                Manage content
-              </button>
+              <span className="text-xs font-bold text-slate-400">
+                {totalArticles} {totalArticles === 1 ? "article" : "articles"}
+              </span>
             </div>
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {/* =================================================
+                CATEGORIES
+            ================================================= */}
+
+            <div className="mt-6 space-y-5">
               {categories.map((category) => {
-                const Icon = category.icon;
+                const CategoryIcon = category.icon;
 
                 return (
                   <div
-                    key={category.title}
-                    className="group flex cursor-pointer items-center gap-4 rounded-2xl border border-slate-100 p-4 transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-100 hover:bg-slate-50/50"
+                    key={category.key}
+                    className="rounded-2xl border border-slate-200 p-5"
                   >
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 transition group-hover:bg-blue-50 group-hover:text-[#0066FF]">
-                      <Icon size={19} />
-                    </div>
+                    {/* CATEGORY HEADER */}
 
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-3">
-                        <h4 className="truncate text-sm font-black text-slate-900">
-                          {category.title}
-                        </h4>
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex min-w-0 items-center gap-4">
+                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 shadow-sm">
+                          <CategoryIcon size={24} />
+                        </div>
 
-                        <ChevronRight
-                          size={15}
-                          className="shrink-0 text-slate-300 transition group-hover:translate-x-1 group-hover:text-[#0066FF]"
-                        />
+                        <div className="min-w-0">
+                          <h4 className="text-lg font-black text-slate-950">
+                            {category.title}
+                          </h4>
+
+                          <p className="mt-1 text-sm text-slate-400">
+                            {category.description}
+                          </p>
+                        </div>
                       </div>
 
-                      <p className="mt-1 truncate text-[11px] text-slate-400">
-                        {category.description}
-                      </p>
+                      <span className="shrink-0 rounded-full bg-blue-50 px-3 py-1.5 text-xs font-bold text-[#0066FF]">
+                        {category.articles}{" "}
+                        {category.articles === 1 ? "article" : "articles"}
+                      </span>
+                    </div>
 
-                      <p className="mt-2 text-[10px] font-bold text-slate-500">
-                        {category.articles} articles
-                      </p>
+                    {/* =================================================
+                        ITEMS
+                    ================================================= */}
+
+                    <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                      {category.items.map((item) => {
+                        // THIS IS THE IMPORTANT PART
+                        const itemCount = articles.filter(
+                          (article) =>
+                            article.categoryKey === category.key &&
+                            article.itemKey === item.key,
+                        ).length;
+
+                        return (
+                          <button
+                            key={`${category.key}-${item.key}`}
+                            type="button"
+                            onClick={() =>
+                              router.push(
+                                `/articles?category=${category.key}&item=${item.key}`,
+                              )
+                            }
+                            className="group flex items-center gap-4 rounded-2xl border border-slate-200 p-4 text-left transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-100 hover:bg-slate-50/50"
+                          >
+                            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-slate-50 text-slate-400 transition group-hover:bg-blue-50 group-hover:text-[#0066FF]">
+                              <FileText size={18} />
+                            </div>
+
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between gap-3">
+                                <h5 className="truncate text-sm font-black text-slate-800">
+                                  {item.label}
+                                </h5>
+
+                                <ChevronRight
+                                  size={16}
+                                  className="shrink-0 text-slate-300 transition group-hover:translate-x-1 group-hover:text-[#0066FF]"
+                                />
+                              </div>
+
+                              <p className="mt-1 text-[11px] text-slate-400">
+                                {itemCount}{" "}
+                                {itemCount === 1 ? "article" : "articles"}
+                              </p>
+                            </div>
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 );
               })}
             </div>
           </motion.section>
-
-          {/* Recent Articles */}
-          <motion.section
-            variants={itemVariants}
-            className="rounded-2xl border border-slate-200 bg-white shadow-[0_5px_25px_rgba(15,23,42,0.025)]"
-          >
-            <div className="flex items-center justify-between border-b border-slate-100 p-5 sm:p-6">
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#0066FF]">
-                  Content activity
-                </p>
-
-                <h3 className="mt-1 text-lg font-black text-slate-950">
-                  Recent Articles
-                </h3>
-              </div>
-
-              <button className="text-xs font-bold text-[#0066FF] hover:underline">
-                View all
-              </button>
-            </div>
-
-            <div className="divide-y divide-slate-100">
-              {articles.slice(0, 4).map((article) => (
-                <div
-                  key={article.id}
-                  className="flex items-center gap-4 p-5 transition hover:bg-slate-50"
-                >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
-                    <FileText size={17} />
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-bold text-slate-800">
-                      {article.title}
-                    </p>
-
-                    <p className="mt-1 text-[11px] text-slate-400">
-                      {article.category} · Updated {article.updated}
-                    </p>
-                  </div>
-
-                  <StatusBadge status={article.status} />
-
-                  <ChevronRight
-                    size={16}
-                    className="hidden text-slate-300 sm:block"
-                  />
-                </div>
-              ))}
-            </div>
-          </motion.section>
+          
         </div>
 
-        {/* Right column */}
-        {/* <div className="space-y-6">
-          
-          <motion.section
-            variants={itemVariants}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)]"
-          >
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#0066FF]">
-                Shortcuts
-              </p>
+ 
 
-              <h3 className="mt-1 text-lg font-black">Quick Actions</h3>
-            </div>
+        <motion.section
+          variants={itemVariants}
+          className="h-fit rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)] sm:p-6"
+        >
+          <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#0066FF]">
+            Content Overview
+          </p>
 
-            <div className="mt-5 space-y-2">
-              <QuickAction
-                icon={Plus}
-                title="Create Article"
-                description="Add new help content"
-              />
+          <h3 className="mt-1 text-lg font-black text-slate-950">
+            Article Breakdown
+          </h3>
 
-              <QuickAction
-                icon={Megaphone}
-                title="Publish Update"
-                description="Notify your marketplace"
-              />
+          <div className="mt-6 space-y-5">
+            {categories.map((category) => {
+              const percentage =
+                totalArticles > 0
+                  ? Math.round((category.articles / totalArticles) * 100)
+                  : 0;
 
-              <QuickAction
-                icon={ShieldCheck}
-                title="Manage Policies"
-                description="Review legal content"
-              />
+              return (
+                <div key={category.key}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-700">
+                      {category.title}
+                    </span>
 
-              <QuickAction
-                icon={Eye}
-                title="Preview Center"
-                description="View public help center"
-              />
-            </div>
-          </motion.section>
+                    <span className="text-[11px] text-slate-400">
+                      {category.articles}
+                    </span>
+                  </div>
 
-          
-          <motion.section
-            variants={itemVariants}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)]"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[#0066FF]">
-                  Activity
-                </p>
+                  <div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100">
+                    <div
+                      className="h-full rounded-full bg-[#0066FF] transition-all duration-500"
+                      style={{
+                        width: `${percentage}%`,
+                      }}
+                    />
+                  </div>
 
-                <h3 className="mt-1 text-lg font-black">Recent Activity</h3>
-              </div>
-
-              <Activity size={18} className="text-slate-300" />
-            </div>
-
-            <div className="mt-5 space-y-5">
-              <ActivityItem
-                icon={FileEdit}
-                title="Refund Policy updated"
-                time="24 minutes ago"
-              />
-
-              <ActivityItem
-                icon={Megaphone}
-                title="Delivery update published"
-                time="2 hours ago"
-              />
-
-              <ActivityItem
-                icon={FileText}
-                title="Seller Agreement edited"
-                time="Yesterday"
-              />
-
-              <ActivityItem
-                icon={ShieldCheck}
-                title="Terms version 1.2 published"
-                time="3 days ago"
-              />
-            </div>
-          </motion.section>
-        </div> */}
+                  <p className="mt-1 text-[10px] text-slate-400">
+                    {percentage}% of total content
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </motion.section>
       </div>
     </motion.div>
+  );
+}
+
+// ======================================================
+// STAT CARD
+// ======================================================
+
+type StatCardProps = {
+  label: string;
+  value: string;
+  change: string;
+  description: string;
+  icon: ElementType;
+};
+
+function StatCard({
+  label,
+  value,
+  change,
+  description,
+  icon: Icon,
+}: StatCardProps) {
+  return (
+    <div className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)] transition-all duration-300 hover:-translate-y-0.5 hover:border-blue-100 hover:shadow-[0_15px_35px_rgba(15,23,42,0.06)]">
+      <div className="flex items-start justify-between">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF] transition group-hover:bg-[#0066FF] group-hover:text-white">
+          <Icon size={18} />
+        </div>
+
+        <span className="flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-bold text-emerald-600">
+          <TrendingUp size={10} />
+          {change}
+        </span>
+      </div>
+
+      <div className="mt-5">
+        <p className="text-[11px] font-semibold text-slate-400">{label}</p>
+
+        <p className="mt-1 text-2xl font-black tracking-tight text-slate-950">
+          {value}
+        </p>
+
+        <p className="mt-1 text-[10px] text-slate-400">{description}</p>
+      </div>
+    </div>
   );
 }

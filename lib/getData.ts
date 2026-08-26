@@ -1,5 +1,5 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { HelpPost } from "./type";
 
 // 1. Core Fetcher Function
@@ -46,5 +46,71 @@ export const useHelpArticle = (id: string) => {
     queryKey: ["help-article", id],
     queryFn: () => getHelpArticle(id),
     enabled: Boolean(id),
+  });
+};
+
+export const useUpdateHelpArticle = (id: string) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (updateData: Record<string, any>) => {
+      const response = await fetch(
+        `http://localhost:5000/api/update-articles/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updateData),
+        },
+      );
+
+      const result = await response.json();
+      console.log("result", result);
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to update article");
+      }
+
+      return result.data;
+    },
+
+    onSuccess: (updatedArticle) => {
+      queryClient.setQueryData(["help-article", id], updatedArticle);
+
+      queryClient.invalidateQueries({
+        queryKey: ["help-articles"],
+      });
+    },
+  });
+};
+
+const getAllPosts = async () => {
+  const response = await fetch("http://localhost:5000/api/allData", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch updates");
+  }
+
+  const result = await response.json();
+  console.log("result", result);
+
+  if (!result.success) {
+    throw new Error(result.message || "Failed to fetch updates");
+  }
+
+  return result.data || [];
+};
+
+export const useAllPosts = () => {
+  return useQuery({
+    queryKey: ["all-posts"],
+    queryFn: getAllPosts,
   });
 };
