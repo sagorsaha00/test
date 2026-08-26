@@ -1,681 +1,576 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
-
+import { useEffect, useMemo, useState } from "react";
 import {
-  ArrowDownLeft,
   ArrowRight,
-  Check,
   CheckCircle2,
-  CreditCard,
-  LockKeyhole,
+  Clock3,
+  HelpCircle,
   ShieldCheck,
-  Sparkles,
-  WalletCards,
-  XCircle,
+  Store,
+  UserPlus,
+  Package,
+  Truck,
 } from "lucide-react";
 
-const fadeUp: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 28,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.55,
-      ease: "easeOut",
-    },
-  },
-};
+import { useHelpContent } from "@/lib/getData";
 
-const stagger: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
+interface Step {
+  title: string;
+  description: string;
+}
 
-const cardAnimation: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-    scale: 0.97,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
+interface Block {
+  type: "paragraph" | "steps" | "list" | "tip" | "image";
+  data: {
+    text?: string;
+    items?: Step[] | string[];
+    label?: string;
+    title?: string;
+    body?: string;
+    url?: string;
+    caption?: string;
+  };
+}
 
-export default function PaymentsPage() {
+interface NextArticle {
+  label: string;
+  title: string;
+  description: string;
+  href?: string;
+  slug?: string;
+}
+
+interface Article {
+  _id: string;
+  categoryKey: string;
+  itemKey: string;
+  title: string;
+  slug: string;
+  summary: string;
+  readTime: string;
+  blocks: Block[];
+  nextArticle?: NextArticle;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v?: number;
+}
+
+const STEP_ICONS = [UserPlus, Store, Package, ShieldCheck, Truck];
+
+export default function DynamicHelpArticle() {
+  const catKey = "buyOnMarkood";
+  const itemKey = "payments";
+  const { data, isLoading, error } = useHelpContent(catKey, itemKey);
+
+  console.log("get Data", data);
+
+  // ============================================================
+  // 2. STORE ALL ARTICLES IN STATE
+  // ============================================================
+
+  const [articles, setArticles] = useState<Article[]>([]);
+
+  // ============================================================
+  // 3. STORE CURRENTLY SELECTED SLUG
+  // ============================================================
+
+  const [selectedSlug, setSelectedSlug] = useState<string>("");
+
+  // ============================================================
+  // 4. WHEN API DATA ARRIVES, STORE IT IN STATE
+  // ============================================================
+
+  useEffect(() => {
+    if (!data || !Array.isArray(data)) {
+      return;
+    }
+
+    setArticles(data);
+
+    // If there is no selected article yet,
+    // automatically select the first article.
+    if (data.length > 0) {
+      setSelectedSlug((currentSlug) => {
+        // Keep current article if it still exists
+        const currentArticle = data.find(
+          (article: Article) => article.slug === currentSlug,
+        );
+
+        if (currentArticle) {
+          return currentSlug;
+        }
+
+        // Otherwise select first article
+        return data[0].slug;
+      });
+    }
+  }, [data]);
+
+  // ============================================================
+  // 5. FIND CURRENT ARTICLE USING SLUG
+  // ============================================================
+
+  const selectedArticle = useMemo(() => {
+    if (!selectedSlug || articles.length === 0) {
+      return null;
+    }
+
+    return articles.find((article) => article.slug === selectedSlug) || null;
+  }, [articles, selectedSlug]);
+
+  // ============================================================
+  // 6. HANDLE SIDEBAR ARTICLE CLICK
+  // ============================================================
+
+  const handleArticleClick = (slug: string) => {
+    setSelectedSlug(slug);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // ============================================================
+  // 7. LOADING
+  // ============================================================
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-[500px] items-center justify-center">
+        <div className="text-sm font-semibold text-slate-500">
+          Loading article...
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // 8. ERROR
+  // ============================================================
+
+  if (error) {
+    return (
+      <div className="flex min-h-[500px] items-center justify-center">
+        <div className="text-sm font-semibold text-red-500">
+          Failed to load help content.
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // 9. NO DATA
+  // ============================================================
+
+  if (!articles.length || !selectedArticle) {
+    return (
+      <div className="flex min-h-[500px] items-center justify-center">
+        <div className="text-sm font-semibold text-slate-500">
+          No help article found.
+        </div>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // 10. FORMAT DATE
+  // ============================================================
+
+  const formattedDate = selectedArticle.updatedAt
+    ? new Date(selectedArticle.updatedAt).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      })
+    : "";
+
+  // ============================================================
+  // 11. FIND NEXT ARTICLE
+  // ============================================================
+
+  const nextArticle = selectedArticle.nextArticle?.slug
+    ? articles.find(
+        (article) => article.slug === selectedArticle.nextArticle?.slug,
+      )
+    : null;
+
   return (
-    <main className="min-h-screen overflow-hidden bg-white text-slate-950">
-      {/* =========================================================
-          HERO
-      ========================================================= */}
+    <section className="relative min-h-screen overflow-hidden bg-[#f8fafc]">
+      {/* ======================================================
+          BACKGROUND
+      ====================================================== */}
 
-      <section className="relative overflow-hidden bg-[#f7faff]">
-        {/* Background glow */}
-        <motion.div
-          animate={{
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="pointer-events-none absolute -left-32 top-10 h-80 w-80 rounded-full bg-blue-200/30 blur-3xl"
-        />
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[-180px] top-40 h-[400px] w-[400px] rounded-full bg-blue-100/40 blur-3xl" />
 
-        <motion.div
-          animate={{
-            x: [0, -25, 0],
-            y: [0, 25, 0],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="pointer-events-none absolute -right-32 top-0 h-96 w-96 rounded-full bg-indigo-200/30 blur-3xl"
-        />
+        <div className="absolute right-[-180px] top-[700px] h-[400px] w-[400px] rounded-full bg-sky-100/40 blur-3xl" />
+      </div>
 
-        <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-16 sm:px-6 lg:px-8 lg:pb-24 lg:pt-24">
-          {/* Badge */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="flex justify-center"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 shadow-sm">
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-[#0066FF]">
-                <WalletCards size={14} />
-              </span>
+      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
+          {/* ==================================================
+              LEFT SIDE
+              CURRENT ARTICLE
+          ================================================== */}
 
-              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-600">
-                Buyer Guide
-              </span>
-            </div>
-          </motion.div>
+          <main className="max-w-4xl">
+            {/* ================================================
+                ARTICLE HEADER
+            ================================================= */}
 
-          {/* Heading */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeUp}
-            className="mx-auto mt-8 max-w-3xl text-center"
-          >
-            <h1 className="text-4xl font-black tracking-[-1.5px] text-slate-950 sm:text-5xl lg:text-6xl">
-              Payments made
-              <br />
-              <span className="text-[#0066FF]">simple & secure.</span>
-            </h1>
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-2 shadow-sm">
+                <Store size={14} className="text-[#0066FF]" />
 
-            <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base">
-              Learn how payments work on Markood, what payment methods are
-              supported, and how we help keep every transaction secure.
-            </p>
-          </motion.div>
-
-          {/* Payment visual */}
-          <motion.div
-            initial={{
-              opacity: 0,
-              y: 35,
-              scale: 0.96,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              scale: 1,
-            }}
-            transition={{
-              duration: 0.7,
-              delay: 0.15,
-              ease: "easeOut",
-            }}
-            className="mx-auto mt-12 max-w-3xl"
-          >
-            <div className="relative overflow-hidden rounded-[30px] border border-slate-200 bg-white p-5 shadow-[0_30px_80px_rgba(15,23,42,0.10)] sm:p-7">
-              {/* Card header */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
-                    Markood checkout
-                  </p>
-
-                  <p className="mt-2 text-xl font-black text-slate-950">
-                    Secure payment
-                  </p>
-                </div>
-
-                <motion.div
-                  animate={{
-                    rotate: [0, 5, -5, 0],
-                  }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]"
-                >
-                  <LockKeyhole size={21} />
-                </motion.div>
+                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-600">
+                  Seller Guide
+                </span>
               </div>
 
-              {/* Payment amount */}
-              <div className="mt-8 rounded-2xl bg-slate-950 p-6 text-white">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-slate-400">Order total</span>
+              <h1 className="mt-6 text-4xl font-black tracking-[-1.8px] text-slate-950 sm:text-5xl lg:text-6xl lg:leading-[1.05]">
+                {selectedArticle.title}
+              </h1>
 
-                  <span className="rounded-full bg-white/10 px-3 py-1 text-[10px] font-bold text-blue-200">
-                    SECURE
-                  </span>
-                </div>
+              {selectedArticle.summary && (
+                <p className="mt-6 max-w-2xl text-base leading-8 text-slate-500 sm:text-lg">
+                  {selectedArticle.summary}
+                </p>
+              )}
 
-                <div className="mt-3 text-3xl font-black">$ 2,450</div>
+              <div className="mt-7 flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-400">
+                {selectedArticle.readTime && (
+                  <div className="flex items-center gap-2">
+                    <Clock3 size={14} className="text-[#0066FF]" />
 
-                <div className="mt-6 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10">
-                    <CreditCard size={18} />
+                    {selectedArticle.readTime}
                   </div>
+                )}
 
+                {selectedArticle.readTime && formattedDate && (
+                  <span className="h-1 w-1 rounded-full bg-slate-300" />
+                )}
+
+                {formattedDate && <span>Last updated {formattedDate}</span>}
+              </div>
+            </div>
+
+            {/* =================================================
+                DYNAMIC BLOCKS
+            ================================================= */}
+
+            <div className="mt-12 space-y-16">
+              {selectedArticle.blocks?.map((block, index) => {
+                // =================================================
+                // PARAGRAPH
+                // =================================================
+
+                if (block.type === "paragraph") {
+                  return (
+                    <div
+                      key={index}
+                      className="rounded-[28px] border border-blue-100 bg-white p-6 shadow-[0_15px_50px_rgba(15,23,42,0.05)] sm:p-8"
+                    >
+                      <div className="flex gap-4">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
+                          <ShieldCheck size={20} />
+                        </div>
+
+                        <p className="text-sm leading-7 text-slate-600 sm:text-base">
+                          {block.data.text}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                }
+
+                // =================================================
+                // STEPS
+                // =================================================
+
+                if (block.type === "steps") {
+                  const steps = (block.data.items as Step[]) || [];
+
+                  return (
+                    <div key={index}>
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                        Step by step
+                      </p>
+
+                      <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                        Follow these steps
+                      </h2>
+
+                      <div className="mt-9 space-y-4">
+                        {steps.map((step, stepIndex) => {
+                          const Icon =
+                            STEP_ICONS[stepIndex % STEP_ICONS.length] ||
+                            HelpCircle;
+
+                          return (
+                            <div
+                              key={stepIndex}
+                              className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-100 hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:p-7"
+                            >
+                              <div className="flex gap-5">
+                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-xs font-black text-[#0066FF]">
+                                  {String(stepIndex + 1).padStart(2, "0")}
+                                </div>
+
+                                <div className="flex-1">
+                                  <div className="flex items-start justify-between gap-4">
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <Icon
+                                          size={17}
+                                          className="text-[#0066FF]"
+                                        />
+
+                                        <h3 className="text-base font-black text-slate-950 sm:text-lg">
+                                          {step.title}
+                                        </h3>
+                                      </div>
+
+                                      <p className="mt-2 text-sm leading-7 text-slate-500">
+                                        {step.description}
+                                      </p>
+                                    </div>
+
+                                    <CheckCircle2
+                                      size={19}
+                                      className="mt-1 shrink-0 text-slate-200"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                }
+
+                // =================================================
+                // LIST
+                // =================================================
+
+                if (block.type === "list") {
+                  const items = (block.data.items as string[]) || [];
+
+                  return (
+                    <div key={index}>
+                      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                        Before you start
+                      </p>
+
+                      <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                        What you will need
+                      </h2>
+
+                      <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                        {items.map((item, itemIndex) => (
+                          <div
+                            key={itemIndex}
+                            className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4"
+                          >
+                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-50">
+                              <CheckCircle2
+                                size={15}
+                                className="text-[#0066FF]"
+                              />
+                            </div>
+
+                            <span className="text-sm font-semibold text-slate-700">
+                              {item}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+
+                // =================================================
+                // TIP
+                // =================================================
+
+                if (block.type === "tip") {
+                  return (
+                    <div
+                      key={index}
+                      className="relative overflow-hidden rounded-[30px] bg-slate-950 p-7 sm:p-10"
+                    >
+                      <div className="relative flex gap-5">
+                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-blue-300">
+                          <ShieldCheck size={20} />
+                        </div>
+
+                        <div>
+                          <p className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-300">
+                            {block.data.label || "Tip"}
+                          </p>
+
+                          <h3 className="mt-2 text-xl font-black text-white">
+                            {block.data.title}
+                          </h3>
+
+                          <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
+                            {block.data.body}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                // =================================================
+                // IMAGE
+                // =================================================
+
+                if (block.type === "image") {
+                  return (
+                    <div
+                      key={index}
+                      className="overflow-hidden rounded-[26px] border border-slate-200 bg-white p-3 shadow-sm"
+                    >
+                      <div className="relative h-64 w-full overflow-hidden rounded-2xl sm:h-96">
+                        <img
+                          src={block.data.url}
+                          alt={block.data.caption || "Article image"}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+
+                      {block.data.caption && (
+                        <p className="mt-3 text-center text-xs font-semibold text-slate-400">
+                          {block.data.caption}
+                        </p>
+                      )}
+                    </div>
+                  );
+                }
+
+                return null;
+              })}
+            </div>
+
+            {/* =================================================
+                NEXT ARTICLE
+            ================================================= */}
+
+            {nextArticle && (
+              <div className="mt-16">
+                <button
+                  type="button"
+                  onClick={() => handleArticleClick(nextArticle.slug)}
+                  className="group flex w-full items-center justify-between rounded-[26px] border border-slate-200 bg-white p-6 text-left transition-all duration-300 hover:border-blue-100 hover:shadow-lg sm:p-7"
+                >
                   <div>
-                    <p className="text-sm font-bold">Payment protected</p>
+                    <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
+                      {selectedArticle.nextArticle?.label || "Next article"}
+                    </p>
 
-                    <p className="text-xs text-slate-400">
-                      Your payment information stays secure.
+                    <h3 className="mt-2 text-lg font-black text-slate-950">
+                      {nextArticle.title}
+                    </h3>
+
+                    <p className="mt-1 text-sm text-slate-500">
+                      {selectedArticle.nextArticle?.description}
                     </p>
                   </div>
 
-                  <CheckCircle2 size={19} className="ml-auto text-blue-400" />
-                </div>
-              </div>
-
-              {/* Animated line */}
-              <motion.div
-                animate={{
-                  scaleX: [0.2, 1, 0.2],
-                  opacity: [0.3, 1, 0.3],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="mt-6 h-px origin-left bg-blue-200"
-              />
-
-              <div className="mt-5 flex flex-wrap gap-2">
-                {[
-                  "Protected checkout",
-                  "Secure processing",
-                  "Order confirmation",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-2 text-[10px] font-bold text-slate-600"
-                  >
-                    <Check size={12} className="text-[#0066FF]" />
-                    {item}
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[#0066FF]">
+                    <ArrowRight size={18} />
                   </div>
-                ))}
+                </button>
               </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+            )}
+          </main>
 
-      {/* =========================================================
-          PAYMENT METHODS
-      ========================================================= */}
+          {/* ==================================================
+              RIGHT SIDEBAR
+          ================================================== */}
 
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={fadeUp}
-            className="max-w-2xl"
-          >
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0066FF]">
-              Payment options
-            </span>
+          <aside className="hidden lg:block">
+            <div className="sticky top-24">
+              <div className="rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm">
+                {/* Sidebar title */}
 
-            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
-              Choose the payment method
-              <br />
-              that works for you.
-            </h2>
-
-            <p className="mt-4 text-sm leading-7 text-slate-500">
-              Select an available payment method during checkout and follow the
-              instructions to complete your order.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={stagger}
-            className="mt-10 grid gap-5 md:grid-cols-3"
-          >
-            {/* Card */}
-            <motion.div
-              variants={cardAnimation}
-              whileHover={{ y: -6 }}
-              className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-[0_25px_60px_rgba(15,23,42,0.08)]"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF] transition-transform duration-300 group-hover:scale-110">
-                <CreditCard size={21} />
-              </div>
-
-              <h3 className="mt-6 text-base font-black">Card payments</h3>
-
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                Pay securely using an eligible debit or credit card available at
-                checkout.
-              </p>
-
-              <div className="mt-5 flex items-center gap-2 text-xs font-bold text-[#0066FF]">
-                <ShieldCheck size={15} />
-                Secure checkout
-              </div>
-            </motion.div>
-
-            {/* Wallet */}
-            <motion.div
-              variants={cardAnimation}
-              whileHover={{ y: -6 }}
-              className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-[0_25px_60px_rgba(15,23,42,0.08)]"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 transition-transform duration-300 group-hover:scale-110">
-                <WalletCards size={21} />
-              </div>
-
-              <h3 className="mt-6 text-base font-black">Digital wallets</h3>
-
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                Use an available digital wallet option to complete your purchase
-                quickly.
-              </p>
-
-              <div className="mt-5 flex items-center gap-2 text-xs font-bold text-indigo-600">
-                <Sparkles size={15} />
-                Fast checkout
-              </div>
-            </motion.div>
-
-            {/* Available methods */}
-            <motion.div
-              variants={cardAnimation}
-              whileHover={{ y: -6 }}
-              className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-[0_25px_60px_rgba(15,23,42,0.08)]"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-700 transition-transform duration-300 group-hover:scale-110">
-                <ArrowDownLeft size={21} />
-              </div>
-
-              <h3 className="mt-6 text-base font-black">Available methods</h3>
-
-              <p className="mt-2 text-sm leading-6 text-slate-500">
-                Payment options may vary depending on your location, order and
-                available checkout methods.
-              </p>
-
-              <div className="mt-5 flex items-center gap-2 text-xs font-bold text-slate-600">
-                <CheckCircle2 size={15} />
-                Shown at checkout
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* =========================================================
-          HOW IT WORKS
-      ========================================================= */}
-
-      <section className="bg-[#f8fafc]">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={fadeUp}
-            className="text-center"
-          >
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0066FF]">
-              Simple process
-            </span>
-
-            <h2 className="mt-3 text-3xl font-black sm:text-4xl">
-              How payment works
-            </h2>
-
-            <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-500">
-              Complete your payment in a few simple steps.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.15 }}
-            variants={stagger}
-            className="relative mx-auto mt-12 max-w-5xl"
-          >
-            {/* Connecting line */}
-            <div className="absolute left-[16.66%] right-[16.66%] top-7 hidden h-px bg-blue-100 md:block" />
-
-            <div className="grid gap-10 md:grid-cols-3">
-              {[
-                {
-                  number: "01",
-                  title: "Review your order",
-                  text: "Check your items, delivery details and total amount before continuing.",
-                },
-                {
-                  number: "02",
-                  title: "Choose payment",
-                  text: "Select an available payment option and follow the checkout instructions.",
-                },
-                {
-                  number: "03",
-                  title: "Payment confirmed",
-                  text: "After successful payment, your order moves forward for processing.",
-                },
-              ].map((step) => (
-                <motion.div
-                  key={step.number}
-                  variants={cardAnimation}
-                  className="relative text-center"
-                >
-                  <motion.div
-                    whileHover={{
-                      scale: 1.08,
-                    }}
-                    className="relative z-10 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#0066FF] text-sm font-black text-white shadow-[0_10px_30px_rgba(0,102,255,0.25)]"
-                  >
-                    {step.number}
-                  </motion.div>
-
-                  <h3 className="mt-6 text-base font-black">{step.title}</h3>
-
-                  <p className="mt-2 text-sm leading-6 text-slate-500">
-                    {step.text}
+                <div className="mb-5">
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                    Seller Guide
                   </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* =========================================================
-          SECURITY
-      ========================================================= */}
-
-      <section className="bg-white">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={fadeUp}
-            className="relative overflow-hidden rounded-[32px] bg-slate-950 px-7 py-12 sm:px-12"
-          >
-            <motion.div
-              animate={{
-                x: [0, 80, 0],
-                y: [0, -30, 0],
-              }}
-              transition={{
-                duration: 10,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full bg-blue-500/20 blur-3xl"
-            />
-
-            <motion.div
-              animate={{
-                x: [0, -60, 0],
-                y: [0, 30, 0],
-              }}
-              transition={{
-                duration: 9,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="pointer-events-none absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-indigo-500/20 blur-3xl"
-            />
-
-            <div className="relative grid gap-10 lg:grid-cols-[1fr_auto] lg:items-center">
-              <div>
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 text-blue-300">
-                  <ShieldCheck size={23} />
+                  <h2 className="mt-2 text-lg font-black text-slate-950">
+                    Sell on Markood
+                  </h2>
                 </div>
 
-                <h2 className="mt-6 max-w-xl text-2xl font-black text-white sm:text-3xl">
-                  Your payment security matters.
-                </h2>
+                {/* =============================================
+                    DYNAMIC ARTICLE LIST
+                ============================================= */}
 
-                <p className="mt-4 max-w-xl text-sm leading-7 text-slate-400">
-                  Always complete payments through the official Markood checkout
-                  experience. Never share sensitive payment information with
-                  another person.
+                <div className="space-y-2">
+                  {articles.map((article, index) => {
+                    const isActive = article.slug === selectedSlug;
+
+                    return (
+                      <button
+                        key={article._id}
+                        type="button"
+                        onClick={() => handleArticleClick(article.slug)}
+                        className={`group flex w-full items-start gap-3 rounded-xl px-4 py-3 text-left transition-all ${
+                          isActive
+                            ? "bg-blue-50 text-[#0066FF]"
+                            : "text-slate-600 hover:bg-slate-50 hover:text-[#0066FF]"
+                        }`}
+                      >
+                        {/* Number */}
+
+                        <span
+                          className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-black ${
+                            isActive
+                              ? "bg-[#0066FF] text-white"
+                              : "bg-slate-100 text-slate-400"
+                          }`}
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+
+                        {/* Article title */}
+
+                        <span
+                          className={`text-sm leading-5 ${
+                            isActive ? "font-black" : "font-semibold"
+                          }`}
+                        >
+                          {article.title}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* =================================================
+                  CURRENT SLUG
+              ================================================= */}
+
+              <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4">
+                <p className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400">
+                  Current article
+                </p>
+
+                <p className="mt-2 break-all text-xs font-semibold leading-5 text-slate-500">
+                  {selectedArticle.slug}
                 </p>
               </div>
-
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
-                {[
-                  "Protected checkout",
-                  "Secure payment flow",
-                  "Order confirmation",
-                  "Payment support",
-                ].map((item) => (
-                  <div
-                    key={item}
-                    className="rounded-2xl border border-white/10 bg-white/5 p-4"
-                  >
-                    <CheckCircle2 size={17} className="text-blue-300" />
-
-                    <p className="mt-3 text-xs font-bold leading-5 text-white">
-                      {item}
-                    </p>
-                  </div>
-                ))}
-              </div>
             </div>
-          </motion.div>
+          </aside>
         </div>
-      </section>
-
-      {/* =========================================================
-          COMMON PROBLEMS
-      ========================================================= */}
-
-      <section className="bg-[#f8fafc]">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={fadeUp}
-          >
-            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#0066FF]">
-              Payment help
-            </span>
-
-            <h2 className="mt-3 text-3xl font-black sm:text-4xl">
-              Having a payment problem?
-            </h2>
-
-            <p className="mt-3 max-w-xl text-sm leading-7 text-slate-500">
-              Here are some common situations and what you should do.
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-            variants={stagger}
-            className="mt-10 grid gap-4 md:grid-cols-2"
-          >
-            <motion.div
-              variants={cardAnimation}
-              className="rounded-[24px] border border-slate-200 bg-white p-6"
-            >
-              <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-500">
-                  <XCircle size={18} />
-                </div>
-
-                <div>
-                  <h3 className="font-black">Payment failed</h3>
-
-                  <p className="mt-2 text-sm leading-6 text-slate-500">
-                    Check your payment details and available balance, then try
-                    again using an available payment method.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              variants={cardAnimation}
-              className="rounded-[24px] border border-slate-200 bg-white p-6"
-            >
-              <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-600">
-                  <CheckCircle2 size={18} />
-                </div>
-
-                <div>
-                  <h3 className="font-black">Payment completed</h3>
-
-                  <p className="mt-2 text-sm leading-6 text-slate-500">
-                    If your payment was successful, check your order status and
-                    confirmation details.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              variants={cardAnimation}
-              className="rounded-[24px] border border-slate-200 bg-white p-6"
-            >
-              <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-                  <ArrowRight size={18} />
-                </div>
-
-                <div>
-                  <h3 className="font-black">Payment still processing</h3>
-
-                  <p className="mt-2 text-sm leading-6 text-slate-500">
-                    Allow some time for the payment status to update before
-                    attempting another payment.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div
-              variants={cardAnimation}
-              className="rounded-[24px] border border-slate-200 bg-white p-6"
-            >
-              <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF]">
-                  <LockKeyhole size={18} />
-                </div>
-
-                <div>
-                  <h3 className="font-black">
-                    Never share payment information
-                  </h3>
-
-                  <p className="mt-2 text-sm leading-6 text-slate-500">
-                    Keep sensitive payment information private and only use the
-                    official Markood checkout process.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* =========================================================
-          FINAL CTA
-      ========================================================= */}
-
-      <section className="bg-white">
-        <div className="mx-auto max-w-4xl px-5 py-20 text-center sm:px-6 lg:py-24">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-          >
-            <motion.div
-              animate={{
-                y: [0, -6, 0],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]"
-            >
-              <CreditCard size={23} />
-            </motion.div>
-
-            <h2 className="mt-6 text-3xl font-black tracking-tight sm:text-4xl">
-              Ready to complete your order?
-            </h2>
-
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-7 text-slate-500">
-              Review your order carefully and choose an available payment method
-              at checkout.
-            </p>
-
-            <div className="mx-auto mt-8 flex max-w-md flex-wrap justify-center gap-2">
-              {[
-                "Secure checkout",
-                "Protected payment",
-                "Order confirmation",
-              ].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-slate-200 bg-slate-50 px-4 py-2 text-[10px] font-bold text-slate-500"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-    </main>
+      </div>
+    </section>
   );
 }
