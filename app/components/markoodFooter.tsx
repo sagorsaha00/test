@@ -207,11 +207,11 @@ export default function MarkoodFooter() {
             <FooterColumn
               title="Sell on Markood"
               links={[
-                ["Getting Started", "/help/selling/getting-started"],
-                ["Add Products", "/help/selling/products"],
-                ["Orders", "/help/selling/orders"],
-                ["Pricing & Fees", "/help/selling/pricing-fees"],
-                ["Returns & Refunds", "/help/selling/returns"],
+                ["Getting Started", "/en/help/selling/getting-started"],
+                ["Add Products", "/en/help/selling/products"],
+                ["Orders", "/en/help/selling/orders"],
+                ["Pricing & Fees", "/en/help/selling/pricing-fees"],
+                ["Returns & Refunds", "/en/help/selling/returns"],
               ]}
             />
 
@@ -219,11 +219,11 @@ export default function MarkoodFooter() {
             <FooterColumn
               title="Buy on Markood"
               links={[
-                ["Getting Started", "/help/buying/getting-started"],
-                ["Search & Order", "/help/buying/search-order"],
-                ["Payments", "/help/buying/payments"],
-                ["Cancellation", "/help/buying/cancellation"],
-                ["Returns & Refunds", "/help/buying/returns"],
+                ["Getting Started", "/en/help/buying/getting-started"],
+                ["Search & Order", "/en/help/buying/search-order"],
+                ["Payments", "/en/help/buying/payments"],
+                ["Cancellation", "/en/help/buying/cancellation"],
+                ["Returns & Refunds", "/en/help/buying/returns"],
               ]}
             />
 
@@ -231,18 +231,18 @@ export default function MarkoodFooter() {
             <FooterColumn
               title="Delivery"
               links={[
-                ["How Delivery Works", "/help/delivery/how-it-works"],
-                ["Delivery Zones", "/help/delivery/zones"],
+                ["How Delivery Works", "/en/help/delivery/how-it-works"],
+                ["Delivery Zones", "/en/help/delivery/zones"],
                 [
                   "Seller Responsibilities",
-                  "/help/delivery/seller-responsibilities",
+                  "/en/help/delivery/seller-responsibilities",
                 ],
                 [
                   "Rider Responsibilities",
-                  "/help/delivery/rider-responsibilities",
+                  "en/help/delivery/rider-responsibilities",
                 ],
-                ["Failed Deliveries", "/help/delivery/failed-deliveries"],
-                ["Lost & Damaged Orders", "/help/delivery/lost-damaged-orders"],
+                ["Failed Deliveries", "/en/help/delivery/failed-deliveries"],
+                ["Lost & Damaged Orders", "/en/help/delivery/lost-damaged-orders"],
               ]}
             />
 
@@ -250,10 +250,10 @@ export default function MarkoodFooter() {
             <FooterColumn
               title="Policies"
               links={[
-                ["Terms & Conditions", "/help/policies/terms"],
-                ["Seller Agreement", "/help/policies/seller-agreement"],
-                ["Refund Policy", "/help/policies/refund"],
-                ["Cancellation Policy", "/help/policies/cancellation"],
+                ["Terms & Conditions", "/en/help/policies/terms"],
+                ["Seller Agreement", "/en/help/policies/seller-agreement"],
+                ["Refund Policy", "/en/help/policies/refund"],
+                ["Cancellation Policy", "/en/help/policies/cancellation"],
               ]}
             />
 
@@ -261,10 +261,10 @@ export default function MarkoodFooter() {
             <FooterColumn
               title="Updates"
               links={[
-                ["What's New", "/help/updates"],
-                ["Policy Updates", "/help/updates/policies"],
-                ["Delivery Updates", "/help/updates/delivery"],
-                ["Marketplace Updates", "/help/updates/marketplace"],
+                ["What's New", "/en/help/updates"],
+                ["Policy Updates", "/en/help/updates/policies"],
+                ["Delivery Updates", "/en/help/updates/delivery"],
+                ["Marketplace Updates", "/en/help/updates/marketplace"],
               ]}
             />
           </div>
