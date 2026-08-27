@@ -21,6 +21,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Markood",
   description: "markood privacy policy",
+  icons: {
+    icon: "/logo/fevicon.svg",
+  },
 };
 
 interface RootLayoutProps {

@@ -107,7 +107,7 @@ const updates = [
     title: "New seller return policy",
     description:
       "Updated return rules and responsibilities for marketplace sellers.",
-    href: "/help/updates/seller-return-policy",
+    href: "/en/help/updates/policies",
   },
   {
     type: "Delivery",
@@ -115,7 +115,7 @@ const updates = [
     title: "New delivery zones",
     description:
       "New delivery areas are now available for selected Markood locations.",
-    href: "/help/updates/delivery-zones",
+    href: "/en/help/delivery/how-it-works",
   },
   {
     type: "Marketplace",
@@ -123,7 +123,7 @@ const updates = [
     title: "Updated marketplace rules",
     description:
       "Important updates to product requirements and marketplace standards.",
-    href: "/help/updates/marketplace-rules",
+    href: "/en/help/delivery/seller-responsibilities",
   },
 ];
 
@@ -131,64 +131,60 @@ const articles = [
   {
     title: "How do I create a seller account?",
     category: "Selling",
-    href: "/help/selling/create-seller-account",
+    href: "/en/help/policies/seller-agreement",
   },
   {
     title: "How can I request a refund?",
     category: "Buying",
-    href: "/help/buying/request-refund",
+    href: "/en/help/policies/refund",
   },
   {
     title: "How does delivery work?",
     category: "Delivery",
-    href: "/help/delivery/how-it-works",
+    href: "/en/help/delivery/how-it-works",
   },
   {
     title: "What products are prohibited?",
     category: "Policies",
-    href: "/help/policies/prohibited-products",
+    href: "/en/help/updates",
   },
   {
     title: "How can I cancel an order?",
     category: "Orders",
-    href: "/help/buying/cancel-order",
+    href: "/en/help/policies/cancellation",
   },
-  {
-    title: "How can I contact Markood support?",
-    category: "Support",
-    href: "/help/support",
-  },
+  
 ];
 
 const policies = [
   {
     title: "Terms & Conditions",
-    href: "/help/terms",
+    href: "/en/help/policies/terms",
     icon: FileText,
   },
   {
-    title: "Privacy Policy",
-    href: "/help/privacy",
+    title: "Delivery Zone",
+    href: "/en/help/delivery/zones",
     icon: LockKeyhole,
   },
   {
     title: "Refund Policy",
-    href: "/help/refunds",
+    href: "/en/help/policies/refund",
     icon: CreditCard,
   },
   {
     title: "Seller Agreement",
-    href: "/help/seller-agreement",
+    href: "/en/help/policies/seller-agreement",
     icon: Store,
   },
   {
-    title: "Buyer Protection",
-    href: "/help/buyer-protection",
+    title: "Order Product",
+    href: "/en/help/selling/orders",
     icon: ShieldCheck,
   },
   {
     title: "Cookie Policy",
-    href: "/help/cookies",
+    href: "/en/help/updates/policies",
     icon: Cookie,
   },
 ];
@@ -627,14 +623,6 @@ export default function MarkoodCenter() {
                 Quick answers to the questions people ask most.
               </p>
             </div>
-
-            <Link
-              href="/help/articles"
-              className="flex items-center gap-2 text-sm font-bold text-[#0066FF]"
-            >
-              Browse all articles
-              <ArrowRight size={16} />
-            </Link>
           </motion.div>
 
           <motion.div

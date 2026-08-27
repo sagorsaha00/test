@@ -330,17 +330,7 @@ export default function MarkoodVideoGuides() {
                       </span>
                     </div>
                   ))}
-                </div>
-
-                {/* Button */}
-
-                <Link
-                  href="/help/videos"
-                  className="mt-9 inline-flex w-fit items-center gap-2 rounded-xl bg-[#0066FF] px-5 py-3.5 text-sm font-bold text-white shadow-[0_10px_25px_rgba(0,102,255,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#0052cc] hover:shadow-[0_15px_30px_rgba(0,102,255,0.25)]"
-                >
-                  Watch all guides
-                  <ArrowRight size={16} />
-                </Link>
+                </div> 
               </div>
             </div>
           </div>

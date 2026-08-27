@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-
+import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 
 import {
@@ -25,14 +25,11 @@ export default function MarkoodHeader() {
   const t = useTranslations("Header");
   const locale = useLocale();
 
-  const [mobileOpen, setMobileOpen] =
-    useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const [openMobileMenu, setOpenMobileMenu] =
-    useState<string | null>(null);
+  const [openMobileMenu, setOpenMobileMenu] = useState<string | null>(null);
 
-  const [searchOpen, setSearchOpen] =
-    useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   // =========================================================
   // YOUR EXISTING MENUS
@@ -42,45 +39,31 @@ export default function MarkoodHeader() {
     {
       label: t("sellOnMarkood.title"),
       icon: Store,
-      description: t(
-        "sellOnMarkood.description"
-      ),
+      description: t("sellOnMarkood.description"),
       href: `/${locale}/help/selling`,
       items: [
         {
-          label: t(
-            "sellOnMarkood.items.gettingStarted"
-          ),
+          label: t("sellOnMarkood.items.gettingStarted"),
           href: `/${locale}/help/selling/getting-started`,
         },
         {
-          label: t(
-            "sellOnMarkood.items.addProducts"
-          ),
+          label: t("sellOnMarkood.items.addProducts"),
           href: `/${locale}/help/selling/products`,
         },
         {
-          label: t(
-            "sellOnMarkood.items.orders"
-          ),
+          label: t("sellOnMarkood.items.orders"),
           href: `/${locale}/help/selling/orders`,
         },
         {
-          label: t(
-            "sellOnMarkood.items.pricingFees"
-          ),
+          label: t("sellOnMarkood.items.pricingFees"),
           href: `/${locale}/help/selling/pricing-fees`,
         },
         {
-          label: t(
-            "sellOnMarkood.items.delivery"
-          ),
+          label: t("sellOnMarkood.items.delivery"),
           href: `/${locale}/help/selling/delivery`,
         },
         {
-          label: t(
-            "sellOnMarkood.items.returns"
-          ),
+          label: t("sellOnMarkood.items.returns"),
           href: `/${locale}/help/selling/returns`,
         },
       ],
@@ -89,45 +72,31 @@ export default function MarkoodHeader() {
     {
       label: t("buyOnMarkood.title"),
       icon: ShoppingBag,
-      description: t(
-        "buyOnMarkood.description"
-      ),
+      description: t("buyOnMarkood.description"),
       href: `/${locale}/help/buying`,
       items: [
         {
-          label: t(
-            "buyOnMarkood.items.gettingStarted"
-          ),
+          label: t("buyOnMarkood.items.gettingStarted"),
           href: `/${locale}/help/buying/getting-started`,
         },
         {
-          label: t(
-            "buyOnMarkood.items.searchOrder"
-          ),
+          label: t("buyOnMarkood.items.searchOrder"),
           href: `/${locale}/help/buying/search-order`,
         },
         {
-          label: t(
-            "buyOnMarkood.items.payments"
-          ),
+          label: t("buyOnMarkood.items.payments"),
           href: `/${locale}/help/buying/payments`,
         },
         {
-          label: t(
-            "buyOnMarkood.items.delivery"
-          ),
+          label: t("buyOnMarkood.items.delivery"),
           href: `/${locale}/help/buying/delivery`,
         },
         {
-          label: t(
-            "buyOnMarkood.items.cancellation"
-          ),
+          label: t("buyOnMarkood.items.cancellation"),
           href: `/${locale}/help/buying/cancellation`,
         },
         {
-          label: t(
-            "buyOnMarkood.items.returns"
-          ),
+          label: t("buyOnMarkood.items.returns"),
           href: `/${locale}/help/buying/returns`,
         },
       ],
@@ -136,45 +105,31 @@ export default function MarkoodHeader() {
     {
       label: t("delivery.title"),
       icon: Truck,
-      description: t(
-        "delivery.description"
-      ),
+      description: t("delivery.description"),
       href: `/${locale}/help/delivery`,
       items: [
         {
-          label: t(
-            "delivery.items.howItWorks"
-          ),
+          label: t("delivery.items.howItWorks"),
           href: `/${locale}/help/delivery/how-it-works`,
         },
         {
-          label: t(
-            "delivery.items.zones"
-          ),
+          label: t("delivery.items.zones"),
           href: `/${locale}/help/delivery/zones`,
         },
         {
-          label: t(
-            "delivery.items.sellerResponsibilities"
-          ),
+          label: t("delivery.items.sellerResponsibilities"),
           href: `/${locale}/help/delivery/seller-responsibilities`,
         },
         {
-          label: t(
-            "delivery.items.riderResponsibilities"
-          ),
+          label: t("delivery.items.riderResponsibilities"),
           href: `/${locale}/help/delivery/rider-responsibilities`,
         },
         {
-          label: t(
-            "delivery.items.failedDeliveries"
-          ),
+          label: t("delivery.items.failedDeliveries"),
           href: `/${locale}/help/delivery/failed-deliveries`,
         },
         {
-          label: t(
-            "delivery.items.lostDamagedOrders"
-          ),
+          label: t("delivery.items.lostDamagedOrders"),
           href: `/${locale}/help/delivery/lost-damaged-orders`,
         },
       ],
@@ -183,33 +138,23 @@ export default function MarkoodHeader() {
     {
       label: t("policies.title"),
       icon: FileText,
-      description: t(
-        "policies.description"
-      ),
+      description: t("policies.description"),
       href: `/${locale}/help/policies`,
       items: [
         {
-          label: t(
-            "policies.items.terms"
-          ),
+          label: t("policies.items.terms"),
           href: `/${locale}/help/policies/terms`,
         },
         {
-          label: t(
-            "policies.items.sellerAgreement"
-          ),
+          label: t("policies.items.sellerAgreement"),
           href: `/${locale}/help/policies/seller-agreement`,
         },
         {
-          label: t(
-            "policies.items.refund"
-          ),
+          label: t("policies.items.refund"),
           href: `/${locale}/help/policies/refund`,
         },
         {
-          label: t(
-            "policies.items.cancellation"
-          ),
+          label: t("policies.items.cancellation"),
           href: `/${locale}/help/policies/cancellation`,
         },
       ],
@@ -218,78 +163,53 @@ export default function MarkoodHeader() {
     {
       label: t("updates.title"),
       icon: Megaphone,
-      description: t(
-        "updates.description"
-      ),
+      description: t("updates.description"),
       href: `/${locale}/help/updates`,
       items: [
         {
-          label: t(
-            "updates.items.whatsNew"
-          ),
+          label: t("updates.items.whatsNew"),
           href: `/${locale}/help/updates`,
         },
         {
-          label: t(
-            "updates.items.policyUpdates"
-          ),
+          label: t("updates.items.policyUpdates"),
           href: `/${locale}/help/updates/policies`,
         },
         {
-          label: t(
-            "updates.items.deliveryUpdates"
-          ),
+          label: t("updates.items.deliveryUpdates"),
           href: `/${locale}/help/updates/delivery`,
         },
         {
-          label: t(
-            "updates.items.marketplaceUpdates"
-          ),
+          label: t("updates.items.marketplaceUpdates"),
           href: `/${locale}/help/updates/marketplace`,
         },
       ],
     },
   ];
 
-  const toggleMobileMenu = (
-    label: string
-  ) => {
-    setOpenMobileMenu(
-      (current) =>
-        current === label ? null : label
-    );
+  const toggleMobileMenu = (label: string) => {
+    setOpenMobileMenu((current) => (current === label ? null : label));
   };
 
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white">
-
         <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
-
           {/* =================================================
               LOGO
           ================================================= */}
 
           <Link
             href={`/${locale}`}
-            className="group flex shrink-0 items-center"
-            onClick={() =>
-              setMobileOpen(false)
-            }
+            className="group flex shrink-0 items-start gap-2 mt-4"
+            onClick={() => setMobileOpen(false)}
           >
-            <div className="text-[27px] font-extrabold tracking-[-1.5px] sm:text-[30px]">
-              <span className="text-[#0066FF]">
-                Mark
-              </span>
-
-              <span className="text-[#FFC400]">
-                oo
-              </span>
-
-              <span className="text-[#0066FF]">
-                d
-              </span>
-            </div>
+            <Image
+              src="/logo/5.svg"
+              alt="Logo"
+              width={350}
+              height={350}
+              className="shrink-0 mt-12"
+            />
           </Link>
 
           {/* =================================================
@@ -301,10 +221,7 @@ export default function MarkoodHeader() {
               const Icon = menu.icon;
 
               return (
-                <div
-                  key={menu.label}
-                  className="group relative h-full"
-                >
+                <div key={menu.label} className="group relative h-full">
                   <button
                     type="button"
                     className="
@@ -328,9 +245,7 @@ export default function MarkoodHeader() {
                       className="hidden xl:block"
                     />
 
-                    <span>
-                      {menu.label}
-                    </span>
+                    <span>{menu.label}</span>
 
                     <ChevronDown
                       size={14}
@@ -397,10 +312,7 @@ export default function MarkoodHeader() {
                             {menu.label}
                           </p>
 
-                          <ArrowRight
-                            size={15}
-                            className="text-slate-400"
-                          />
+                          <ArrowRight size={15} className="text-slate-400" />
                         </div>
 
                         <p className="mt-1 text-xs leading-5 text-slate-500">
@@ -410,12 +322,11 @@ export default function MarkoodHeader() {
                     </Link>
 
                     <div className="max-h-[390px] overflow-y-auto">
-                      {menu.items.map(
-                        (item) => (
-                          <Link
-                            key={item.label}
-                            href={item.href}
-                            className="
+                      {menu.items.map((item) => (
+                        <Link
+                          key={item.label}
+                          href={item.href}
+                          className="
                               flex
                               items-center
                               rounded-lg
@@ -428,11 +339,10 @@ export default function MarkoodHeader() {
                               hover:bg-[#0066FF]/5
                               hover:text-[#0066FF]
                             "
-                          >
-                            {item.label}
-                          </Link>
-                        )
-                      )}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -448,9 +358,7 @@ export default function MarkoodHeader() {
 
           <button
             type="button"
-            onClick={() =>
-              setSearchOpen(true)
-            }
+            onClick={() => setSearchOpen(true)}
             className="
               hidden
               shrink-0
@@ -470,9 +378,7 @@ export default function MarkoodHeader() {
           >
             <Search size={17} />
 
-            <span>
-              {t("search")}
-            </span>
+            <span>{t("search")}</span>
           </button>
 
           {/* =================================================
@@ -480,13 +386,10 @@ export default function MarkoodHeader() {
           ================================================= */}
 
           <div className="flex items-center gap-2 lg:hidden">
-
             <button
               type="button"
               aria-label={t("search")}
-              onClick={() =>
-                setSearchOpen(true)
-              }
+              onClick={() => setSearchOpen(true)}
               className="
                 flex
                 h-10
@@ -505,15 +408,9 @@ export default function MarkoodHeader() {
 
             <button
               type="button"
-              aria-label={
-                mobileOpen
-                  ? "Close menu"
-                  : "Open menu"
-              }
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
-              onClick={() =>
-                setMobileOpen(!mobileOpen)
-              }
+              onClick={() => setMobileOpen(!mobileOpen)}
               className="
                 flex
                 h-10
@@ -527,13 +424,8 @@ export default function MarkoodHeader() {
                 hover:bg-slate-200
               "
             >
-              {mobileOpen ? (
-                <X size={21} />
-              ) : (
-                <Menu size={21} />
-              )}
+              {mobileOpen ? <X size={21} /> : <Menu size={21} />}
             </button>
-
           </div>
         </div>
 
@@ -558,12 +450,9 @@ export default function MarkoodHeader() {
           `}
         >
           <div className="max-h-[calc(100vh-72px)] overflow-y-auto px-4 pb-6 pt-3 sm:px-6">
-
             <Link
               href={`/${locale}/help`}
-              onClick={() =>
-                setMobileOpen(false)
-              }
+              onClick={() => setMobileOpen(false)}
               className="
                 mb-2
                 flex
@@ -580,33 +469,20 @@ export default function MarkoodHeader() {
             >
               {t("helpCenter")}
 
-              <ArrowRight
-                size={16}
-                className="text-slate-400"
-              />
+              <ArrowRight size={16} className="text-slate-400" />
             </Link>
 
             <div className="space-y-1">
-
               {menus.map((menu) => {
                 const Icon = menu.icon;
 
-                const isOpen =
-                  openMobileMenu ===
-                  menu.label;
+                const isOpen = openMobileMenu === menu.label;
 
                 return (
-                  <div
-                    key={menu.label}
-                    className="overflow-hidden rounded-xl"
-                  >
+                  <div key={menu.label} className="overflow-hidden rounded-xl">
                     <button
                       type="button"
-                      onClick={() =>
-                        toggleMobileMenu(
-                          menu.label
-                        )
-                      }
+                      onClick={() => toggleMobileMenu(menu.label)}
                       className={`
                         flex
                         w-full
@@ -637,11 +513,7 @@ export default function MarkoodHeader() {
                         className={`
                           transition-transform
                           duration-200
-                          ${
-                            isOpen
-                              ? "rotate-180"
-                              : ""
-                          }
+                          ${isOpen ? "rotate-180" : ""}
                         `}
                       />
                     </button>
@@ -660,18 +532,13 @@ export default function MarkoodHeader() {
                     >
                       <div className="overflow-hidden">
                         <div className="ml-7 border-l border-slate-200 py-2 pl-4">
-
                           <p className="mb-2 pr-3 text-xs leading-5 text-slate-500">
                             {menu.description}
                           </p>
 
                           <Link
                             href={menu.href}
-                            onClick={() =>
-                              setMobileOpen(
-                                false
-                              )
-                            }
+                            onClick={() => setMobileOpen(false)}
                             className="
                               mb-1
                               flex
@@ -688,22 +555,15 @@ export default function MarkoodHeader() {
                           >
                             {t("viewAll")}
 
-                            <ArrowRight
-                              size={14}
-                            />
+                            <ArrowRight size={14} />
                           </Link>
 
-                          {menu.items.map(
-                            (item) => (
-                              <Link
-                                key={item.label}
-                                href={item.href}
-                                onClick={() =>
-                                  setMobileOpen(
-                                    false
-                                  )
-                                }
-                                className="
+                          {menu.items.map((item) => (
+                            <Link
+                              key={item.label}
+                              href={item.href}
+                              onClick={() => setMobileOpen(false)}
+                              className="
                                   block
                                   rounded-lg
                                   px-3
@@ -715,25 +575,21 @@ export default function MarkoodHeader() {
                                   hover:bg-slate-50
                                   hover:text-[#0066FF]
                                 "
-                              >
-                                {item.label}
-                              </Link>
-                            )
-                          )}
-
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
                         </div>
                       </div>
                     </div>
                   </div>
                 );
               })}
-
             </div>
 
             {/* Mobile Search */}
 
             <div className="mt-4 border-t border-slate-100 pt-4">
-
               <button
                 type="button"
                 onClick={() => {
@@ -760,9 +616,7 @@ export default function MarkoodHeader() {
 
                 {t("searchPlaceholder")}
               </button>
-
             </div>
-
           </div>
         </div>
       </header>
@@ -773,13 +627,9 @@ export default function MarkoodHeader() {
 
       <HelpSearch
         open={searchOpen}
-        onClose={() =>
-          setSearchOpen(false)
-        }
+        onClose={() => setSearchOpen(false)}
         locale={locale}
-        placeholder={t(
-          "searchPlaceholder"
-        )}
+        placeholder={t("searchPlaceholder")}
       />
     </>
   );
