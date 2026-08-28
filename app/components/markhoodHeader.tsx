@@ -200,15 +200,16 @@ export default function MarkoodHeader() {
 
           <Link
             href={`/${locale}`}
-            className="group flex shrink-0 items-start gap-2 mt-4"
+            className="flex shrink-0 items-center gap-2"
             onClick={() => setMobileOpen(false)}
           >
             <Image
               src="/logo/5.svg"
               alt="Logo"
-              width={350}
-              height={350}
-              className="shrink-0 mt-12"
+              width={250}
+              height={250}
+              className="h-[200px] w-[200px] mt-8 md:mt-16 md:h-[300px] md:w-[300px] object-contain"
+              priority
             />
           </Link>
 

@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight, ShieldCheck, Mail } from "lucide-react";
-
- 
+import Image from "next/image";
 
 function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -45,10 +44,6 @@ function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-/* =========================================================
-   FOOTER COLUMN
-========================================================= */
-
 function FooterColumn({
   title,
   links,
@@ -76,10 +71,6 @@ function FooterColumn({
   );
 }
 
-/* =========================================================
-   SOCIALS
-========================================================= */
-
 const socials = [
   {
     label: "Facebook",
@@ -103,10 +94,6 @@ const socials = [
   },
 ];
 
-/* =========================================================
-   FOOTER
-========================================================= */
-
 export default function MarkoodFooter() {
   return (
     <footer className="bg-[#0F172A] text-white">
@@ -119,13 +106,15 @@ export default function MarkoodFooter() {
               BRAND
           ================================================= */}
           <div className="max-w-sm">
-            <Link
-              href="/help"
-              className="inline-block text-3xl font-extrabold tracking-[-1.5px]"
-            >
-              <span className="text-[#0066FF]">Mark</span>
-              <span className="text-[#FFC400]">oo</span>
-              <span className="text-[#0066FF]">d</span>
+            <Link href="/help" className="inline-block">
+              <Image
+                src="/logo/5.png"
+                alt="Markood"
+                width={260}
+                height={240}
+                className="h-auto w-40 max-w-[180px] sm:w-48"
+                priority
+              />
             </Link>
 
             <p className="mt-5 text-sm leading-6 text-slate-400">
@@ -141,9 +130,6 @@ export default function MarkoodFooter() {
               <ArrowRight size={15} />
             </Link>
 
-            {/* =================================================
-                NEWSLETTER
-            ================================================= */}
             <div className="mt-8">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Get updates
@@ -177,8 +163,8 @@ export default function MarkoodFooter() {
             </div>
 
             {/* =================================================
-                SOCIAL
-            ================================================= */}
+      SOCIAL
+  ================================================= */}
             <div className="mt-8 flex items-center gap-3">
               {socials.map((social) => {
                 const Icon = social.icon;
@@ -242,7 +228,10 @@ export default function MarkoodFooter() {
                   "en/help/delivery/rider-responsibilities",
                 ],
                 ["Failed Deliveries", "/en/help/delivery/failed-deliveries"],
-                ["Lost & Damaged Orders", "/en/help/delivery/lost-damaged-orders"],
+                [
+                  "Lost & Damaged Orders",
+                  "/en/help/delivery/lost-damaged-orders",
+                ],
               ]}
             />
 
