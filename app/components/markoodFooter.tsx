@@ -108,10 +108,10 @@ export default function MarkoodFooter() {
           <div className="max-w-sm">
             <Link href="/help" className="inline-block">
               <Image
-                src="/logo/5.png"
+                src="/logo/5.svg"
                 alt="Markood"
-                width={260}
-                height={240}
+                width={200}
+                height={200}
                 className="h-auto w-40 max-w-[180px] sm:w-48"
                 priority
               />
