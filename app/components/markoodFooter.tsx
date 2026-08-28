@@ -110,8 +110,8 @@ export default function MarkoodFooter() {
               <Image
                 src="/logo/5.svg"
                 alt="Markood"
-                width={200}
-                height={200}
+                width={300}
+                height={300}
                 className="h-auto w-40 max-w-[180px] sm:w-48"
                 priority
               />
