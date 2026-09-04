@@ -8,7 +8,6 @@ import {
   CalendarDays,
   Pencil,
   Trash2,
- 
   Loader2,
   AlertCircle,
 } from "lucide-react";
@@ -62,13 +61,16 @@ export default function UpdatesSection() {
       setLoading(true);
       setError("");
 
-      const response = await fetch(`${process.env.BACKEND_URL}/api/allData`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/allData`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          cache: "no-store",
         },
-        cache: "no-store",
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch updates");
@@ -109,12 +111,15 @@ export default function UpdatesSection() {
     try {
       setDeletingId(id);
 
-      const response = await fetch(`${process.env.BACKEND_URL}/api/delete/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/delete/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
 
       const result = await response.json();
 
@@ -358,7 +363,7 @@ export default function UpdatesSection() {
 
                   <div className="flex shrink-0 items-center gap-2">
                     {/* EDIT */}
-{/* 
+                    {/* 
                     <button
                       type="button"
                       onClick={() => handleEdit(post._id)}

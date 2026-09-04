@@ -56,7 +56,7 @@ export default function HelpSearch({
         setLoading(true);
 
         const response = await fetch(
-          `${process.env.BACKEND_URL}/api/search?search=${encodeURIComponent(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/search?search=${encodeURIComponent(
             value,
           )}`,
           {
@@ -103,14 +103,10 @@ export default function HelpSearch({
     onClose();
   };
 
-   
-
   const handleArticleClick = (article: string) => {
     handleClose();
     router.push(`/en/articleDetails/${article}`);
   };
-
-  
 
   useEffect(() => {
     if (!open) return;

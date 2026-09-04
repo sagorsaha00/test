@@ -126,28 +126,31 @@ export default function ManageContent() {
     setFeedback(null);
 
     try {
-      const response = await fetch(`${process.env.BACKEND_URL}/api/posts`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          categoryKey,
-          itemKey,
-          title,
-          slug,
-          summary,
-          readTime,
-          status,
-          blocks,
-          nextArticle: includeNextArticle
-            ? {
-                title: nextTitle,
-                description: nextDescription,
-                href: nextHref,
-                label: "Next guide",
-              }
-            : undefined,
-        }),
-      }); 
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/posts`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            categoryKey,
+            itemKey,
+            title,
+            slug,
+            summary,
+            readTime,
+            status,
+            blocks,
+            nextArticle: includeNextArticle
+              ? {
+                  title: nextTitle,
+                  description: nextDescription,
+                  href: nextHref,
+                  label: "Next guide",
+                }
+              : undefined,
+          }),
+        },
+      );
       console.log("Response from server:", response);
 
       if (!response.ok) {
