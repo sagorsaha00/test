@@ -56,7 +56,7 @@ export default function HelpSearch({
         setLoading(true);
 
         const response = await fetch(
-          `https://markood-policy-center-backend.vercel.app/api/search?search=${encodeURIComponent(
+          `${process.env.BACKEND_URL}/api/search?search=${encodeURIComponent(
             value,
           )}`,
           {

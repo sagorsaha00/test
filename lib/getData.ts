@@ -2,7 +2,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { HelpPost } from "./type";
 
-const BACKEND_URL = "https://markood-policy-center-backend.vercel.app";
+const BACKEND_URL = process.env.BACKEND_URL;
 // 1. Core Fetcher Function
 const fetchHelpContent = async (
   categoryKey: string,

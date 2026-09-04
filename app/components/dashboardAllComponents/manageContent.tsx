@@ -126,7 +126,7 @@ export default function ManageContent() {
     setFeedback(null);
 
     try {
-      const response = await fetch("https://markood-policy-center-backend.vercel.app/api/posts", {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/posts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

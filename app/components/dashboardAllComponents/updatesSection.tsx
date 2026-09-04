@@ -62,7 +62,7 @@ export default function UpdatesSection() {
       setLoading(true);
       setError("");
 
-      const response = await fetch("https://markood-policy-center-backend.vercel.app/api/allData", {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/allData`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +109,7 @@ export default function UpdatesSection() {
     try {
       setDeletingId(id);
 
-      const response = await fetch(`https://markood-policy-center-backend.vercel.app/api/delete/${id}`, {
+      const response = await fetch(`${process.env.BACKEND_URL}/api/delete/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
