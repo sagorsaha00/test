@@ -2,6 +2,7 @@ export interface HelpCategoryItem {
   key: string;
   label: string;
 }
+ 
 
 export interface HelpCategory {
   key: string;

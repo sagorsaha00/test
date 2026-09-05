@@ -20,7 +20,7 @@ const fetchHelpContent = async (
 
 export const useHelpContent = (categoryKey: string, itemKey: string) => {
   return useQuery({
-    // Unique query key per category & item
+  
     queryKey: ["helpContent", categoryKey, itemKey],
     queryFn: () => fetchHelpContent(categoryKey, itemKey),
     enabled: Boolean(categoryKey && itemKey),

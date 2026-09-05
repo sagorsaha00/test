@@ -328,18 +328,9 @@ export default function DashboardSection() {
       items,
     };
   });
+ 
 
-  // ====================================================
-  // RECENT ARTICLES
-  // ====================================================
-
-  const recentArticles = [...articles]
-    .sort(
-      (a, b) =>
-        new Date(b.updatedAt || b.createdAt).getTime() -
-        new Date(a.updatedAt || a.createdAt).getTime(),
-    )
-    .slice(0, 6);
+ 
 
   // ====================================================
   // ANIMATIONS
@@ -439,9 +430,7 @@ export default function DashboardSection() {
             }).format(new Date())}
           </p>
 
-          <h2 className="mt-1 text-3xl font-black tracking-tight text-slate-950">
-            Good afternoon, Admin
-          </h2>
+           
 
           <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500">
             Manage Markood Center content, policies and marketplace updates from
@@ -449,13 +438,7 @@ export default function DashboardSection() {
           </p>
         </div>
 
-        <button
-          onClick={() => router.push("/create")}
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#0066FF] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-blue-700"
-        >
-          <Plus size={16} />
-          Create Article
-        </button>
+        
       </motion.div>
 
       {/* =================================================

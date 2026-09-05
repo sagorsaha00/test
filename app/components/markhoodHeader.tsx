@@ -204,11 +204,11 @@ export default function MarkoodHeader() {
             onClick={() => setMobileOpen(false)}
           >
             <Image
-              src="/logo/5.svg"
+              src="/logo/logo.webp"
               alt="Logo"
-              width={250}
-              height={250}
-              className="h-[200px] w-[200px] mt-8 md:mt-16 md:h-[300px] md:w-[300px] object-contain"
+              width={140}
+              height={40}
+              className="h-8 w-auto object-contain md:h-10"
               priority
             />
           </Link>

@@ -118,6 +118,9 @@ export function WorkflowStep({
     </div>
   );
 }
+
+ 
+
 export function SidebarItem({
   icon: Icon,
   label,
@@ -129,11 +132,19 @@ export function SidebarItem({
   active?: boolean;
   onClick?: () => void;
 }) {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Prevent any parent link/form navigation
+    e.preventDefault();
+    e.stopPropagation();
+
+    onClick?.();
+  };
+
   return (
     <button
       type="button"
-      onClick={onClick}
-      className={`group cursor-pointer flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-xs font-semibold transition-all ${
+      onClick={handleClick}
+      className={`group relative z-10 flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-xs font-semibold transition-all ${
         active
           ? "bg-[#0066FF] text-white shadow-[0_8px_20px_rgba(0,102,255,0.18)]"
           : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
