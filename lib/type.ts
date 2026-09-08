@@ -43,13 +43,13 @@ export interface Step {
 export interface Block {
   type: "paragraph" | "steps" | "list" | "tip" | "image";
   data: {
-    text?: string;
-    items?: Step[] | string[];
-    label?: string;
-    title?: string;
-    body?: string;
-    url?: string;
-    caption?: string;
+    text?: string | undefined;
+    items?: string[] | BlockItem[] | undefined;
+    label?: string | undefined;
+    title?: string | undefined;
+    body?: string | undefined;
+    url?: string | undefined;
+    caption?: string | undefined;
   };
 }
 export interface NextArticle {
