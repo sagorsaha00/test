@@ -18,7 +18,6 @@ import {
   ShoppingBag,
   Store,
   Truck,
-  Zap,
 } from "lucide-react";
 import MarkoodVideoGuides from "./markoodVideoGuid";
 
@@ -36,25 +35,25 @@ const audiences: {
   {
     title: "Buyer",
     description: "Learn how to search, order, pay and request refunds.",
-    href: "/help/buying",
+    href: "/en/help/buying",
     icon: ShoppingBag,
   },
   {
     title: "Seller",
     description: "Learn how to sell products and manage your orders.",
-    href: "/help/selling",
+    href: "/en/help/selling",
     icon: Store,
   },
   {
     title: "Rider",
     description: "Everything riders need for safe and successful delivery.",
-    href: "/help/delivery",
+    href: "/en/help/delivery",
     icon: Truck,
   },
   {
     title: "Restaurant",
     description: "Manage menus, orders, delivery and restaurant operations.",
-    href: "/help/restaurants",
+    href: "/en/help/restaurants",
     icon: Package,
   },
 ];
@@ -189,9 +188,7 @@ const policies = [
   },
 ];
 
-/* =========================================================
-   ANIMATION
-========================================================= */
+
 
 const fadeUp: Variants = {
   hidden: {
@@ -501,15 +498,11 @@ export default function MarkoodCenter() {
         </div>
       </section>
 
-      {/* =====================================================
-          VIDEO GUIDES
-      ===================================================== */}
+   
 
-      <MarkoodVideoGuides></MarkoodVideoGuides>
+      <MarkoodVideoGuides/> 
 
-      {/* =====================================================
-          WHAT'S NEW
-      ===================================================== */}
+     
 
       <section className="bg-[#F8FAFC]">
         <div className="mx-auto max-w-5xl px-5 py-20 sm:px-6 lg:py-28">
