@@ -1,5 +1,18 @@
-import { FileText, ShoppingBag, } from "lucide-react";
-
+import {
+  Cookie,
+  CreditCard,
+  FileText,
+  LockKeyhole,
+  Package,
+  ShieldCheck,
+  ShoppingBag,
+  Store,
+  Truck,
+} from "lucide-react";
+type IconType = React.ComponentType<{
+  size?: number;
+  className?: string;
+}>;
 export const audiences: {
   title: string;
   description: string;

@@ -59,3 +59,18 @@ export const itemVariants = {
     y: 0,
   },
 };
+
+export const scaleIn: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.94,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};

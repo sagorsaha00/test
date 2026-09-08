@@ -110,15 +110,3 @@ export interface ApiResponse {
   data: UpdatePost[];
   message?: string;
 }
-type CategoryItem = {
-  key: string;
-  label: string;
-};
-
-type CategoryConfig = {
-  key: string;
-  title: string;
-  description: string;
-  icon: ElementType;
-  items: CategoryItem[];
-};
