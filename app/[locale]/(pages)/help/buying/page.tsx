@@ -10,7 +10,7 @@ import {
   ChevronRight,
   CreditCard,
   HelpCircle,
-  PackageSearch,
+ 
   RotateCcw,
   Search,
   ShieldCheck,
@@ -155,9 +155,7 @@ const quickAnswers = [
 export default function BuyingHelpCenter() {
   return (
     <main className="min-h-screen overflow-hidden bg-white text-slate-950">
-      {/* =========================================================
-          HERO
-      ========================================================= */}
+      
 
       <section className="relative overflow-hidden bg-[#f6f9ff]">
         {/* Background decoration */}
@@ -326,7 +324,7 @@ export default function BuyingHelpCenter() {
                 </div>
               </div>
 
-              {/* Floating badge */}
+             
               <motion.div
                 animate={{
                   y: [0, -8, 0],
@@ -359,9 +357,7 @@ export default function BuyingHelpCenter() {
         </div>
       </section>
 
-      {/* =========================================================
-          TOPICS
-      ========================================================= */}
+     
 
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
@@ -456,9 +452,7 @@ export default function BuyingHelpCenter() {
         </div>
       </section>
 
-      {/* =========================================================
-          QUICK ANSWERS
-      ========================================================= */}
+     
 
       <section className="bg-[#f8fafc]">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
@@ -524,9 +518,7 @@ export default function BuyingHelpCenter() {
         </div>
       </section>
 
-      {/* =========================================================
-          BUYER SAFETY
-      ========================================================= */}
+ 
 
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
@@ -599,9 +591,7 @@ export default function BuyingHelpCenter() {
         </div>
       </section>
 
-      {/* =========================================================
-          HELP CTA
-      ========================================================= */}
+  
 
       <section className="border-t border-slate-100 bg-[#f8fafc]">
         <div className="mx-auto max-w-4xl px-5 py-20 text-center sm:px-6 lg:py-24">

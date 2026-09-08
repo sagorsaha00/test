@@ -14,48 +14,7 @@ import {
 } from "lucide-react";
 
 import { useHelpContent } from "@/lib/getData";
-
-interface Step {
-  title: string;
-  description: string;
-}
-
-interface Block {
-  type: "paragraph" | "steps" | "list" | "tip" | "image";
-  data: {
-    text?: string;
-    items?: Step[] | string[];
-    label?: string;
-    title?: string;
-    body?: string;
-    url?: string;
-    caption?: string;
-  };
-}
-
-interface NextArticle {
-  label: string;
-  title: string;
-  description: string;
-  href?: string;
-  slug?: string;
-}
-
-interface Article {
-  _id: string;
-  categoryKey: string;
-  itemKey: string;
-  title: string;
-  slug: string;
-  summary: string;
-  readTime: string;
-  blocks: Block[];
-  nextArticle?: NextArticle;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-  __v?: number;
-}
+import { Article, Step } from "@/lib/type";
 
 const STEP_ICONS = [UserPlus, Store, Package, ShieldCheck, Truck];
 
@@ -66,21 +25,9 @@ export default function DynamicHelpArticle() {
 
   console.log("get Data", data);
 
-  // ============================================================
-  // 2. STORE ALL ARTICLES IN STATE
-  // ============================================================
-
   const [articles, setArticles] = useState<Article[]>([]);
 
-  // ============================================================
-  // 3. STORE CURRENTLY SELECTED SLUG
-  // ============================================================
-
   const [selectedSlug, setSelectedSlug] = useState<string>("");
-
-  // ============================================================
-  // 4. WHEN API DATA ARRIVES, STORE IT IN STATE
-  // ============================================================
 
   useEffect(() => {
     if (!data || !Array.isArray(data)) {
@@ -108,10 +55,6 @@ export default function DynamicHelpArticle() {
     }
   }, [data]);
 
-  // ============================================================
-  // 5. FIND CURRENT ARTICLE USING SLUG
-  // ============================================================
-
   const selectedArticle = useMemo(() => {
     if (!selectedSlug || articles.length === 0) {
       return null;
@@ -119,10 +62,6 @@ export default function DynamicHelpArticle() {
 
     return articles.find((article) => article.slug === selectedSlug) || null;
   }, [articles, selectedSlug]);
-
-  // ============================================================
-  // 6. HANDLE SIDEBAR ARTICLE CLICK
-  // ============================================================
 
   const handleArticleClick = (slug: string) => {
     setSelectedSlug(slug);
@@ -132,10 +71,6 @@ export default function DynamicHelpArticle() {
       behavior: "smooth",
     });
   };
-
-  // ============================================================
-  // 7. LOADING
-  // ============================================================
 
   if (isLoading) {
     return (
@@ -147,10 +82,6 @@ export default function DynamicHelpArticle() {
     );
   }
 
-  // ============================================================
-  // 8. ERROR
-  // ============================================================
-
   if (error) {
     return (
       <div className="flex min-h-[500px] items-center justify-center">
@@ -160,10 +91,6 @@ export default function DynamicHelpArticle() {
       </div>
     );
   }
-
-  // ============================================================
-  // 9. NO DATA
-  // ============================================================
 
   if (!articles.length || !selectedArticle) {
     return (
@@ -175,20 +102,12 @@ export default function DynamicHelpArticle() {
     );
   }
 
-  // ============================================================
-  // 10. FORMAT DATE
-  // ============================================================
-
   const formattedDate = selectedArticle.updatedAt
     ? new Date(selectedArticle.updatedAt).toLocaleDateString("en-US", {
         month: "long",
         year: "numeric",
       })
     : "";
-
-  // ============================================================
-  // 11. FIND NEXT ARTICLE
-  // ============================================================
 
   const nextArticle = selectedArticle.nextArticle?.slug
     ? articles.find(
@@ -198,10 +117,6 @@ export default function DynamicHelpArticle() {
 
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#f8fafc]">
-      {/* ======================================================
-          BACKGROUND
-      ====================================================== */}
-
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-180px] top-40 h-[400px] w-[400px] rounded-full bg-blue-100/40 blur-3xl" />
 
@@ -210,16 +125,7 @@ export default function DynamicHelpArticle() {
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
-          {/* ==================================================
-              LEFT SIDE
-              CURRENT ARTICLE
-          ================================================== */}
-
           <main className="max-w-4xl">
-            {/* ================================================
-                ARTICLE HEADER
-            ================================================= */}
-
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-2 shadow-sm">
                 <Store size={14} className="text-[#0066FF]" />
@@ -256,16 +162,8 @@ export default function DynamicHelpArticle() {
               </div>
             </div>
 
-            {/* =================================================
-                DYNAMIC BLOCKS
-            ================================================= */}
-
             <div className="mt-12 space-y-16">
               {selectedArticle.blocks?.map((block, index) => {
-                // =================================================
-                // PARAGRAPH
-                // =================================================
-
                 if (block.type === "paragraph") {
                   return (
                     <div
@@ -284,10 +182,6 @@ export default function DynamicHelpArticle() {
                     </div>
                   );
                 }
-
-                // =================================================
-                // STEPS
-                // =================================================
 
                 if (block.type === "steps") {
                   const steps = (block.data.items as Step[]) || [];
