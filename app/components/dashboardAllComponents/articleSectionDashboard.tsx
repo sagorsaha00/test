@@ -6,12 +6,10 @@ import {
   Megaphone,
   CheckCircle2,
   CalendarDays,
-  Pencil,
   Trash2,
   Loader2,
   AlertCircle,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 interface UpdatePost {
   _id: string;

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { LayoutDashboard, Megaphone, FileText } from "lucide-react";
 
 import DashboardSection from "../../../components/dashboardAllComponents/dashboardSection";
-import ArticleSection from "../../../components/dashboardAllComponents/ArticleSection";
+import ArticleSection from "../../../components/dashboardAllComponents/articleSectionDashboard";
 import ManageContent from "../../../components/dashboardAllComponents/manageContent";
 
 type MenuType = "Dashboard" | "Articles" | "Managecontent";
