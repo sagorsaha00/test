@@ -16,8 +16,6 @@ export default function SellerHelpPage({
   return (
     <section className="min-h-[70vh] bg-[#f8fafc]">
       <div className="mx-auto max-w-6xl px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
-        {/* Breadcrumb */}
-
         <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
           <Link href="/help" className="transition hover:text-[#0066FF]">
             Help Center
@@ -37,8 +35,6 @@ export default function SellerHelpPage({
           <span className="font-semibold text-slate-600">{title}</span>
         </div>
 
-        {/* Header */}
-
         <div className="mt-10 max-w-3xl">
           <span className="text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
             {category}
@@ -52,8 +48,6 @@ export default function SellerHelpPage({
             {description}
           </p>
         </div>
-
-        {/* Content */}
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {items.map((item) => (
@@ -85,8 +79,6 @@ export default function SellerHelpPage({
             </Link>
           ))}
         </div>
-
-        {/* Help box */}
 
         <div className="mt-12 flex flex-col justify-between gap-5 rounded-2xl border border-slate-200 bg-white p-6 sm:flex-row sm:items-center">
           <div className="flex items-center gap-4">

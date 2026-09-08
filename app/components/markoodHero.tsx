@@ -57,8 +57,6 @@ export default function MarkoodTrustHero() {
     <section className="overflow-hidden bg-white">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* ================= LEFT ================= */}
-
           <div>
             <span className="text-sm font-bold uppercase tracking-wide text-[#0066FF]">
               Trust &amp; Safety
@@ -150,7 +148,6 @@ export default function MarkoodTrustHero() {
                       "
                     />
 
-                    {/* Dark overlay */}
                     <div
                       className="
                         pointer-events-none

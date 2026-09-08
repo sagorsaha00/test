@@ -28,7 +28,6 @@ export default function LanguageSwitcher() {
 
   return (
     <div className="relative inline-block text-left">
-      {/* Switcher Button */}
       <button
         type="button"
         disabled={isPending}
@@ -50,7 +49,6 @@ export default function LanguageSwitcher() {
         />
       </button>
 
-      {/* Dropdown Menu */}
       {isOpen && (
         <div
           className="

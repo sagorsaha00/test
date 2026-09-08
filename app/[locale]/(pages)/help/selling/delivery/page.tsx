@@ -125,11 +125,7 @@ export default function DynamicHelpArticle() {
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
-          
-
           <main className="max-w-4xl">
-             
-
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-2 shadow-sm">
                 <Store size={14} className="text-[#0066FF]" />
@@ -386,8 +382,6 @@ export default function DynamicHelpArticle() {
           <aside className="hidden lg:block">
             <div className="sticky top-24">
               <div className="rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm">
-                {/* Sidebar title */}
-
                 <div className="mb-5">
                   <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
                     Seller Guide
@@ -417,8 +411,6 @@ export default function DynamicHelpArticle() {
                             : "text-slate-600 hover:bg-slate-50 hover:text-[#0066FF]"
                         }`}
                       >
-                        {/* Number */}
-
                         <span
                           className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-black ${
                             isActive
@@ -428,8 +420,6 @@ export default function DynamicHelpArticle() {
                         >
                           {String(index + 1).padStart(2, "0")}
                         </span>
-
-                        {/* Article title */}
 
                         <span
                           className={`text-sm leading-5 ${

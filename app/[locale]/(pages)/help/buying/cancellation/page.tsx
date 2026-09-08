@@ -366,8 +366,6 @@ export default function DynamicHelpArticle() {
           <aside className="hidden lg:block">
             <div className="sticky top-24">
               <div className="rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm">
-                {/* Sidebar title */}
-
                 <div className="mb-5">
                   <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
                     Seller Guide

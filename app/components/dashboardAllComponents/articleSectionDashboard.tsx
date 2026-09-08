@@ -174,8 +174,6 @@ export default function ArticleSection() {
         variants={itemVariants}
         className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-3"
       >
-        {/* TOTAL */}
-
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)]">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF]">
@@ -258,8 +256,6 @@ export default function ArticleSection() {
                 className="group rounded-2xl border border-slate-100 p-4 transition hover:border-blue-100 hover:bg-slate-50/60"
               >
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-                  {/* ICON */}
-
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF]">
                     <Megaphone size={18} />
                   </div>

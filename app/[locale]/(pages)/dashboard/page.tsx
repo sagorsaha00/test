@@ -21,7 +21,6 @@ export default function MarkoodCenterDashboard() {
   return (
     <div className="min-h-screen bg-[#f6f8fb] text-slate-950">
       <div className="flex min-h-screen">
-        {/* ================= SIDEBAR ================= */}
         <aside className="sticky top-0 hidden h-screen w-[245px] shrink-0 border-r border-slate-200 bg-white lg:block">
           <div className="flex h-full flex-col">
             <nav className="flex-1 px-4 py-6">
@@ -70,7 +69,6 @@ export default function MarkoodCenterDashboard() {
           </div>
         </aside>
 
-        {/* ================= MAIN CONTENT ================= */}
         <main className="min-w-0 flex-1">
           {activeMenu === "Dashboard" && <DashboardSection />}
           {activeMenu === "Articles" && <ArticleSection />}

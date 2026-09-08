@@ -135,15 +135,9 @@ export default function MarkoodVideoGuides() {
       ===================================================== */}
 
       <div className="pointer-events-none absolute inset-0">
-        {/* Blue glow */}
-
         <div className="absolute -left-40 top-20 h-[400px] w-[400px] rounded-full bg-blue-100/50 blur-3xl" />
 
-        {/* Sky glow */}
-
         <div className="absolute -bottom-40 -right-32 h-[450px] w-[450px] rounded-full bg-sky-100/50 blur-3xl" />
-
-        {/* Dot pattern */}
 
         <div
           className="absolute inset-0 opacity-[0.035]"
@@ -173,8 +167,6 @@ export default function MarkoodVideoGuides() {
           variants={fadeUp}
           className="mx-auto max-w-3xl text-center"
         >
-          {/* Badge */}
-
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 shadow-sm">
             <Sparkles
               size={14}
@@ -187,15 +179,11 @@ export default function MarkoodVideoGuides() {
             </span>
           </div>
 
-          {/* Heading */}
-
           <h2 className="text-4xl font-black tracking-[-1.8px] text-slate-950 sm:text-5xl lg:text-[56px] lg:leading-[1.05]">
             Learn Markood.
             <br />
             <span className="text-[#0066FF]">One step at a time.</span>
           </h2>
-
-          {/* Description */}
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg">
             Short, practical video guides to help you buy, sell, deliver, and
@@ -231,11 +219,7 @@ export default function MarkoodVideoGuides() {
                   className="absolute inset-0 h-full w-full scale-[1.03] transition-transform duration-1000 group-hover:scale-[1.07]"
                 />
 
-                {/* Video overlay */}
-
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-black/10" />
-
-                {/* Category */}
 
                 <div className="absolute left-6 top-6">
                   <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/25 px-4 py-2 text-xs font-bold text-white backdrop-blur-xl">
@@ -244,8 +228,6 @@ export default function MarkoodVideoGuides() {
                     {featured.category}
                   </div>
                 </div>
-
-                {/* Play button */}
 
                 <motion.div
                   whileHover={{
@@ -258,8 +240,6 @@ export default function MarkoodVideoGuides() {
                 >
                   <Play size={22} fill="currentColor" className="ml-1" />
                 </motion.div>
-
-                {/* Bottom content */}
 
                 <div className="absolute bottom-6 left-6 right-6">
                   <div className="flex items-end justify-between gap-4">
@@ -285,33 +265,23 @@ export default function MarkoodVideoGuides() {
               =========================================== */}
 
               <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
-                {/* Icon */}
-
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
                   <FeaturedIcon size={21} />
                 </div>
-
-                {/* Label */}
 
                 <p className="mt-7 text-xs font-black uppercase tracking-[0.18em] text-[#0066FF]">
                   Start here
                 </p>
 
-                {/* Title */}
-
                 <h3 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
                   Everything you need to get started.
                 </h3>
-
-                {/* Description */}
 
                 <p className="mt-5 text-sm leading-7 text-slate-500 sm:text-base">
                   New to Markood? This guide walks you through the most
                   important steps so you can start using the marketplace
                   confidently.
                 </p>
-
-                {/* Feature list */}
 
                 <div className="mt-8 space-y-4">
                   {[
@@ -330,7 +300,7 @@ export default function MarkoodVideoGuides() {
                       </span>
                     </div>
                   ))}
-                </div> 
+                </div>
               </div>
             </div>
           </div>
@@ -377,11 +347,7 @@ export default function MarkoodVideoGuides() {
                       className="pointer-events-none absolute inset-0 h-full w-full scale-[1.05] transition-transform duration-700 group-hover:scale-[1.10]"
                     />
 
-                    {/* Overlay */}
-
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-black/10" />
-
-                    {/* Category */}
 
                     <div className="absolute left-4 top-4">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-black/25 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur-xl">
@@ -390,8 +356,6 @@ export default function MarkoodVideoGuides() {
                         {video.category}
                       </span>
                     </div>
-
-                    {/* Play */}
 
                     <motion.div
                       whileHover={{

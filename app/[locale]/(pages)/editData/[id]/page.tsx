@@ -15,7 +15,6 @@ export default function EditHelpArticlePage() {
   const updateMutation = useUpdateHelpArticle(id);
 
   const [formData, setFormData] = useState({
-     
     title: "",
     slug: "",
     summary: "",
@@ -53,7 +52,6 @@ export default function EditHelpArticlePage() {
 
     try {
       await updateMutation.mutateAsync({
-        
         title: formData.title,
         slug: formData.slug,
         summary: formData.summary,
@@ -96,14 +94,8 @@ export default function EditHelpArticlePage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Category + Item */}
-            <div className="grid gap-5 md:grid-cols-2">
-              
+            <div className="grid gap-5 md:grid-cols-2"></div>
 
-               
-            </div>
-
-            {/* Title */}
             <div>
               <label className="mb-2 block text-sm font-bold text-slate-700">
                 Title
@@ -118,7 +110,6 @@ export default function EditHelpArticlePage() {
               />
             </div>
 
-            {/* Slug */}
             <div>
               <label className="mb-2 block text-sm font-bold text-slate-700">
                 Slug
@@ -133,7 +124,6 @@ export default function EditHelpArticlePage() {
               />
             </div>
 
-            {/* Summary */}
             <div>
               <label className="mb-2 block text-sm font-bold text-slate-700">
                 Summary
@@ -148,7 +138,6 @@ export default function EditHelpArticlePage() {
               />
             </div>
 
-            {/* Read Time + Status */}
             <div className="grid gap-5 md:grid-cols-2">
               <div>
                 <label className="mb-2 block text-sm font-bold text-slate-700">
@@ -181,7 +170,6 @@ export default function EditHelpArticlePage() {
               </div>
             </div>
 
-            {/* Existing content info */}
             <div className="rounded-xl border border-blue-100 bg-blue-50 p-4">
               <p className="text-sm font-bold text-blue-900">
                 Article content is preserved
@@ -193,7 +181,6 @@ export default function EditHelpArticlePage() {
               </p>
             </div>
 
-            {/* Buttons */}
             <div className="flex justify-end gap-3 border-t border-slate-100 pt-6">
               <button
                 type="button"

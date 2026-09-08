@@ -190,8 +190,6 @@ export default function MarkoodHeader() {
     <>
       <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white">
         <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
-           
-
           <Link
             href={`/${locale}`}
             className="flex shrink-0 items-center gap-2"
@@ -581,8 +579,6 @@ export default function MarkoodHeader() {
                 );
               })}
             </div>
-
-            {/* Mobile Search */}
 
             <div className="mt-4 border-t border-slate-100 pt-4">
               <button

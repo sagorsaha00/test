@@ -191,8 +191,6 @@ export default function HelpCenterPage() {
       ===================================================== */}
 
       <section className="relative overflow-hidden bg-[#f7faff]">
-        {/* Animated background blobs */}
-
         <motion.div
           animate={{
             x: [0, 30, 0],
@@ -221,8 +219,6 @@ export default function HelpCenterPage() {
 
         <div className="pointer-events-none absolute left-1/2 top-24 h-56 w-56 -translate-x-1/2 rounded-full bg-blue-100/30 blur-3xl" />
 
-        {/* Grid pattern */}
-
         <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
           <div
             className="h-full w-full"
@@ -235,8 +231,6 @@ export default function HelpCenterPage() {
         </div>
 
         <div className="relative mx-auto max-w-7xl px-5 pb-24 pt-16 sm:px-6 lg:px-8 lg:pb-32 lg:pt-24">
-          {/* Badge */}
-
           <motion.div
             initial="hidden"
             animate="visible"
@@ -259,8 +253,6 @@ export default function HelpCenterPage() {
             </div>
           </motion.div>
 
-          {/* Heading */}
-
           <motion.div
             initial="hidden"
             animate="visible"
@@ -280,8 +272,6 @@ export default function HelpCenterPage() {
               need to buy, sell, deliver and grow.
             </p>
           </motion.div>
-
-          {/* Search */}
 
           <motion.div
             initial="hidden"
@@ -310,8 +300,6 @@ export default function HelpCenterPage() {
               </div>
             </div>
           </motion.div>
-
-          {/* Popular searches */}
 
           <motion.div
             initial="hidden"
@@ -388,8 +376,6 @@ export default function HelpCenterPage() {
                   className="group relative"
                 >
                   <div className="relative h-full overflow-hidden rounded-[28px] border border-slate-200 bg-white p-6 shadow-[0_10px_40px_rgba(15,23,42,0.04)] transition-shadow duration-500 group-hover:shadow-[0_25px_70px_rgba(0,102,255,0.10)]">
-                    {/* Glow */}
-
                     <div className="absolute -right-12 -top-12 h-32 w-32 rounded-full bg-blue-50 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
 
                     <div className="relative">
@@ -702,8 +688,6 @@ export default function HelpCenterPage() {
             variants={fadeUp}
             className="relative overflow-hidden rounded-[34px] bg-slate-950 px-7 py-14 text-center shadow-[0_30px_100px_rgba(15,23,42,0.18)] sm:px-12"
           >
-            {/* Animated glow */}
-
             <motion.div
               animate={{
                 scale: [1, 1.2, 1],

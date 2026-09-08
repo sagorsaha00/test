@@ -468,8 +468,6 @@ export default function MarkoodCenter() {
           }}
           className="relative mx-auto max-w-7xl overflow-hidden rounded-[32px] bg-slate-950 px-6 py-14 sm:px-10 lg:px-16 lg:py-20"
         >
-          {/* Animated glow */}
-
           <motion.div
             animate={{
               x: [0, 40, 0],

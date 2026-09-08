@@ -152,7 +152,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
           <article className="min-w-0">
-            {/* Back */}
             <Link
               href={`/`}
               className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition hover:text-[#0066FF]"
@@ -166,25 +165,21 @@ export default function ArticleDetailsPage({ params }: PageProps) {
             ================================================== */}
 
             <header className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
-              {/* Category */}
               <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3.5 py-1.5 text-xs font-black text-[#0066FF]">
                 <FileText size={14} />
                 {categoryLabel}
               </div>
 
-              {/* Title */}
               <h1 className="mt-5 max-w-4xl text-3xl font-black leading-tight tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
                 {data.title}
               </h1>
 
-              {/* Summary */}
               {data.summary && (
                 <p className="mt-5 max-w-3xl text-base leading-7 text-slate-500 sm:text-lg sm:leading-8">
                   {data.summary}
                 </p>
               )}
 
-              {/* Meta */}
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 {data.readTime && (
                   <div className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3.5 py-2 text-xs font-bold text-slate-600">
@@ -251,7 +246,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
                             key={itemIndex}
                             className="group flex gap-4 rounded-2xl border border-slate-100 bg-slate-50 p-5 transition hover:border-blue-100 hover:bg-blue-50/40"
                           >
-                            {/* Number */}
                             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#0066FF] text-sm font-black text-white shadow-sm">
                               {itemIndex + 1}
                             </div>
@@ -367,7 +361,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
 
           <aside className="hidden lg:block">
             <div className="sticky top-8 space-y-5">
-              {/* Article Info */}
               <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                 <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
                   On this page
@@ -403,7 +396,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* Article Details */}
               <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF]">

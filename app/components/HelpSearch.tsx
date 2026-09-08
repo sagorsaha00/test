@@ -168,8 +168,6 @@ export default function HelpSearch({
               shadow-2xl
             "
           >
-            {/* SEARCH INPUT */}
-
             <div
               className="
                 flex
@@ -235,11 +233,7 @@ export default function HelpSearch({
               </button>
             </div>
 
-            {/* CONTENT */}
-
             <div className="max-h-[600px] overflow-y-auto">
-              {/* INITIAL */}
-
               {!search.trim() && (
                 <div className="px-6 py-16 text-center">
                   <div
@@ -268,8 +262,6 @@ export default function HelpSearch({
                 </div>
               )}
 
-              {/* LOADING */}
-
               {search.trim() && loading && (
                 <div className="px-6 py-16 text-center">
                   <p className="text-sm font-semibold text-slate-500">
@@ -277,8 +269,6 @@ export default function HelpSearch({
                   </p>
                 </div>
               )}
-
-              {/* NO RESULTS */}
 
               {search.trim() && !loading && results.length === 0 && (
                 <div className="px-6 py-16 text-center">
@@ -307,8 +297,6 @@ export default function HelpSearch({
                   </p>
                 </div>
               )}
-
-              {/* RESULTS */}
 
               {!loading && results.length > 0 && (
                 <div className="p-3 sm:p-4">
@@ -348,8 +336,6 @@ export default function HelpSearch({
                           hover:bg-blue-50
                         "
                           >
-                            {/* ICON */}
-
                             <div
                               className="
                             flex
@@ -367,8 +353,6 @@ export default function HelpSearch({
                             >
                               <Search size={17} />
                             </div>
-
-                            {/* CONTENT */}
 
                             <div className="min-w-0 flex-1">
                               <h3
@@ -431,8 +415,6 @@ export default function HelpSearch({
                                 </span>
                               </div>
                             </div>
-
-                            {/* ARROW */}
 
                             <ArrowRight
                               size={17}

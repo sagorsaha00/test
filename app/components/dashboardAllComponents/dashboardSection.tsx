@@ -437,8 +437,6 @@ export default function DashboardSection() {
                     key={category.key}
                     className="rounded-2xl border border-slate-200 p-5"
                   >
-                    {/* CATEGORY HEADER */}
-
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex min-w-0 items-center gap-4">
                         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-slate-600 shadow-sm">

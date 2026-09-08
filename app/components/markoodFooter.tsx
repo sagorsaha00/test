@@ -189,7 +189,6 @@ export default function MarkoodFooter() {
               FOOTER LINKS
           ================================================= */}
           <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
-            {/* SELL */}
             <FooterColumn
               title="Sell on Markood"
               links={[
@@ -201,7 +200,6 @@ export default function MarkoodFooter() {
               ]}
             />
 
-            {/* BUY */}
             <FooterColumn
               title="Buy on Markood"
               links={[
@@ -213,7 +211,6 @@ export default function MarkoodFooter() {
               ]}
             />
 
-            {/* DELIVERY */}
             <FooterColumn
               title="Delivery"
               links={[
@@ -235,7 +232,6 @@ export default function MarkoodFooter() {
               ]}
             />
 
-            {/* POLICIES */}
             <FooterColumn
               title="Policies"
               links={[
@@ -246,7 +242,6 @@ export default function MarkoodFooter() {
               ]}
             />
 
-            {/* UPDATES */}
             <FooterColumn
               title="Updates"
               links={[

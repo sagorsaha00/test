@@ -389,8 +389,6 @@ export default function DynamicHelpArticle() {
           <aside className="hidden lg:block">
             <div className="sticky top-24">
               <div className="rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm">
-                {/* Sidebar title */}
-
                 <div className="mb-5">
                   <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
                     Seller Guide
@@ -420,8 +418,6 @@ export default function DynamicHelpArticle() {
                             : "text-slate-600 hover:bg-slate-50 hover:text-[#0066FF]"
                         }`}
                       >
-                        {/* Number */}
-
                         <span
                           className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-black ${
                             isActive
@@ -431,8 +427,6 @@ export default function DynamicHelpArticle() {
                         >
                           {String(index + 1).padStart(2, "0")}
                         </span>
-
-                        {/* Article title */}
 
                         <span
                           className={`text-sm leading-5 ${

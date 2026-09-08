@@ -115,7 +115,6 @@ export default function BuyingHelpCenter() {
   return (
     <main className="min-h-screen overflow-hidden bg-white text-slate-950">
       <section className="relative overflow-hidden bg-[#f6f9ff]">
-        {/* Background decoration */}
         <div className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-blue-200/30 blur-3xl" />
 
         <div className="pointer-events-none absolute -right-40 top-0 h-[420px] w-[420px] rounded-full bg-indigo-200/30 blur-3xl" />
@@ -128,7 +127,6 @@ export default function BuyingHelpCenter() {
         />
 
         <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-14 sm:px-6 lg:px-8 lg:pb-28 lg:pt-20">
-          {/* Breadcrumb */}
           <motion.div
             initial="hidden"
             animate="visible"
@@ -142,7 +140,6 @@ export default function BuyingHelpCenter() {
             <span className="font-bold text-slate-600">Buying</span>
           </motion.div>
 
-          {/* Hero content */}
           <div className="mt-12 grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
             <motion.div initial="hidden" animate="visible" variants={fadeUp}>
               <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-4 py-2 shadow-sm">
@@ -166,7 +163,6 @@ export default function BuyingHelpCenter() {
                 cancel purchases and request refunds on Markood.
               </p>
 
-              {/* Search */}
               <div className="mt-8 max-w-2xl">
                 <div className="flex items-center rounded-2xl border border-slate-200 bg-white p-2 shadow-[0_20px_60px_rgba(15,23,42,0.08)] transition-all focus-within:border-blue-300 focus-within:shadow-[0_25px_70px_rgba(0,102,255,0.12)]">
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF]">
@@ -189,7 +185,6 @@ export default function BuyingHelpCenter() {
               </div>
             </motion.div>
 
-            {/* Hero visual */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
@@ -351,7 +346,6 @@ export default function BuyingHelpCenter() {
                   whileHover={{ y: -6 }}
                   className="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 shadow-[0_10px_40px_rgba(15,23,42,0.04)] transition-shadow duration-300 hover:shadow-[0_25px_70px_rgba(15,23,42,0.10)]"
                 >
-                  {/* Hover glow */}
                   <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-blue-100/40 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100" />
 
                   <div className="relative">

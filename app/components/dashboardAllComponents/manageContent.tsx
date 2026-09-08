@@ -196,7 +196,6 @@ export default function ManageContent() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Basics */}
         <section className="rounded-[26px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)] sm:p-7">
           <h2 className="text-sm font-black text-slate-950">Basics</h2>
 
@@ -305,7 +304,6 @@ export default function ManageContent() {
           </div>
         </section>
 
-        {/* Blocks */}
         <section className="rounded-[26px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)] sm:p-7">
           <h2 className="text-sm font-black text-slate-950">Content blocks</h2>
 
@@ -345,7 +343,6 @@ export default function ManageContent() {
           </div>
         </section>
 
-        {/* Next article link */}
         <section className="rounded-[26px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)] sm:p-7">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-black text-slate-950">
