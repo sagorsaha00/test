@@ -119,8 +119,6 @@ export function WorkflowStep({
   );
 }
 
- 
-
 export function SidebarItem({
   icon: Icon,
   label,
@@ -133,7 +131,6 @@ export function SidebarItem({
   onClick?: () => void;
 }) {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Prevent any parent link/form navigation
     e.preventDefault();
     e.stopPropagation();
 

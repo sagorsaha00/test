@@ -78,8 +78,6 @@ export default function DynamicHelpArticle() {
     );
   }
 
-  // 8. ERROR
-
   if (error) {
     return (
       <div className="flex min-h-[500px] items-center justify-center">
@@ -90,8 +88,6 @@ export default function DynamicHelpArticle() {
     );
   }
 
-  //   NO DATA
-
   if (!articles.length || !selectedArticle) {
     return (
       <div className="flex min-h-[500px] items-center justify-center">
@@ -101,8 +97,6 @@ export default function DynamicHelpArticle() {
       </div>
     );
   }
-
-  //   FORMAT DATE
 
   const formattedDate = selectedArticle.updatedAt
     ? new Date(selectedArticle.updatedAt).toLocaleDateString("en-US", {

@@ -24,7 +24,6 @@ export default function LanguageSwitcher() {
   const handleLanguageChange = (newLocale: string) => {
     setIsOpen(false);
 
-    // বর্তমান ইউআরএল থেকে পুরনো locale বাদ দিয়ে নতুন locale বসানো
     const newPathname = pathname.replace(`/${locale}`, `/${newLocale}`);
 
     startTransition(() => {

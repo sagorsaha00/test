@@ -24,11 +24,8 @@ export default function DynamicHelpArticle() {
   const { data, isLoading, error } = useHelpContent(catKey, itemKey);
 
   console.log("get Data", data);
-
   const [articles, setArticles] = useState<Article[]>([]);
-
   const [selectedSlug, setSelectedSlug] = useState<string>("");
-
   useEffect(() => {
     if (!data || !Array.isArray(data)) {
       return;
@@ -36,11 +33,8 @@ export default function DynamicHelpArticle() {
 
     setArticles(data);
 
-    // If there is no selected article yet,
-    // automatically select the first article.
     if (data.length > 0) {
       setSelectedSlug((currentSlug) => {
-        // Keep current article if it still exists
         const currentArticle = data.find(
           (article: Article) => article.slug === currentSlug,
         );
@@ -48,8 +42,6 @@ export default function DynamicHelpArticle() {
         if (currentArticle) {
           return currentSlug;
         }
-
-        // Otherwise select first article
         return data[0].slug;
       });
     }
@@ -246,10 +238,6 @@ export default function DynamicHelpArticle() {
                   );
                 }
 
-                // =================================================
-                // LIST
-                // =================================================
-
                 if (block.type === "list") {
                   const items = (block.data.items as string[]) || [];
 
@@ -286,10 +274,6 @@ export default function DynamicHelpArticle() {
                   );
                 }
 
-                // =================================================
-                // TIP
-                // =================================================
-
                 if (block.type === "tip") {
                   return (
                     <div
@@ -318,10 +302,6 @@ export default function DynamicHelpArticle() {
                     </div>
                   );
                 }
-
-                // =================================================
-                // IMAGE
-                // =================================================
 
                 if (block.type === "image") {
                   return (

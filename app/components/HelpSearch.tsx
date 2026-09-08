@@ -34,23 +34,18 @@ export default function HelpSearch({
   const [results, setResults] = useState<SearchArticle[]>([]);
   const [loading, setLoading] = useState(false);
   console.log("result", results);
-  // =========================================================
-  // SEARCH
-  // =========================================================
 
   useEffect(() => {
     if (!open) return;
 
     const value = search.trim();
 
-    // Empty search
     if (!value) {
       setResults([]);
       setLoading(false);
       return;
     }
 
-    // Wait until user stops typing
     const timer = setTimeout(async () => {
       try {
         setLoading(true);
@@ -91,10 +86,6 @@ export default function HelpSearch({
     };
   }, [search, open]);
 
-  // =========================================================
-  // CLOSE
-  // =========================================================
-
   const handleClose = () => {
     setSearch("");
     setResults([]);
@@ -123,10 +114,6 @@ export default function HelpSearch({
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [open]);
-
-  // =========================================================
-  // UI
-  // =========================================================
 
   return (
     <AnimatePresence>

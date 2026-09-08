@@ -38,7 +38,6 @@ export default function DynamicHelpArticle() {
 
     if (data.length > 0) {
       setSelectedSlug((currentSlug) => {
-        // Keep current article if it still exists
         const currentArticle = data.find(
           (article: Article) => article.slug === currentSlug,
         );
@@ -47,7 +46,6 @@ export default function DynamicHelpArticle() {
           return currentSlug;
         }
 
-        // Otherwise select first article
         return data[0].slug;
       });
     }
@@ -244,10 +242,6 @@ export default function DynamicHelpArticle() {
                   );
                 }
 
-                // =================================================
-                // LIST
-                // =================================================
-
                 if (block.type === "list") {
                   const items = (block.data.items as string[]) || [];
 
@@ -284,10 +278,6 @@ export default function DynamicHelpArticle() {
                   );
                 }
 
-                // =================================================
-                // TIP
-                // =================================================
-
                 if (block.type === "tip") {
                   return (
                     <div
@@ -316,10 +306,6 @@ export default function DynamicHelpArticle() {
                     </div>
                   );
                 }
-
-                // =================================================
-                // IMAGE
-                // =================================================
 
                 if (block.type === "image") {
                   return (

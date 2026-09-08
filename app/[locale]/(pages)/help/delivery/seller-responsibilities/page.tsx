@@ -66,21 +66,9 @@ export default function DynamicHelpArticle() {
 
   console.log("get Data", data);
 
-  // ============================================================
-  // 2. STORE ALL ARTICLES IN STATE
-  // ============================================================
-
   const [articles, setArticles] = useState<Article[]>([]);
 
-  // ============================================================
-  // 3. STORE CURRENTLY SELECTED SLUG
-  // ============================================================
-
   const [selectedSlug, setSelectedSlug] = useState<string>("");
-
-  // ============================================================
-  // 4. WHEN API DATA ARRIVES, STORE IT IN STATE
-  // ============================================================
 
   useEffect(() => {
     if (!data || !Array.isArray(data)) {
@@ -88,12 +76,8 @@ export default function DynamicHelpArticle() {
     }
 
     setArticles(data);
-
-    // If there is no selected article yet,
-    // automatically select the first article.
     if (data.length > 0) {
       setSelectedSlug((currentSlug) => {
-        // Keep current article if it still exists
         const currentArticle = data.find(
           (article: Article) => article.slug === currentSlug,
         );
@@ -101,16 +85,10 @@ export default function DynamicHelpArticle() {
         if (currentArticle) {
           return currentSlug;
         }
-
-        // Otherwise select first article
         return data[0].slug;
       });
     }
   }, [data]);
-
-  // ============================================================
-  // 5. FIND CURRENT ARTICLE USING SLUG
-  // ============================================================
 
   const selectedArticle = useMemo(() => {
     if (!selectedSlug || articles.length === 0) {
@@ -120,10 +98,6 @@ export default function DynamicHelpArticle() {
     return articles.find((article) => article.slug === selectedSlug) || null;
   }, [articles, selectedSlug]);
 
-  // ============================================================
-  // 6. HANDLE SIDEBAR ARTICLE CLICK
-  // ============================================================
-
   const handleArticleClick = (slug: string) => {
     setSelectedSlug(slug);
 
@@ -132,10 +106,6 @@ export default function DynamicHelpArticle() {
       behavior: "smooth",
     });
   };
-
-  // ============================================================
-  // 7. LOADING
-  // ============================================================
 
   if (isLoading) {
     return (
@@ -147,10 +117,6 @@ export default function DynamicHelpArticle() {
     );
   }
 
-  // ============================================================
-  // 8. ERROR
-  // ============================================================
-
   if (error) {
     return (
       <div className="flex min-h-[500px] items-center justify-center">
@@ -160,10 +126,6 @@ export default function DynamicHelpArticle() {
       </div>
     );
   }
-
-  // ============================================================
-  // 9. NO DATA
-  // ============================================================
 
   if (!articles.length || !selectedArticle) {
     return (
@@ -175,20 +137,12 @@ export default function DynamicHelpArticle() {
     );
   }
 
-  // ============================================================
-  // 10. FORMAT DATE
-  // ============================================================
-
   const formattedDate = selectedArticle.updatedAt
     ? new Date(selectedArticle.updatedAt).toLocaleDateString("en-US", {
         month: "long",
         year: "numeric",
       })
     : "";
-
-  // ============================================================
-  // 11. FIND NEXT ARTICLE
-  // ============================================================
 
   const nextArticle = selectedArticle.nextArticle?.slug
     ? articles.find(
@@ -262,10 +216,6 @@ export default function DynamicHelpArticle() {
 
             <div className="mt-12 space-y-16">
               {selectedArticle.blocks?.map((block, index) => {
-                // =================================================
-                // PARAGRAPH
-                // =================================================
-
                 if (block.type === "paragraph") {
                   return (
                     <div
@@ -284,10 +234,6 @@ export default function DynamicHelpArticle() {
                     </div>
                   );
                 }
-
-                // =================================================
-                // STEPS
-                // =================================================
 
                 if (block.type === "steps") {
                   const steps = (block.data.items as Step[]) || [];
@@ -352,10 +298,6 @@ export default function DynamicHelpArticle() {
                   );
                 }
 
-                // =================================================
-                // LIST
-                // =================================================
-
                 if (block.type === "list") {
                   const items = (block.data.items as string[]) || [];
 
@@ -392,10 +334,6 @@ export default function DynamicHelpArticle() {
                   );
                 }
 
-                // =================================================
-                // TIP
-                // =================================================
-
                 if (block.type === "tip") {
                   return (
                     <div
@@ -424,10 +362,6 @@ export default function DynamicHelpArticle() {
                     </div>
                   );
                 }
-
-                // =================================================
-                // IMAGE
-                // =================================================
 
                 if (block.type === "image") {
                   return (

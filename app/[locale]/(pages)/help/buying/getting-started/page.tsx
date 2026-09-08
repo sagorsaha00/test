@@ -38,7 +38,6 @@ export default function DynamicHelpArticle() {
 
     if (data.length > 0) {
       setSelectedSlug((currentSlug) => {
-        // Keep current article if it still exists
         const currentArticle = data.find(
           (article: Article) => article.slug === currentSlug,
         );

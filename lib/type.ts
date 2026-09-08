@@ -3,7 +3,17 @@ export interface BlockItem {
   description?: string;
   [key: string]: any;
 }
+export interface HelpCategoryItem {
+  key: string;
+  label: string;
+}
 
+export interface HelpCategory {
+  key: string;
+  title: string;
+  description: string;
+  items: HelpCategoryItem[];
+}
 export interface Block {
   type: "paragraph" | "steps" | "list" | "tip" | "image";
   data: {

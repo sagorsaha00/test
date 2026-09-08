@@ -31,10 +31,6 @@ export default function MarkoodHeader() {
 
   const [searchOpen, setSearchOpen] = useState(false);
 
-  // =========================================================
-  // YOUR EXISTING MENUS
-  // =========================================================
-
   const menus = [
     {
       label: t("sellOnMarkood.title"),

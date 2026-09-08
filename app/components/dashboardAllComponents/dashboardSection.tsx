@@ -23,10 +23,6 @@ import type { ElementType } from "react";
 import { StatusBadge } from "../lib/icons";
 import { useAllPosts } from "@/lib/getData";
 
-// ======================================================
-// TYPES
-// ======================================================
-
 type Article = {
   _id: string;
   categoryKey?: string;
@@ -63,11 +59,6 @@ type CategoryConfig = {
   icon: ElementType;
   items: CategoryItem[];
 };
-
-// ======================================================
-// CATEGORY CONFIG
-// This matches your Header JSON exactly
-// ======================================================
 
 const categoryConfig: CategoryConfig[] = [
   {
@@ -223,10 +214,6 @@ const categoryConfig: CategoryConfig[] = [
   },
 ];
 
-// ======================================================
-// HELPERS
-// ======================================================
-
 const formatDate = (date?: string) => {
   if (!date) return "—";
 
@@ -247,42 +234,17 @@ const formatViews = () => {
   return "—";
 };
 
-// ======================================================
-// COMPONENT
-// ======================================================
-
 export default function DashboardSection() {
   const router = useRouter();
 
   const { data: response, isLoading, isError, error, refetch } = useAllPosts();
 
-  // ====================================================
-  // NORMALIZE RESPONSE
-  //
-  // Supports both:
-  //
-  // 1. response = Article[]
-  //
-  // 2. response = {
-  //      success: true,
-  //      data: Article[]
-  //    }
-  // ====================================================
-
   const articles: Article[] = Array.isArray(response)
     ? response
     : ((response as ApiResponse)?.data ?? []);
 
-  // ====================================================
-  // DEBUG
-  // ====================================================
-
   console.log("Dashboard response:", response);
   console.log("Dashboard articles:", articles);
-
-  // ====================================================
-  // STATS
-  // ====================================================
 
   const totalArticles = articles.length;
 
@@ -293,16 +255,6 @@ export default function DashboardSection() {
   const draftArticles = articles.filter(
     (article) => article.status === "draft",
   ).length;
-
-  // ====================================================
-  // DYNAMIC CATEGORY DATA
-  //
-  // IMPORTANT:
-  // category count checks categoryKey
-  //
-  // item count checks:
-  // categoryKey + itemKey
-  // ====================================================
 
   const categories = categoryConfig.map((category) => {
     const categoryArticles = articles.filter(
@@ -328,13 +280,6 @@ export default function DashboardSection() {
       items,
     };
   });
- 
-
- 
-
-  // ====================================================
-  // ANIMATIONS
-  // ====================================================
 
   const containerVariants: Variants = {
     hidden: {},
@@ -360,10 +305,6 @@ export default function DashboardSection() {
     },
   };
 
-  // ====================================================
-  // LOADING
-  // ====================================================
-
   if (isLoading) {
     return (
       <div className="flex min-h-[400px] items-center justify-center">
@@ -374,10 +315,6 @@ export default function DashboardSection() {
       </div>
     );
   }
-
-  // ====================================================
-  // ERROR
-  // ====================================================
 
   if (isError) {
     return (
@@ -400,10 +337,6 @@ export default function DashboardSection() {
       </div>
     );
   }
-
-  // ====================================================
-  // UI
-  // ====================================================
 
   return (
     <motion.div
@@ -430,15 +363,11 @@ export default function DashboardSection() {
             }).format(new Date())}
           </p>
 
-           
-
           <p className="mt-2 max-w-xl text-sm leading-6 text-slate-500">
             Manage Markood Center content, policies and marketplace updates from
             one place.
           </p>
         </div>
-
-        
       </motion.div>
 
       {/* =================================================
@@ -560,7 +489,6 @@ export default function DashboardSection() {
 
                     <div className="mt-5 grid gap-3 sm:grid-cols-2">
                       {category.items.map((item) => {
-                        // THIS IS THE IMPORTANT PART
                         const itemCount = articles.filter(
                           (article) =>
                             article.categoryKey === category.key &&
@@ -608,10 +536,7 @@ export default function DashboardSection() {
               })}
             </div>
           </motion.section>
-          
         </div>
-
- 
 
         <motion.section
           variants={itemVariants}
@@ -665,10 +590,6 @@ export default function DashboardSection() {
     </motion.div>
   );
 }
-
-// ======================================================
-// STAT CARD
-// ======================================================
 
 type StatCardProps = {
   label: string;

@@ -31,7 +31,6 @@ export default function MarkoodTrustHero() {
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Automatically move to next video
   useEffect(() => {
     if (paused) return;
 
@@ -99,12 +98,8 @@ export default function MarkoodTrustHero() {
               >
                 Explore our safety policies
               </Link>
-
-             
             </div>
           </div>
-
-           
 
           <div className="mx-auto w-full max-w-[380px]">
             <div

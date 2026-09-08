@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { cardAnimation, fadeUp, stagger } from "@/lib/animation";
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   BadgeCheck,
@@ -10,7 +11,6 @@ import {
   ChevronRight,
   CreditCard,
   HelpCircle,
- 
   RotateCcw,
   Search,
   ShieldCheck,
@@ -19,47 +19,6 @@ import {
   UserRound,
   XCircle,
 } from "lucide-react";
-
-const fadeUp: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.55,
-      ease: "easeOut",
-    },
-  },
-};
-
-const stagger: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const cardAnimation: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-    scale: 0.97,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.45,
-      ease: "easeOut",
-    },
-  },
-};
 
 const topics = [
   {
@@ -155,8 +114,6 @@ const quickAnswers = [
 export default function BuyingHelpCenter() {
   return (
     <main className="min-h-screen overflow-hidden bg-white text-slate-950">
-      
-
       <section className="relative overflow-hidden bg-[#f6f9ff]">
         {/* Background decoration */}
         <div className="pointer-events-none absolute -left-40 top-20 h-80 w-80 rounded-full bg-blue-200/30 blur-3xl" />
@@ -324,7 +281,6 @@ export default function BuyingHelpCenter() {
                 </div>
               </div>
 
-             
               <motion.div
                 animate={{
                   y: [0, -8, 0],
@@ -356,8 +312,6 @@ export default function BuyingHelpCenter() {
           </div>
         </div>
       </section>
-
-     
 
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
@@ -452,8 +406,6 @@ export default function BuyingHelpCenter() {
         </div>
       </section>
 
-     
-
       <section className="bg-[#f8fafc]">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
           <motion.div
@@ -517,8 +469,6 @@ export default function BuyingHelpCenter() {
           </motion.div>
         </div>
       </section>
-
- 
 
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
@@ -590,8 +540,6 @@ export default function BuyingHelpCenter() {
           </motion.div>
         </div>
       </section>
-
-  
 
       <section className="border-t border-slate-100 bg-[#f8fafc]">
         <div className="mx-auto max-w-4xl px-5 py-20 text-center sm:px-6 lg:py-24">

@@ -67,7 +67,6 @@ export default function DynamicHelpArticle() {
       behavior: "smooth",
     });
   };
-  //loader
 
   if (isLoading) {
     return (

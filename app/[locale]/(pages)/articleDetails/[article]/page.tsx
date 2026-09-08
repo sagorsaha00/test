@@ -10,7 +10,6 @@ import {
   FileText,
   Lightbulb,
   ListChecks,
-   
 } from "lucide-react";
 
 import { useHelpArticle } from "@/lib/getData";
@@ -49,10 +48,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
   console.log("article ID:", article);
   console.log("data:", data);
 
-  // --------------------------------------------------
-  // Loading
-  // --------------------------------------------------
-
   if (isLoading) {
     return (
       <main className="min-h-screen bg-[#f8fafc]">
@@ -74,10 +69,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
       </main>
     );
   }
-
-  // --------------------------------------------------
-  // Error
-  // --------------------------------------------------
 
   if (isError) {
     return (
@@ -109,10 +100,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
     );
   }
 
-  // --------------------------------------------------
-  // Not Found
-  // --------------------------------------------------
-
   if (!data) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#f8fafc] px-4">
@@ -139,10 +126,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
 
   const blocks: ArticleBlock[] = data.blocks || [];
 
-  // --------------------------------------------------
-  // Category label
-  // --------------------------------------------------
-
   const categoryLabel =
     category === "selling"
       ? "Sell on Markood"
@@ -156,26 +139,18 @@ export default function ArticleDetailsPage({ params }: PageProps) {
               ? "Updates"
               : category;
 
-  // --------------------------------------------------
-  // Get blocks for sidebar
-  // --------------------------------------------------
-
   const stepBlock = blocks.find((block) => block.type === "steps");
 
   const listBlock = blocks.find((block) => block.type === "list");
 
   return (
     <main className="min-h-screen bg-[#f8fafc]">
-      
-
       {/* ==================================================
           PAGE
       ================================================== */}
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8 lg:py-14">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_280px]">
-          
-
           <article className="min-w-0">
             {/* Back */}
             <Link
@@ -183,7 +158,7 @@ export default function ArticleDetailsPage({ params }: PageProps) {
               className="mb-8 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition hover:text-[#0066FF]"
             >
               <ArrowLeft size={16} />
-              Back to  
+              Back to
             </Link>
 
             {/* ==================================================
@@ -231,10 +206,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
 
             <div className="mt-8 space-y-8">
               {blocks.map((block, index) => {
-                // ----------------------------------------------
-                // PARAGRAPH
-                // ----------------------------------------------
-
                 if (block.type === "paragraph") {
                   return (
                     <section
@@ -247,10 +218,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
                     </section>
                   );
                 }
-
-                // ----------------------------------------------
-                // STEPS
-                // ----------------------------------------------
 
                 if (block.type === "steps") {
                   const items = (block.data.items as StepItem[]) || [];
@@ -305,10 +272,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
                   );
                 }
 
-                // ----------------------------------------------
-                // LIST
-                // ----------------------------------------------
-
                 if (block.type === "list") {
                   const items = (block.data.items as string[]) || [];
 
@@ -347,10 +310,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
                   );
                 }
 
-                // ----------------------------------------------
-                // TIP
-                // ----------------------------------------------
-
                 if (block.type === "tip") {
                   return (
                     <section
@@ -380,10 +339,6 @@ export default function ArticleDetailsPage({ params }: PageProps) {
                   );
                 }
 
-                // ----------------------------------------------
-                // IMAGE
-                // ----------------------------------------------
-
                 if (block.type === "image") {
                   return (
                     <figure
@@ -408,11 +363,7 @@ export default function ArticleDetailsPage({ params }: PageProps) {
                 return null;
               })}
             </div>
-
-           
           </article>
-
-           
 
           <aside className="hidden lg:block">
             <div className="sticky top-8 space-y-5">
@@ -483,7 +434,7 @@ export default function ArticleDetailsPage({ params }: PageProps) {
                     </p>
                   </div>
                 </div>
-              </div>               
+              </div>
             </div>
           </aside>
         </div>

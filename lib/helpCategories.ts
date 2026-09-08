@@ -1,18 +1,5 @@
-export interface HelpCategoryItem {
-  key: string;
-  label: string;
-}
- 
+import { HelpCategory } from "./type";
 
-export interface HelpCategory {
-  key: string;
-  title: string;
-  description: string;
-  items: HelpCategoryItem[];
-}
-
-// Mirrors Header.json so the dashboard always tags posts into a section
-// that actually exists in the nav. Update both together.
 export const HELP_CATEGORIES: HelpCategory[] = [
   {
     key: "sellOnMarkood",

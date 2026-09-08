@@ -119,7 +119,6 @@ export default function ArticleSection() {
         throw new Error(result.message || "Failed to delete update");
       }
 
-      // Remove deleted post from UI immediately
       setPosts((currentPosts) =>
         currentPosts.filter((post) => post._id !== id),
       );
@@ -139,10 +138,6 @@ export default function ArticleSection() {
       day: "numeric",
     });
   };
-
-  // ============================================================
-  // LOADING
-  // ============================================================
 
   if (loading) {
     return (
@@ -182,10 +177,6 @@ export default function ArticleSection() {
       </div>
     );
   }
-
-  // ============================================================
-  // MAIN
-  // ============================================================
 
   return (
     <motion.div
@@ -287,8 +278,6 @@ export default function ArticleSection() {
           </span>
         </div>
 
-     
-
         {posts.length === 0 && (
           <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-16 text-center">
             <Megaphone size={30} className="mx-auto text-slate-300" />
@@ -303,8 +292,6 @@ export default function ArticleSection() {
           </div>
         )}
 
-        
-
         {posts.length > 0 && (
           <div className="mt-6 space-y-3">
             {posts.map((post) => (
@@ -318,8 +305,6 @@ export default function ArticleSection() {
                   <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-[#0066FF]">
                     <Megaphone size={18} />
                   </div>
-
-             
 
                   <div className="min-w-0 flex-1">
                     <h4 className="text-sm font-black text-slate-900">
@@ -340,11 +325,7 @@ export default function ArticleSection() {
                     </div>
                   </div>
 
-               
-
                   <div className="flex shrink-0 items-center gap-2">
-                     
-
                     <button
                       type="button"
                       disabled={deletingId === post._id}

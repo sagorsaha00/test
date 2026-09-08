@@ -164,10 +164,6 @@ export default function DynamicHelpArticle() {
 
             <div className="mt-12 space-y-16">
               {selectedArticle.blocks?.map((block, index) => {
-                // =================================================
-                // PARAGRAPH
-                // =================================================
-
                 if (block.type === "paragraph") {
                   return (
                     <div
@@ -186,10 +182,6 @@ export default function DynamicHelpArticle() {
                     </div>
                   );
                 }
-
-                // =================================================
-                // STEPS
-                // =================================================
 
                 if (block.type === "steps") {
                   const steps = (block.data.items as Step[]) || [];
@@ -254,10 +246,6 @@ export default function DynamicHelpArticle() {
                   );
                 }
 
-                // =================================================
-                // LIST
-                // =================================================
-
                 if (block.type === "list") {
                   const items = (block.data.items as string[]) || [];
 
@@ -294,10 +282,6 @@ export default function DynamicHelpArticle() {
                   );
                 }
 
-                // =================================================
-                // TIP
-                // =================================================
-
                 if (block.type === "tip") {
                   return (
                     <div
@@ -326,10 +310,6 @@ export default function DynamicHelpArticle() {
                     </div>
                   );
                 }
-
-                // =================================================
-                // IMAGE
-                // =================================================
 
                 if (block.type === "image") {
                   return (
