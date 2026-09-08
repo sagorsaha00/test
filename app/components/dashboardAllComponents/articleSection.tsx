@@ -246,9 +246,6 @@ export default function ArticleSection() {
             </div>
           </div>
         </div>
-
-        {/* PUBLISHED */}
-
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_5px_25px_rgba(15,23,42,0.025)]">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
@@ -292,9 +289,7 @@ export default function ArticleSection() {
           </span>
         </div>
 
-        {/* =================================================
-            EMPTY
-        ================================================= */}
+     
 
         {posts.length === 0 && (
           <div className="mt-6 rounded-2xl border border-dashed border-slate-200 px-6 py-16 text-center">
@@ -310,9 +305,7 @@ export default function ArticleSection() {
           </div>
         )}
 
-        {/* =================================================
-            POST LIST
-        ================================================= */}
+        
 
         {posts.length > 0 && (
           <div className="mt-6 space-y-3">
@@ -328,7 +321,7 @@ export default function ArticleSection() {
                     <Megaphone size={18} />
                   </div>
 
-                  {/* CONTENT */}
+             
 
                   <div className="min-w-0 flex-1">
                     <h4 className="text-sm font-black text-slate-900">
@@ -349,21 +342,10 @@ export default function ArticleSection() {
                     </div>
                   </div>
 
-                  {/* ACTIONS */}
+               
 
                   <div className="flex shrink-0 items-center gap-2">
-                    {/* EDIT */}
-                    {/* 
-                    <button
-                      type="button"
-                      onClick={() => handleEdit(post._id)}
-                      className="flex h-9 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-600 transition hover:border-blue-100 hover:bg-blue-50 hover:text-[#0066FF]"
-                    >
-                      <Pencil size={14} />
-                      <span>Edit</span>
-                    </button> */}
-
-                    {/* DELETE */}
+                     
 
                     <button
                       type="button"

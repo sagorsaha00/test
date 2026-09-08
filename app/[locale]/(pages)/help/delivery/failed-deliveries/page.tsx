@@ -147,10 +147,6 @@ export default function DynamicHelpArticle() {
     );
   }
 
-  // ============================================================
-  // 8. ERROR
-  // ============================================================
-
   if (error) {
     return (
       <div className="flex min-h-[500px] items-center justify-center">
