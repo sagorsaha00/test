@@ -5,18 +5,7 @@ import {
   ChevronRight,
   HelpCircle,
 } from "lucide-react";
-
-type HelpItem = {
-  title: string;
-  description: string;
-};
-
-type SellerHelpPageProps = {
-  title: string;
-  description: string;
-  category: string;
-  items: HelpItem[];
-};
+import { SellerHelpPageProps } from "@/lib/type";
 
 export default function SellerHelpPage({
   title,

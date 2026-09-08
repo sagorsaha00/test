@@ -10,42 +10,8 @@ import {
   Loader2,
   AlertCircle,
 } from "lucide-react";
-
-interface UpdatePost {
-  _id: string;
-  title: string;
-  slug: string;
-  summary: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface ApiResponse {
-  success: boolean;
-  data: UpdatePost[];
-  message?: string;
-}
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: {
-    opacity: 0,
-    y: 10,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-  },
-};
+import { ApiResponse, UpdatePost } from "@/lib/type";
+import { containerVariants, itemVariants } from "@/lib/animation";
 
 export default function ArticleSection() {
   const [posts, setPosts] = useState<UpdatePost[]>([]);
@@ -185,10 +151,6 @@ export default function ArticleSection() {
       animate="visible"
       className="mx-auto max-w-[1500px] px-5 py-7 sm:px-7 lg:px-9 lg:py-9"
     >
-      {/* =====================================================
-          HEADER
-      ===================================================== */}
-
       <motion.div
         variants={itemVariants}
         className="flex flex-col justify-between gap-5 md:flex-row md:items-end"
@@ -207,10 +169,6 @@ export default function ArticleSection() {
           </p>
         </div>
       </motion.div>
-
-      {/* =====================================================
-          STATS
-      ===================================================== */}
 
       <motion.div
         variants={itemVariants}

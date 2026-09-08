@@ -4,12 +4,7 @@ import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Globe, ChevronDown } from "lucide-react";
-
-const languages = [
-  { code: "en", name: "English", flag: "🇺🇸" },
-  { code: "ar", name: "العربية", flag: "🇸🇦" },
-  { code: "sv", name: "Svenska", flag: "🇸🇪" },
-];
+import { languages } from "@/lib/dummy.data";
 
 export default function LanguageSwitcher() {
   const locale = useLocale();

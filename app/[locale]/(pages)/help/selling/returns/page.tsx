@@ -14,48 +14,7 @@ import {
 } from "lucide-react";
 
 import { useHelpContent } from "@/lib/getData";
-
-interface Step {
-  title: string;
-  description: string;
-}
-
-interface Block {
-  type: "paragraph" | "steps" | "list" | "tip" | "image";
-  data: {
-    text?: string;
-    items?: Step[] | string[];
-    label?: string;
-    title?: string;
-    body?: string;
-    url?: string;
-    caption?: string;
-  };
-}
-
-interface NextArticle {
-  label: string;
-  title: string;
-  description: string;
-  href?: string;
-  slug?: string;
-}
-
-interface Article {
-  _id: string;
-  categoryKey: string;
-  itemKey: string;
-  title: string;
-  slug: string;
-  summary: string;
-  readTime: string;
-  blocks: Block[];
-  nextArticle?: NextArticle;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-  __v?: number;
-}
+import { Article, Step } from "@/lib/type";
 
 const STEP_ICONS = [UserPlus, Store, Package, ShieldCheck, Truck];
 

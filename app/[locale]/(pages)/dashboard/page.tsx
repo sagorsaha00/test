@@ -11,7 +11,6 @@ type MenuType = "Dashboard" | "Articles" | "Managecontent";
 
 export default function MarkoodCenterDashboard() {
   const [activeMenu, setActiveMenu] = useState<MenuType>("Dashboard");
-
   const menuItems: { key: MenuType; label: string; icon: React.ElementType }[] =
     [
       { key: "Dashboard", label: "Dashboard", icon: LayoutDashboard },

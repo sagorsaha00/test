@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { ElementType } from "react";
-import { StatusBadge } from "../lib/icons";
 import { useAllPosts } from "@/lib/getData";
 
 type Article = {
@@ -213,26 +212,6 @@ const categoryConfig: CategoryConfig[] = [
     ],
   },
 ];
-
-const formatDate = (date?: string) => {
-  if (!date) return "—";
-
-  const parsedDate = new Date(date);
-
-  if (Number.isNaN(parsedDate.getTime())) {
-    return "—";
-  }
-
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  }).format(parsedDate);
-};
-
-const formatViews = () => {
-  return "—";
-};
 
 export default function DashboardSection() {
   const router = useRouter();

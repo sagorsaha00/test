@@ -84,3 +84,41 @@ export interface Article {
   updatedAt: string;
   __v?: number;
 }
+
+type HelpItem = {
+  title: string;
+  description: string;
+};
+
+export type SellerHelpPageProps = {
+  title: string;
+  description: string;
+  category: string;
+  items: HelpItem[];
+};
+export interface UpdatePost {
+  _id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApiResponse {
+  success: boolean;
+  data: UpdatePost[];
+  message?: string;
+}
+type CategoryItem = {
+  key: string;
+  label: string;
+};
+
+type CategoryConfig = {
+  key: string;
+  title: string;
+  description: string;
+  icon: ElementType;
+  items: CategoryItem[];
+};

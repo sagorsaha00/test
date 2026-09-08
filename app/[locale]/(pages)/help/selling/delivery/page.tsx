@@ -14,48 +14,7 @@ import {
 } from "lucide-react";
 
 import { useHelpContent } from "@/lib/getData";
-
-interface Step {
-  title: string;
-  description: string;
-}
-
-interface Block {
-  type: "paragraph" | "steps" | "list" | "tip" | "image";
-  data: {
-    text?: string;
-    items?: Step[] | string[];
-    label?: string;
-    title?: string;
-    body?: string;
-    url?: string;
-    caption?: string;
-  };
-}
-
-interface NextArticle {
-  label: string;
-  title: string;
-  description: string;
-  href?: string;
-  slug?: string;
-}
-
-interface Article {
-  _id: string;
-  categoryKey: string;
-  itemKey: string;
-  title: string;
-  slug: string;
-  summary: string;
-  readTime: string;
-  blocks: Block[];
-  nextArticle?: NextArticle;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
-  __v?: number;
-}
+import { Article, Step } from "@/lib/type";
 
 const STEP_ICONS = [UserPlus, Store, Package, ShieldCheck, Truck];
 
@@ -166,15 +125,10 @@ export default function DynamicHelpArticle() {
 
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
-          {/* ==================================================
-              LEFT SIDE
-              CURRENT ARTICLE
-          ================================================== */}
+          
 
           <main className="max-w-4xl">
-            {/* ================================================
-                ARTICLE HEADER
-            ================================================= */}
+             
 
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-2 shadow-sm">
