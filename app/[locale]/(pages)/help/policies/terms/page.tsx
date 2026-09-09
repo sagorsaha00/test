@@ -110,7 +110,7 @@ export default function DynamicHelpArticle() {
     : null;
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#f8fafc]">
+    <section className="relative min-h-screen overflow-hidden bg-white">
       {/* ======================================================
           BACKGROUND
       ====================================================== */}

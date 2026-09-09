@@ -129,7 +129,7 @@ export default function MarkoodVideoGuides() {
   const FeaturedIcon = featured.icon;
 
   return (
-    <section className="relative overflow-hidden bg-[#f8fafc] py-20 sm:py-24 lg:py-32">
+    <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-32">
       {/* =====================================================
           BACKGROUND
       ===================================================== */}
@@ -179,10 +179,10 @@ export default function MarkoodVideoGuides() {
             </span>
           </div>
 
-          <h2 className="text-4xl font-black tracking-[-1.8px] text-slate-950 sm:text-5xl lg:text-[56px] lg:leading-[1.05]">
+          <h2 className="text-4xl font-black leading-[1.1] tracking-[-1.8px] text-slate-950 sm:text-5xl lg:text-[56px] lg:leading-[1.05] md:mr-26">
             Learn Markood.
             <br />
-            <span className="text-[#0066FF]">One step at a time.</span>
+            <span className="text-[#0066FF] md:ml-25">One step at a time.</span>
           </h2>
 
           <p className="mx-auto mt-6 max-w-2xl text-base leading-7 text-slate-500 sm:text-lg">
@@ -190,10 +190,6 @@ export default function MarkoodVideoGuides() {
             use Markood with confidence.
           </p>
         </motion.div>
-
-        {/* ===================================================
-            FEATURED VIDEO
-        =================================================== */}
 
         <motion.div
           initial="hidden"

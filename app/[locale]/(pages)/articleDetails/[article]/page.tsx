@@ -50,7 +50,7 @@ export default function ArticleDetailsPage({ params }: PageProps) {
 
   if (isLoading) {
     return (
-      <main className="min-h-screen bg-[#f8fafc]">
+      <main className="min-h-screen bg-white">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="animate-pulse">
             <div className="h-4 w-40 rounded bg-slate-200" />
@@ -72,7 +72,7 @@ export default function ArticleDetailsPage({ params }: PageProps) {
 
   if (isError) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f8fafc] px-4">
+      <main className="flex min-h-screen items-center justify-center bg-white px-4">
         <div className="w-full max-w-md rounded-3xl border border-red-100 bg-white p-8 text-center shadow-sm">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-red-50 text-red-500">
             <FileText size={25} />
@@ -102,7 +102,7 @@ export default function ArticleDetailsPage({ params }: PageProps) {
 
   if (!data) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f8fafc] px-4">
+      <main className="flex min-h-screen items-center justify-center bg-white px-4">
         <div className="text-center">
           <h1 className="text-3xl font-black text-slate-900">
             Article not found
@@ -144,7 +144,7 @@ export default function ArticleDetailsPage({ params }: PageProps) {
   const listBlock = blocks.find((block) => block.type === "list");
 
   return (
-    <main className="min-h-screen bg-[#f8fafc]">
+    <main className="min-h-screen bg-white">
       {/* ==================================================
           PAGE
       ================================================== */}

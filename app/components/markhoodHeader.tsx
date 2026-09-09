@@ -192,7 +192,7 @@ export default function MarkoodHeader() {
         <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-8">
           <Link
             href={`/${locale}`}
-            className="flex shrink-0 items-center gap-2"
+            className="flex shrink-0 items-center"
             onClick={() => setMobileOpen(false)}
           >
             <Image
@@ -200,14 +200,17 @@ export default function MarkoodHeader() {
               alt="Logo"
               width={140}
               height={40}
-              className="h-8 w-auto object-contain md:h-10"
+              className="
+      h-7
+      w-auto
+      object-contain
+      sm:h-8
+      md:h-9
+      lg:h-10
+    "
               priority
             />
           </Link>
-
-          {/* =================================================
-              DESKTOP NAV
-          ================================================= */}
 
           <nav className="hidden h-full items-center lg:flex">
             {menus.map((menu) => {

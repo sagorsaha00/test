@@ -112,7 +112,7 @@ export default function DynamicHelpArticle() {
     : null;
 
   return (
-    <section className="relative min-h-screen overflow-hidden bg-[#f8fafc]">
+    <section className="relative min-h-screen overflow-hidden bg-white">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-180px] top-40 h-[400px] w-[400px] rounded-full bg-blue-100/40 blur-3xl" />
 

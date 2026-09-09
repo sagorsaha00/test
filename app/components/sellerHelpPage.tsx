@@ -14,7 +14,7 @@ export default function SellerHelpPage({
   items,
 }: SellerHelpPageProps) {
   return (
-    <section className="min-h-[70vh] bg-[#f8fafc]">
+    <section className="min-h-[70vh] bg-white">
       <div className="mx-auto max-w-6xl px-5 py-12 sm:px-6 lg:px-8 lg:py-16">
         <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
           <Link href="/help" className="transition hover:text-[#0066FF]">

@@ -420,7 +420,7 @@ export default function HelpCenterPage() {
           POPULAR ARTICLES
       ===================================================== */}
 
-      <section className="relative overflow-hidden bg-[#f8fafc]">
+      <section className="relative overflow-hidden bg-white">
         <div className="pointer-events-none absolute left-0 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-blue-100/30 blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
@@ -529,13 +529,13 @@ export default function HelpCenterPage() {
                 </span>
               </div>
 
-              <h2 className="mt-5 text-3xl font-black text-slate-950 sm:text-4xl">
+              <h2 className="mt-5 md:mr-36 text-3xl font-black text-slate-950 sm:text-4xl">
                 What's new at
                 <br />
                 <span className="text-[#0066FF]">Markood?</span>
               </h2>
 
-              <p className="mt-5 max-w-md text-sm leading-7 text-slate-500">
+              <p className="mt-5 max-w-md text-sm leading-7 text-slate-500  ">
                 Stay up to date with product improvements, marketplace changes,
                 policy updates and new features.
               </p>
@@ -555,7 +555,7 @@ export default function HelpCenterPage() {
               whileInView="visible"
               viewport={{ once: true, amount: 0.1 }}
               variants={stagger}
-              className="space-y-4"
+              className="space-y-4 "
             >
               {updates.map((update, index) => (
                 <motion.div
@@ -604,7 +604,7 @@ export default function HelpCenterPage() {
           POLICIES
       ===================================================== */}
 
-      <section className="relative overflow-hidden bg-[#f8fafc]">
+      <section className="relative overflow-hidden bg-white">
         <div className="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-blue-100/30 blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">

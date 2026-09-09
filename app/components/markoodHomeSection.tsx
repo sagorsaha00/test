@@ -28,7 +28,7 @@ import { fadeUp, scaleIn, stagger } from "@/lib/animation";
 export default function MarkoodCenter() {
   return (
     <main className="min-h-screen overflow-hidden bg-white text-slate-950">
-      <section className="relative overflow-hidden bg-[#F8FAFC]">
+      <section className="relative overflow-hidden bg-white">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
           <motion.div
             initial="hidden"
@@ -215,25 +215,26 @@ export default function MarkoodCenter() {
         </div>
       </section>
 
-      <section className="bg-[#F8FAFC]">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
+      <section className="bg-white">
+        <div className="mx-auto md:text-center max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={fadeUp}
+            className="  r"
           >
-            <span className="text-xs font-black tracking-[0.2em] text-[#0066FF]">
-              EXPLORE
-            </span>
+            <div className="mx-auto w-full max-w-3xl text-center">
+              <span className="text-xs font-black tracking-[0.2em] text-[#0066FF]">
+                EXPLORE
+              </span>
 
-            <div className="mt-4 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-              <div>
-                <h2 className="text-3xl font-black text-slate-950 sm:text-4xl">
+              <div className="mt-4">
+                <h2 className="text-3xl font-black text-slate-950 sm:text-4xl lg:text-5xl">
                   Explore Markood Center
                 </h2>
 
-                <p className="mt-3 max-w-xl text-sm leading-7 text-slate-500">
+                <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-500 sm:text-base">
                   Browse guides and resources designed for every part of the
                   Markood experience.
                 </p>
@@ -294,7 +295,7 @@ export default function MarkoodCenter() {
 
       <MarkoodVideoGuides />
 
-      <section className="bg-[#F8FAFC]">
+      <section className="bg-white">
         <div className="mx-auto max-w-5xl px-5 py-20 sm:px-6 lg:py-28">
           <motion.div
             initial="hidden"
@@ -317,9 +318,22 @@ export default function MarkoodCenter() {
           </motion.div>
 
           <div className="relative mt-14">
-            <div className="absolute bottom-0 left-4 top-0 w-px bg-slate-200 sm:left-6" />
+            {/* Timeline line */}
+            <div
+              className="
+      absolute
+      bottom-0
+      left-4
+      top-0
+      hidden
+      w-px
+      bg-slate-200
+      sm:left-6
+      sm:block
+    "
+            />
 
-            <div className="space-y-8">
+            <div className="space-y-6 sm:space-y-8">
               {updates.map((update, index) => (
                 <motion.div
                   key={update.title}
@@ -339,16 +353,62 @@ export default function MarkoodCenter() {
                     delay: index * 0.1,
                     duration: 0.6,
                   }}
-                  className="relative pl-12 sm:pl-16"
+                  className="
+          relative
+          pl-0
+          sm:pl-16
+        "
                 >
-                  <div className="absolute left-[9px] top-6 h-3 w-3 rounded-full bg-[#0066FF] ring-4 ring-blue-500/10 sm:left-[21px]" />
+                  {/* Timeline dot */}
+                  <div
+                    className="
+            absolute
+            left-[21px]
+            top-6
+            hidden
+            h-3
+            w-3
+            rounded-full
+            bg-[#0066FF]
+            ring-4
+            ring-blue-500/10
+            sm:block
+          "
+                  />
 
                   <Link
                     href={update.href}
-                    className="group block rounded-3xl border border-slate-200 bg-white p-6 transition-all duration-500 hover:-translate-y-1 hover:border-blue-200 hover:shadow-[0_20px_60px_rgba(15,23,42,0.08)]"
+                    className="
+            group
+            block
+            rounded-2xl
+            border
+            border-slate-200
+            bg-white
+            p-5
+            transition-all
+            duration-500
+            hover:-translate-y-1
+            hover:border-blue-200
+            hover:shadow-[0_20px_60px_rgba(15,23,42,0.08)]
+            sm:rounded-3xl
+            sm:p-6
+          "
                   >
+                    {/* Type + Date */}
                     <div className="flex flex-wrap items-center gap-3">
-                      <span className="rounded-full bg-blue-50 px-3 py-1.5 text-[10px] font-bold tracking-wide text-[#0066FF]">
+                      <span
+                        className="
+                rounded-full
+                bg-blue-50
+                px-3
+                py-1.5
+                text-[10px]
+                font-bold
+                tracking-wide
+                text-[#0066FF]
+              "
+                      >
                         {update.type}
                       </span>
 
@@ -357,19 +417,52 @@ export default function MarkoodCenter() {
                       </span>
                     </div>
 
-                    <h3 className="mt-4 text-lg font-bold text-slate-950">
+                    {/* Title */}
+                    <h3
+                      className="
+              mt-4
+              text-lg
+              font-bold
+              leading-snug
+              text-slate-950
+              sm:text-xl
+            "
+                    >
                       {update.title}
                     </h3>
 
-                    <p className="mt-2 text-sm leading-6 text-slate-500">
+                    {/* Description */}
+                    <p
+                      className="
+              mt-2
+              text-sm
+              leading-6
+              text-slate-500
+              sm:text-base
+            "
+                    >
                       {update.description}
                     </p>
 
-                    <div className="mt-5 flex items-center gap-2 text-sm font-bold text-[#0066FF]">
+                    {/* Read update */}
+                    <div
+                      className="
+              mt-5
+              flex
+              items-center
+              gap-2
+              text-sm
+              font-bold
+              text-[#0066FF]
+            "
+                    >
                       Read update
                       <ArrowRight
                         size={15}
-                        className="transition-transform group-hover:translate-x-2"
+                        className="
+                transition-transform
+                group-hover:translate-x-2
+              "
                       />
                     </div>
                   </Link>
@@ -380,10 +473,6 @@ export default function MarkoodCenter() {
         </div>
       </section>
 
-      {/* =====================================================
-          POPULAR ARTICLES
-      ===================================================== */}
-
       <section className="bg-white">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
           <motion.div
@@ -393,16 +482,16 @@ export default function MarkoodCenter() {
             variants={fadeUp}
             className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end"
           >
-            <div>
+            <div className="mx-auto w-full max-w-3xl text-center">
               <span className="text-xs font-black tracking-[0.2em] text-[#0066FF]">
                 KNOWLEDGE BASE
               </span>
 
-              <h2 className="mt-4 text-3xl font-black text-slate-950 sm:text-4xl">
+              <h2 className="mt-4 md:mr-36 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
                 Popular articles
               </h2>
 
-              <p className="mt-3 text-sm leading-7 text-slate-500">
+              <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-slate-500 sm:text-base">
                 Quick answers to the questions people ask most.
               </p>
             </div>
@@ -445,10 +534,6 @@ export default function MarkoodCenter() {
           </motion.div>
         </div>
       </section>
-
-      {/* =====================================================
-          POLICY CENTER
-      ===================================================== */}
 
       <section className="px-5 py-20 sm:px-6 lg:px-8 lg:py-28">
         <motion.div
@@ -589,7 +674,7 @@ export default function MarkoodCenter() {
         </motion.div>
       </section>
 
-      <section className="relative overflow-hidden bg-[#F8FAFC]">
+      <section className="relative overflow-hidden bg-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,102,255,0.08),transparent_55%)]" />
 
         <div className="relative mx-auto max-w-4xl px-5 py-20 text-center sm:px-6 lg:py-28">

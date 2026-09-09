@@ -14,31 +14,11 @@ import {
   Store,
   ShoppingBag,
   Truck,
-  Pencil,
-  Trash2,
-  Plus,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import type { ElementType } from "react";
 import { useAllPosts } from "@/lib/getData";
-
-type Article = {
-  _id: string;
-  categoryKey?: string;
-  itemKey?: string;
-  title: string;
-  slug: string;
-  summary?: string;
-  readTime?: string;
-  blocks?: {
-    type: string;
-    data: unknown;
-  }[];
-  nextArticle?: unknown;
-  status?: "draft" | "published";
-  createdAt: string;
-  updatedAt: string;
-};
+import { Article } from "@/lib/type";
 
 type ApiResponse = {
   success: boolean;

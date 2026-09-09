@@ -57,12 +57,12 @@ export default function MarkoodTrustHero() {
     <section className="overflow-hidden bg-white">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div>
+          <div className="">
             <span className="text-sm font-bold uppercase tracking-wide text-[#0066FF]">
               Trust &amp; Safety
             </span>
 
-            <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-[-1.5px] text-slate-950 sm:text-5xl lg:text-6xl">
+            <h1 className="mt-4  text-4xl font-extrabold leading-[1.05] tracking-[-1.5px] text-slate-950 sm:text-5xl lg:text-6xl">
               Buy, sell, and
               <br />
               connect safely
@@ -70,7 +70,7 @@ export default function MarkoodTrustHero() {
               on Markood
             </h1>
 
-            <p className="mt-6 max-w-md text-base leading-7 text-slate-500 sm:text-lg">
+            <p className="mt-6 max-w-md md:te text-base leading-7 text-slate-500 sm:text-lg">
               Every order, every payment, every message is backed by
               verification, encryption, and a support team that actually
               responds — so you can focus on buying and selling, not worrying.

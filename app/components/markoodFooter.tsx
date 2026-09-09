@@ -98,30 +98,27 @@ export default function MarkoodFooter() {
   return (
     <footer className="bg-[#0F172A] text-white">
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 lg:px-8 lg:py-16">
-        {/* =================================================
-            TOP
-        ================================================= */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.25fr_2.75fr]">
-          {/* =================================================
-              BRAND
-          ================================================= */}
-          <div className="max-w-sm">
+          <div className="w-full">
+             
             <Link href="/help" className="inline-block">
               <Image
-                src="/logo/5.svg"
+                src="/logo/logo.webp"
                 alt="Markood"
                 width={300}
                 height={300}
-                className="h-auto w-40 max-w-[180px] sm:w-48"
+                className="h-auto w-40 sm:w-44 md:w-48"
                 priority
               />
             </Link>
 
-            <p className="mt-5 text-sm leading-6 text-slate-400">
+           
+            <p className="mt-5 max-w-xl text-sm leading-6 text-slate-400">
               Making buying, selling, ordering and delivery simple for everyone
               — backed by support that actually helps.
             </p>
 
+            
             <Link
               href="/help"
               className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-white transition hover:text-[#FFC400]"
@@ -130,16 +127,17 @@ export default function MarkoodFooter() {
               <ArrowRight size={15} />
             </Link>
 
-            <div className="mt-8">
+           
+            <div className="mt-8 w-full max-w-xl">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                 Get updates
               </p>
 
               <form
-                className="mt-3 flex items-center gap-2"
+                className="mt-3 flex w-full flex-col gap-2 sm:flex-row"
                 onSubmit={(e) => e.preventDefault()}
               >
-                <div className="relative flex-1">
+                <div className="relative min-w-0 flex-1">
                   <Mail
                     size={15}
                     className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
@@ -155,17 +153,15 @@ export default function MarkoodFooter() {
 
                 <button
                   type="submit"
-                  className="shrink-0 rounded-lg bg-[#0066FF] px-4 py-2.5 text-xs font-semibold text-white transition hover:bg-[#0052CC]"
+                  className="shrink-0 rounded-lg bg-[#0066FF] px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-[#0052CC]"
                 >
                   Subscribe
                 </button>
               </form>
             </div>
 
-            {/* =================================================
-      SOCIAL
-  ================================================= */}
-            <div className="mt-8 flex items-center gap-3">
+            {/* Social */}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
               {socials.map((social) => {
                 const Icon = social.icon;
 
@@ -176,7 +172,7 @@ export default function MarkoodFooter() {
                     aria-label={social.label}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-700 text-slate-400 transition hover:border-[#0066FF]/40 hover:bg-[#0066FF]/10 hover:text-white"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-700 text-slate-400 transition hover:border-[#0066FF]/40 hover:bg-[#0066FF]/10 hover:text-white"
                   >
                     <Icon className="h-4 w-4" />
                   </Link>
@@ -185,10 +181,7 @@ export default function MarkoodFooter() {
             </div>
           </div>
 
-          {/* =================================================
-              FOOTER LINKS
-          ================================================= */}
-          <div className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
+          <div className="grid grid-cols-2   gap-x-8 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
             <FooterColumn
               title="Sell on Markood"
               links={[
@@ -254,9 +247,7 @@ export default function MarkoodFooter() {
           </div>
         </div>
 
-        {/* =================================================
-            TRUST STRIP
-        ================================================= */}
+       
         <div className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 border-y border-slate-800 py-6 text-xs text-slate-400">
           <span className="flex items-center gap-2">
             <ShieldCheck size={15} className="text-[#0066FF]" />
@@ -274,9 +265,7 @@ export default function MarkoodFooter() {
           </span>
         </div>
 
-        {/* =================================================
-            BOTTOM
-        ================================================= */}
+    
         <div className="mt-8 flex flex-col gap-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 Markood. All rights reserved.</p>
 

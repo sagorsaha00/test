@@ -400,7 +400,7 @@ export default function BuyingHelpCenter() {
         </div>
       </section>
 
-      <section className="bg-[#f8fafc]">
+      <section className="bg-white">
         <div className="mx-auto max-w-7xl px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
           <motion.div
             initial="hidden"
@@ -535,7 +535,7 @@ export default function BuyingHelpCenter() {
         </div>
       </section>
 
-      <section className="border-t border-slate-100 bg-[#f8fafc]">
+      <section className="border-t border-slate-100 bg-white">
         <div className="mx-auto max-w-4xl px-5 py-20 text-center sm:px-6 lg:py-24">
           <motion.div
             initial="hidden"
