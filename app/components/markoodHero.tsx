@@ -3,25 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import Link from "next/link";
-
-const reels = [
-  {
-    label: "Keeping people safe",
-    videoId: "a0CqrKs13Ps",
-  },
-  {
-    label: "Verified sellers only",
-    videoId: "IKS2vNOcZ7A",
-  },
-  {
-    label: "Secure payments, every time",
-    videoId: "sYta53ZVFlw",
-  },
-  {
-    label: "Fast, tracked delivery",
-    videoId: "IGFC5cLAk6k",
-  },
-];
+import reels from "@/lib/youtubeReels";
 
 const VIDEO_DURATION = 5000;
 
@@ -57,12 +39,12 @@ export default function MarkoodTrustHero() {
     <section className="overflow-hidden bg-white">
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div className="">
+          <div className="text-center lg:text-left">
             <span className="text-sm font-bold uppercase tracking-wide text-[#0066FF]">
               Trust &amp; Safety
             </span>
 
-            <h1 className="mt-4  text-4xl font-extrabold leading-[1.05] tracking-[-1.5px] text-slate-950 sm:text-5xl lg:text-6xl">
+            <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-[-1.5px] text-slate-950 sm:text-5xl lg:text-6xl">
               Buy, sell, and
               <br />
               connect safely
@@ -70,29 +52,16 @@ export default function MarkoodTrustHero() {
               on Markood
             </h1>
 
-            <p className="mt-6 max-w-md md:te text-base leading-7 text-slate-500 sm:text-lg">
+            <p className="mt-6 max-w-md text-base leading-7 text-slate-500 sm:text-lg md:mx-auto lg:mx-0">
               Every order, every payment, every message is backed by
               verification, encryption, and a support team that actually
               responds — so you can focus on buying and selling, not worrying.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
               <Link
                 href="/en/help/updates/policies"
-                className="
-                  inline-flex
-                  items-center
-                  gap-2
-                  rounded-xl
-                  bg-[#0066FF]
-                  px-6
-                  py-3
-                  text-sm
-                  font-semibold
-                  text-white
-                  transition
-                  hover:bg-[#0052CC]
-                "
+                className="inline-flex items-center gap-2 rounded-xl bg-[#0066FF] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#0052CC]"
               >
                 Explore our safety policies
               </Link>

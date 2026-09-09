@@ -348,9 +348,7 @@ export default function MarkoodHeader() {
 
           <LanguageSwitcher />
 
-          {/* =================================================
-              DESKTOP SEARCH
-          ================================================= */}
+          
 
           <button
             type="button"
@@ -377,9 +375,7 @@ export default function MarkoodHeader() {
             <span>{t("search")}</span>
           </button>
 
-          {/* =================================================
-              MOBILE ACTIONS
-          ================================================= */}
+          
 
           <div className="flex items-center gap-2 lg:hidden">
             <button
@@ -425,9 +421,7 @@ export default function MarkoodHeader() {
           </div>
         </div>
 
-        {/* ===================================================
-            MOBILE MENU
-        =================================================== */}
+        
 
         <div
           className={`
@@ -615,9 +609,7 @@ export default function MarkoodHeader() {
         </div>
       </header>
 
-      {/* =====================================================
-          SEPARATE SEARCH COMPONENT
-      ===================================================== */}
+      
 
       <HelpSearch
         open={searchOpen}
