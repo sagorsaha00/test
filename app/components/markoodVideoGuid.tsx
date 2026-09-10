@@ -12,6 +12,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { cardAnimation, fadeUp, stagger } from "@/lib/animation";
 
 /* =========================================================
    TYPES
@@ -64,57 +65,8 @@ const videoGuides: VideoGuide[] = [
   },
 ];
 
-/* =========================================================
-   ANIMATIONS
-========================================================= */
-
-const fadeUp: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-
-    transition: {
-      duration: 0.7,
-      ease: "easeOut",
-    },
-  },
-};
-
-const stagger: Variants = {
-  hidden: {},
-
-  visible: {
-    transition: {
-      staggerChildren: 0.12,
-    },
-  },
-};
-
-const cardAnimation: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-/* =========================================================
-   COMPONENT
-========================================================= */
+ 
+ 
 
 export default function MarkoodVideoGuides() {
   const featured = videoGuides[0];
@@ -130,9 +82,7 @@ export default function MarkoodVideoGuides() {
 
   return (
     <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-32">
-      {/* =====================================================
-          BACKGROUND
-      ===================================================== */}
+    
 
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-40 top-20 h-[400px] w-[400px] rounded-full bg-blue-100/50 blur-3xl" />
@@ -148,14 +98,10 @@ export default function MarkoodVideoGuides() {
         />
       </div>
 
-      {/* =====================================================
-          MAIN CONTAINER
-      ===================================================== */}
+     
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-        {/* ===================================================
-            HEADER
-        =================================================== */}
+        
 
         <motion.div
           initial="hidden"
@@ -203,9 +149,7 @@ export default function MarkoodVideoGuides() {
         >
           <div className="group overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_30px_90px_rgba(15,23,42,0.10)]">
             <div className="grid lg:grid-cols-[1.15fr_0.85fr]">
-              {/* ===========================================
-                  VIDEO
-              =========================================== */}
+          
 
               <div className="relative min-h-[320px] overflow-hidden bg-slate-950 sm:min-h-[430px] lg:min-h-[520px]">
                 <iframe
@@ -256,9 +200,7 @@ export default function MarkoodVideoGuides() {
                 </div>
               </div>
 
-              {/* ===========================================
-                  FEATURED CONTENT
-              =========================================== */}
+          
 
               <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
@@ -331,9 +273,7 @@ export default function MarkoodVideoGuides() {
                 className="group"
               >
                 <div className="overflow-hidden rounded-[26px] border border-slate-200 bg-white shadow-[0_15px_50px_rgba(15,23,42,0.06)] transition-all duration-500 hover:-translate-y-1 hover:border-blue-100 hover:shadow-[0_25px_60px_rgba(15,23,42,0.10)]">
-                  {/* =======================================
-                      VIDEO THUMBNAIL
-                  ======================================= */}
+                 
 
                   <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
                     <iframe
@@ -363,9 +303,7 @@ export default function MarkoodVideoGuides() {
                     </motion.div>
                   </div>
 
-                  {/* =======================================
-                      CARD CONTENT
-                  ======================================= */}
+                  
 
                   <div className="p-5">
                     <h3 className="text-lg font-bold tracking-tight text-slate-950">
@@ -392,10 +330,7 @@ export default function MarkoodVideoGuides() {
             );
           })}
         </motion.div>
-
-        {/* ===================================================
-            BOTTOM CTA
-        =================================================== */}
+ 
 
         <motion.div
           initial="hidden"
