@@ -487,7 +487,7 @@ export default function MarkoodCenter() {
                 KNOWLEDGE BASE
               </span>
 
-              <h2 className="mt-4 md:mr-36 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+              <h2 className="mt-4   text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
                 Popular articles
               </h2>
 

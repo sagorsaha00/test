@@ -3,12 +3,14 @@ import {
   CreditCard,
   FileText,
   LockKeyhole,
+  Megaphone,
   Package,
   ShieldCheck,
   ShoppingBag,
   Store,
   Truck,
 } from "lucide-react";
+import { CategoryConfig } from "./type";
 type IconType = React.ComponentType<{
   size?: number;
   className?: string;
@@ -171,5 +173,159 @@ export const policies = [
     title: "Cookie Policy",
     href: "/en/help/updates/policies",
     icon: Cookie,
+  },
+];
+
+export const categoryConfig: CategoryConfig[] = [
+  {
+    key: "sellOnMarkood",
+    title: "Sell on Markood",
+    description:
+      "Everything sellers need to start, manage and grow their business.",
+    icon: Store,
+    items: [
+      {
+        key: "gettingStarted",
+        label: "Getting Started",
+      },
+      {
+        key: "addProducts",
+        label: "Add Products",
+      },
+      {
+        key: "orders",
+        label: "Orders",
+      },
+      {
+        key: "pricingFees",
+        label: "Pricing & Fees",
+      },
+      {
+        key: "delivery",
+        label: "Shipping & Delivery",
+      },
+      {
+        key: "returns",
+        label: "Returns & Refunds",
+      },
+    ],
+  },
+
+  {
+    key: "buyOnMarkood",
+    title: "Buy on Markood",
+    description:
+      "Learn how to discover products, place orders and get support.",
+    icon: ShoppingBag,
+    items: [
+      {
+        key: "gettingStarted",
+        label: "Getting Started",
+      },
+      {
+        key: "searchOrder",
+        label: "Search & Order",
+      },
+      {
+        key: "payments",
+        label: "Payments",
+      },
+      {
+        key: "delivery",
+        label: "Delivery",
+      },
+      {
+        key: "cancellation",
+        label: "Cancellation",
+      },
+      {
+        key: "returns",
+        label: "Returns & Refunds",
+      },
+    ],
+  },
+
+  {
+    key: "delivery",
+    title: "Delivery",
+    description:
+      "Everything about Markood delivery for customers, sellers and riders.",
+    icon: Truck,
+    items: [
+      {
+        key: "howItWorks",
+        label: "How Delivery Works",
+      },
+      {
+        key: "zones",
+        label: "Delivery Zones",
+      },
+      {
+        key: "sellerResponsibilities",
+        label: "Seller Responsibilities",
+      },
+      {
+        key: "riderResponsibilities",
+        label: "Rider Responsibilities",
+      },
+      {
+        key: "failedDeliveries",
+        label: "Failed Deliveries",
+      },
+      {
+        key: "lostDamagedOrders",
+        label: "Lost & Damaged Orders",
+      },
+    ],
+  },
+
+  {
+    key: "policies",
+    title: "Policies & Legal",
+    description: "Markood's rules, agreements and important legal policies.",
+    icon: ShieldCheck,
+    items: [
+      {
+        key: "terms",
+        label: "Terms & Conditions",
+      },
+      {
+        key: "sellerAgreement",
+        label: "Seller Agreement",
+      },
+      {
+        key: "refund",
+        label: "Refund Policy",
+      },
+      {
+        key: "cancellation",
+        label: "Cancellation Policy",
+      },
+    ],
+  },
+
+  {
+    key: "updates",
+    title: "Updates",
+    description: "See what's new and what's changed across Markood.",
+    icon: Megaphone,
+    items: [
+      {
+        key: "whatsNew",
+        label: "What's New",
+      },
+      {
+        key: "policyUpdates",
+        label: "Policy Updates",
+      },
+      {
+        key: "deliveryUpdates",
+        label: "Delivery Updates",
+      },
+      {
+        key: "marketplaceUpdates",
+        label: "Marketplace Updates",
+      },
+    ],
   },
 ];
