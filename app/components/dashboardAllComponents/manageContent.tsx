@@ -1,17 +1,14 @@
 "use client";
 
 import { useMemo, useState, type FormEvent } from "react";
-import { motion } from "framer-motion";
+
 import {
   AlignLeft,
-  ArrowDown,
-  ArrowUp,
   ImageIcon,
   ListChecks,
   Loader2,
   Plus,
   Sparkles,
-  Trash2,
 } from "lucide-react";
 import { HELP_CATEGORIES, getCategory } from "@/lib/helpCategories";
 import type {
@@ -23,6 +20,7 @@ import type {
   StepsBlockData,
   TipBlockData,
 } from "@/lib/helpContent";
+import BlockEditor from "./subComponent/blockEditor";
 
 const BLOCK_LIBRARY: {
   type: BlockType;
@@ -418,253 +416,6 @@ export default function ManageContent() {
           </button>
         </div>
       </form>
-    </div>
-  );
-}
-
-function BlockEditor({
-  block,
-  index,
-  total,
-  onChange,
-  onRemove,
-  onMove,
-}: {
-  block: ContentBlock;
-  index: number;
-  total: number;
-  onChange: (data: unknown) => void;
-  onRemove: () => void;
-  onMove: (direction: -1 | 1) => void;
-}) {
-  return (
-    <motion.div
-      layout
-      className="rounded-2xl border border-slate-200 p-4 sm:p-5"
-    >
-      <div className="flex items-center justify-between">
-        <span className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
-          {block.type}
-        </span>
-        <div className="flex items-center gap-1">
-          <button
-            type="button"
-            onClick={() => onMove(-1)}
-            disabled={index === 0}
-            className="rounded-full p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-700 disabled:opacity-30"
-          >
-            <ArrowUp size={14} />
-          </button>
-          <button
-            type="button"
-            onClick={() => onMove(1)}
-            disabled={index === total - 1}
-            className="rounded-full p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-700 disabled:opacity-30"
-          >
-            <ArrowDown size={14} />
-          </button>
-          <button
-            type="button"
-            onClick={onRemove}
-            className="rounded-full p-1.5 text-red-400 hover:bg-red-50 hover:text-red-600"
-          >
-            <Trash2 size={14} />
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-3">
-        {block.type === "paragraph" && (
-          <textarea
-            value={(block.data as ParagraphBlockData).text}
-            onChange={(e) => onChange({ text: e.target.value })}
-            rows={3}
-            placeholder="Write a paragraph..."
-            className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm leading-6 text-slate-900 outline-none focus:border-[#0066FF]"
-          />
-        )}
-
-        {block.type === "list" && (
-          <ListItemsEditor
-            items={(block.data as ListBlockData).items}
-            onChange={(items) => onChange({ items })}
-          />
-        )}
-
-        {block.type === "steps" && (
-          <StepsEditor
-            items={(block.data as StepsBlockData).items}
-            onChange={(items) => onChange({ items })}
-          />
-        )}
-
-        {block.type === "tip" && (
-          <div className="space-y-2">
-            <input
-              value={(block.data as TipBlockData).label}
-              onChange={(e) =>
-                onChange({
-                  ...(block.data as TipBlockData),
-                  label: e.target.value,
-                })
-              }
-              placeholder="Eyebrow, e.g. Seller tip"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-xs font-bold uppercase tracking-wide text-slate-900 outline-none focus:border-[#0066FF]"
-            />
-            <input
-              value={(block.data as TipBlockData).title}
-              onChange={(e) =>
-                onChange({
-                  ...(block.data as TipBlockData),
-                  title: e.target.value,
-                })
-              }
-              placeholder="Tip title"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm font-black text-slate-900 outline-none focus:border-[#0066FF]"
-            />
-            <textarea
-              value={(block.data as TipBlockData).body}
-              onChange={(e) =>
-                onChange({
-                  ...(block.data as TipBlockData),
-                  body: e.target.value,
-                })
-              }
-              rows={2}
-              placeholder="Tip body"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm leading-6 text-slate-900 outline-none focus:border-[#0066FF]"
-            />
-          </div>
-        )}
-
-        {block.type === "image" && (
-          <div className="space-y-2">
-            <input
-              value={(block.data as ImageBlockData).url}
-              onChange={(e) =>
-                onChange({
-                  ...(block.data as ImageBlockData),
-                  url: e.target.value,
-                })
-              }
-              placeholder="Image URL"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-[#0066FF]"
-            />
-            <input
-              value={(block.data as ImageBlockData).caption ?? ""}
-              onChange={(e) =>
-                onChange({
-                  ...(block.data as ImageBlockData),
-                  caption: e.target.value,
-                })
-              }
-              placeholder="Caption (optional)"
-              className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-[#0066FF]"
-            />
-          </div>
-        )}
-      </div>
-    </motion.div>
-  );
-}
-
-function ListItemsEditor({
-  items,
-  onChange,
-}: {
-  items: string[];
-  onChange: (items: string[]) => void;
-}) {
-  return (
-    <div className="space-y-2">
-      {items.map((item, i) => (
-        <div key={i} className="flex gap-2">
-          <input
-            value={item}
-            onChange={(e) => {
-              const next = [...items];
-              next[i] = e.target.value;
-              onChange(next);
-            }}
-            placeholder={`Item ${i + 1}`}
-            className="flex-1 rounded-xl border border-slate-200 px-3 py-2.5 text-sm text-slate-900 outline-none focus:border-[#0066FF]"
-          />
-          <button
-            type="button"
-            onClick={() => onChange(items.filter((_, idx) => idx !== i))}
-            className="rounded-full p-2 text-red-400 hover:bg-red-50 hover:text-red-600"
-          >
-            <Trash2 size={14} />
-          </button>
-        </div>
-      ))}
-      <button
-        type="button"
-        onClick={() => onChange([...items, ""])}
-        className="text-xs font-bold text-[#0066FF]"
-      >
-        + Add item
-      </button>
-    </div>
-  );
-}
-
-function StepsEditor({
-  items,
-  onChange,
-}: {
-  items: { title: string; description: string }[];
-  onChange: (items: { title: string; description: string }[]) => void;
-}) {
-  return (
-    <div className="space-y-3">
-      {items.map((step, i) => (
-        <div
-          key={i}
-          className="rounded-xl border border-slate-100 bg-slate-50 p-3"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-black text-slate-400">
-              STEP {i + 1}
-            </span>
-            <button
-              type="button"
-              onClick={() => onChange(items.filter((_, idx) => idx !== i))}
-              className="rounded-full p-1 text-red-400 hover:bg-red-50 hover:text-red-600"
-            >
-              <Trash2 size={13} />
-            </button>
-          </div>
-          <input
-            value={step.title}
-            onChange={(e) => {
-              const next = [...items];
-              next[i] = { ...next[i], title: e.target.value };
-              onChange(next);
-            }}
-            placeholder="Step title"
-            className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-900 outline-none focus:border-[#0066FF]"
-          />
-          <textarea
-            value={step.description}
-            onChange={(e) => {
-              const next = [...items];
-              next[i] = { ...next[i], description: e.target.value };
-              onChange(next);
-            }}
-            rows={2}
-            placeholder="Step description"
-            className="mt-2 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-900 outline-none focus:border-[#0066FF]"
-          />
-        </div>
-      ))}
-      <button
-        type="button"
-        onClick={() => onChange([...items, { title: "", description: "" }])}
-        className="text-xs font-bold text-[#0066FF]"
-      >
-        + Add step
-      </button>
     </div>
   );
 }

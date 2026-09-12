@@ -21,6 +21,7 @@ export interface TipBlockData {
   label: string;
   title: string;
   body: string;
+  text: string;
 }
 
 export interface ImageBlockData {
