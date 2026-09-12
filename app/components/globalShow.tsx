@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 
 import { Article, Step } from "@/lib/type";
-
 interface GlobalShowDataProps {
   selectedArticle: Article;
   articles: Article[];
@@ -18,6 +17,7 @@ interface GlobalShowDataProps {
   formattedDate: string;
   handleArticleClick: (slug: string) => void;
   stepIcons: LucideIcon[];
+  isRefetching?: boolean;
 }
 
 export default function GlobalShowData({
