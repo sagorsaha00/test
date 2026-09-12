@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ShieldCheck, Store, UserPlus, Package, Truck } from "lucide-react";
 
 import { useHelpContent } from "@/lib/getData";
-import { Article, Step } from "@/lib/type";
+import { Article  } from "@/lib/type";
 import HelpArticleSkeleton from "@/app/components/helpArticleSkeleton";
 import GlobalShowData from "@/app/components/globalShow";
 
