@@ -1,14 +1,20 @@
+"use client";
+
+import { useMemo } from "react";
 import {
   ArrowRight,
   CheckCircle2,
   Clock3,
   HelpCircle,
+  LifeBuoy,
   ShieldCheck,
   Store,
   LucideIcon,
 } from "lucide-react";
 
 import { Article, Step } from "@/lib/type";
+import Link from "next/link";
+
 interface GlobalShowDataProps {
   selectedArticle: Article;
   articles: Article[];
@@ -28,15 +34,58 @@ export default function GlobalShowData({
   formattedDate,
   handleArticleClick,
   stepIcons,
+  isRefetching,
 }: GlobalShowDataProps) {
+  const currentIndex = useMemo(
+    () => articles.findIndex((a) => a.slug === selectedSlug),
+    [articles, selectedSlug],
+  );
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-white">
+      {isRefetching && (
+        <div className="fixed left-0 top-0 z-50 h-0.5 w-full bg-blue-500/60" />
+      )}
+
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-180px] top-40 h-[400px] w-[400px] rounded-full bg-blue-100/40 blur-3xl" />
         <div className="absolute right-[-180px] top-[700px] h-[400px] w-[400px] rounded-full bg-sky-100/40 blur-3xl" />
       </div>
-      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
+
+      <div className="relative mx-auto max-w-7xl px-5 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
+        {/* MOBILE / TABLET ARTICLE SWITCHER */}
+        <div className="mb-8 lg:hidden">
+          <label className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">
+            Sell on Markood
+          </label>
+
+          <div className="relative mt-2">
+            <select
+              value={selectedSlug}
+              onChange={(e) => handleArticleClick(e.target.value)}
+              className="w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 py-3 pr-10 text-sm font-bold text-slate-800 shadow-sm focus:border-[#0066FF] focus:outline-none focus:ring-2 focus:ring-blue-100"
+            >
+              {articles.map((article) => (
+                <option key={article._id} value={article.slug}>
+                  {article.title}
+                </option>
+              ))}
+            </select>
+
+            <ArrowRight
+              size={16}
+              className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 rotate-90 text-slate-400"
+            />
+          </div>
+
+          {articles.length > 1 && (
+            <div className="mt-2 text-[11px] font-semibold text-slate-400">
+              Article {currentIndex + 1} of {articles.length}
+            </div>
+          )}
+        </div>
+
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_280px] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_320px] xl:gap-16">
           <main className="max-w-4xl">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white px-3.5 py-2 shadow-sm">
@@ -47,21 +96,20 @@ export default function GlobalShowData({
                 </span>
               </div>
 
-              <h1 className="mt-6 text-4xl font-black tracking-[-1.8px] text-slate-950 sm:text-5xl lg:text-6xl lg:leading-[1.05]">
+              <h1 className="mt-6 text-3xl font-black tracking-[-1.4px] text-slate-950 sm:text-4xl lg:text-5xl lg:leading-[1.08] xl:text-6xl">
                 {selectedArticle.title}
               </h1>
 
               {selectedArticle.summary && (
-                <p className="mt-6 max-w-2xl text-base leading-8 text-slate-500 sm:text-lg">
+                <p className="mt-5 max-w-2xl text-base leading-7 text-slate-500 sm:mt-6 sm:text-lg sm:leading-8">
                   {selectedArticle.summary}
                 </p>
               )}
 
-              <div className="mt-7 flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-400">
+              <div className="mt-6 flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-400 sm:mt-7 sm:gap-4">
                 {selectedArticle.readTime && (
                   <div className="flex items-center gap-2">
                     <Clock3 size={14} className="text-[#0066FF]" />
-
                     {selectedArticle.readTime}
                   </div>
                 )}
@@ -74,20 +122,17 @@ export default function GlobalShowData({
               </div>
             </div>
 
-            {/* =================================================
-                DYNAMIC BLOCKS
-            ================================================= */}
-
-            <div className="mt-12 space-y-16">
+            {/* DYNAMIC BLOCKS */}
+            <div className="mt-10 space-y-10 sm:mt-12 sm:space-y-16">
               {selectedArticle.blocks?.map((block, index) => {
                 if (block.type === "paragraph") {
                   return (
                     <div
                       key={index}
-                      className="rounded-[28px] border border-blue-100 bg-white p-6 shadow-[0_15px_50px_rgba(15,23,42,0.05)] sm:p-8"
+                      className="rounded-[24px] border border-blue-100 bg-white p-5 shadow-[0_15px_50px_rgba(15,23,42,0.05)] sm:rounded-[28px] sm:p-6 lg:p-8"
                     >
                       <div className="flex gap-4">
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF]">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-[#0066FF] sm:h-11 sm:w-11">
                           <ShieldCheck size={20} />
                         </div>
 
@@ -108,11 +153,11 @@ export default function GlobalShowData({
                         Step by step
                       </p>
 
-                      <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                      <h2 className="mt-3 text-2xl font-black tracking-tight text-slate-950 sm:text-3xl lg:text-4xl">
                         Follow these steps
                       </h2>
 
-                      <div className="mt-9 space-y-4">
+                      <div className="mt-7 space-y-3 sm:mt-9 sm:space-y-4">
                         {steps.map((step, stepIndex) => {
                           const Icon =
                             stepIcons[stepIndex % stepIcons.length] ||
@@ -121,20 +166,20 @@ export default function GlobalShowData({
                           return (
                             <div
                               key={stepIndex}
-                              className="group rounded-[26px] border border-slate-200 bg-white p-6 shadow-[0_10px_35px_rgba(15,23,42,0.035)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-100 hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:p-7"
+                              className="group rounded-[22px] border border-slate-200 bg-white p-5 shadow-[0_10px_35px_rgba(15,23,42,0.035)] transition-all duration-300 hover:-translate-y-1 hover:border-blue-100 hover:shadow-[0_20px_50px_rgba(15,23,42,0.08)] sm:rounded-[26px] sm:p-6 lg:p-7"
                             >
-                              <div className="flex gap-5">
-                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-xs font-black text-[#0066FF]">
+                              <div className="flex gap-4 sm:gap-5">
+                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-50 text-xs font-black text-[#0066FF] sm:h-12 sm:w-12">
                                   {String(stepIndex + 1).padStart(2, "0")}
                                 </div>
 
-                                <div className="flex-1">
+                                <div className="min-w-0 flex-1">
                                   <div className="flex items-start justify-between gap-4">
-                                    <div>
+                                    <div className="min-w-0">
                                       <div className="flex items-center gap-2">
                                         <Icon
                                           size={17}
-                                          className="text-[#0066FF]"
+                                          className="shrink-0 text-[#0066FF]"
                                         />
 
                                         <h3 className="text-base font-black text-slate-950 sm:text-lg">
@@ -149,7 +194,7 @@ export default function GlobalShowData({
 
                                     <CheckCircle2
                                       size={19}
-                                      className="mt-1 shrink-0 text-slate-200"
+                                      className="mt-1 hidden shrink-0 text-slate-200 sm:block"
                                     />
                                   </div>
                                 </div>
@@ -171,11 +216,11 @@ export default function GlobalShowData({
                         Before you start
                       </p>
 
-                      <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 sm:text-4xl">
+                      <h2 className="mt-3 text-2xl font-black tracking-tight text-slate-950 sm:text-3xl lg:text-4xl">
                         What you will need
                       </h2>
 
-                      <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                      <div className="mt-6 grid gap-3 sm:mt-8 sm:grid-cols-2">
                         {items.map((item, itemIndex) => (
                           <div
                             key={itemIndex}
@@ -202,19 +247,19 @@ export default function GlobalShowData({
                   return (
                     <div
                       key={index}
-                      className="relative overflow-hidden rounded-[30px] bg-slate-950 p-7 sm:p-10"
+                      className="relative overflow-hidden rounded-[24px] bg-slate-950 p-6 sm:rounded-[30px] sm:p-7 lg:p-10"
                     >
-                      <div className="relative flex gap-5">
-                        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-blue-300">
+                      <div className="relative flex gap-4 sm:gap-5">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-blue-300 sm:h-11 sm:w-11">
                           <ShieldCheck size={20} />
                         </div>
 
-                        <div>
+                        <div className="min-w-0">
                           <p className="text-[10px] font-black uppercase tracking-[0.18em] text-blue-300">
                             {block.data.label || "Tip"}
                           </p>
 
-                          <h3 className="mt-2 text-xl font-black text-white">
+                          <h3 className="mt-2 text-lg font-black text-white sm:text-xl">
                             {block.data.title}
                           </h3>
 
@@ -231,9 +276,9 @@ export default function GlobalShowData({
                   return (
                     <div
                       key={index}
-                      className="overflow-hidden rounded-[26px] border border-slate-200 bg-white p-3 shadow-sm"
+                      className="overflow-hidden rounded-[22px] border border-slate-200 bg-white p-3 shadow-sm sm:rounded-[26px]"
                     >
-                      <div className="relative h-64 w-full overflow-hidden rounded-2xl sm:h-96">
+                      <div className="relative h-52 w-full overflow-hidden rounded-2xl sm:h-64 lg:h-96">
                         <img
                           src={block.data.url}
                           alt={block.data.caption || "Article image"}
@@ -254,32 +299,29 @@ export default function GlobalShowData({
               })}
             </div>
 
-            {/* =================================================
-                NEXT ARTICLE
-            ================================================= */}
-
+            {/* NEXT ARTICLE */}
             {nextArticle && (
-              <div className="mt-16">
+              <div className="mt-12 sm:mt-16">
                 <button
                   type="button"
                   onClick={() => handleArticleClick(nextArticle.slug)}
-                  className="group flex w-full items-center justify-between rounded-[26px] border border-slate-200 bg-white p-6 text-left transition-all duration-300 hover:border-blue-100 hover:shadow-lg sm:p-7"
+                  className="group flex w-full items-center justify-between gap-4 rounded-[22px] border border-slate-200 bg-white p-5 text-left transition-all duration-300 hover:border-blue-100 hover:shadow-lg sm:rounded-[26px] sm:p-6 lg:p-7"
                 >
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-400">
                       {selectedArticle.nextArticle?.label || "Next article"}
                     </p>
 
-                    <h3 className="mt-2 text-lg font-black text-slate-950">
+                    <h3 className="mt-2 truncate text-base font-black text-slate-950 sm:text-lg">
                       {nextArticle.title}
                     </h3>
 
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 truncate text-sm text-slate-500">
                       {selectedArticle.nextArticle?.description}
                     </p>
                   </div>
 
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[#0066FF]">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-50 text-[#0066FF] transition-transform group-hover:translate-x-0.5 sm:h-11 sm:w-11">
                     <ArrowRight size={18} />
                   </div>
                 </button>
@@ -287,26 +329,28 @@ export default function GlobalShowData({
             )}
           </main>
 
-          {/* ==================================================
-              RIGHT SIDEBAR
-          ================================================== */}
-
+          {/* RIGHT SIDEBAR */}
           <aside className="hidden lg:block">
-            <div className="sticky top-24">
-              <div className="rounded-[26px] border border-slate-200 bg-white p-5 shadow-sm">
-                <div className="mb-5">
-                  <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
-                    Seller Guide
-                  </p>
+            <div className="sticky top-24 space-y-4">
+              {/* Article nav */}
+              <div className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="mb-5 flex items-center justify-between">
+                  <div>
+                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#0066FF]">
+                      Seller Guide
+                    </p>
 
-                  <h2 className="mt-2 text-lg font-black text-slate-950">
-                    Sell on Markood
-                  </h2>
+                    <h2 className="mt-2 text-lg font-black text-slate-950">
+                      Sell on Markood
+                    </h2>
+                  </div>
+
+                  {articles.length > 1 && (
+                    <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[10px] font-black text-slate-400">
+                      {currentIndex + 1}/{articles.length}
+                    </span>
+                  )}
                 </div>
-
-                {/* =============================================
-                    DYNAMIC ARTICLE LIST
-                ============================================= */}
 
                 <div className="space-y-2">
                   {articles.map((article, index) => {
@@ -346,11 +390,54 @@ export default function GlobalShowData({
                 </div>
               </div>
 
-              {/* =================================================
-                  CURRENT SLUG
-              ================================================= */}
+              {/* Progress within guide */}
+              {articles.length > 1 && (
+                <div className="rounded-[24px] border border-slate-200 bg-white p-5">
+                  <p className="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400">
+                    Your progress
+                  </p>
 
-              <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-4">
+                  <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+                    <div
+                      className="h-full rounded-full bg-[#0066FF] transition-all duration-500"
+                      style={{
+                        width: `${((currentIndex + 1) / articles.length) * 100}%`,
+                      }}
+                    />
+                  </div>
+
+                  <p className="mt-2 text-xs font-semibold text-slate-400">
+                    {currentIndex + 1} of {articles.length} articles read
+                  </p>
+                </div>
+              )}
+
+              {/* Support card */}
+              <div className="rounded-[24px] border border-slate-200 bg-slate-50 p-5">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-[#0066FF] shadow-sm">
+                  <LifeBuoy size={18} />
+                </div>
+
+                <h3 className="mt-3 text-sm font-black text-slate-950">
+                  Still need help?
+                </h3>
+
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  Our seller support team can walk you through this in a live
+                  chat.
+                </p>
+
+                <Link
+                  href="/help/contact"
+                  className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-slate-950 px-4 py-2.5 text-xs font-bold text-white transition-colors hover:bg-slate-800"
+                >
+                  Contact support
+                  <ArrowRight size={12} />
+                </Link>
+              </div>
+
+              {/* Current slug */}
+              <div className="rounded-2xl border border-slate-200 bg-white p-4">
                 <p className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400">
                   Current article
                 </p>

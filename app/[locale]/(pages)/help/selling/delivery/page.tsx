@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 
 import { useHelpContent } from "@/lib/getData";
-import { Article, Step } from "@/lib/type";
+import { Article,   } from "@/lib/type";
 import GlobalShowData from "@/app/components/globalShow";
 import HelpArticleSkeleton from "@/app/components/helpArticleSkeleton";
 
