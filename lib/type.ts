@@ -126,4 +126,11 @@ export type CategoryConfig = {
   items: CategoryItem[];
 };
 
- 
+export interface PageProps {
+  params: Promise<{
+    locale: string;
+    category: string;
+    article: string;
+  }>;
+}
+export type MenuType = "Dashboard" | "Articles" | "Managecontent";

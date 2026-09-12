@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight,
   CheckCircle2,
@@ -8,116 +5,36 @@ import {
   HelpCircle,
   ShieldCheck,
   Store,
-  UserPlus,
-  Package,
-  Truck,
+  LucideIcon,
 } from "lucide-react";
 
-import { useHelpContent } from "@/lib/getData";
 import { Article, Step } from "@/lib/type";
 
-const STEP_ICONS = [UserPlus, Store, Package, ShieldCheck, Truck];
+interface GlobalShowDataProps {
+  selectedArticle: Article;
+  articles: Article[];
+  selectedSlug: string;
+  nextArticle: Article | null;
+  formattedDate: string;
+  handleArticleClick: (slug: string) => void;
+  stepIcons: LucideIcon[];
+}
 
-export default function DynamicHelpArticle() {
-  const catKey = "buyOnMarkood";
-  const itemKey = "gettingStarted";
-  const { data, isLoading, error } = useHelpContent(catKey, itemKey);
-
-  console.log("get Data", data);
-
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [selectedSlug, setSelectedSlug] = useState<string>("");
-
-  useEffect(() => {
-    if (!data || !Array.isArray(data)) {
-      return;
-    }
-
-    setArticles(data);
-
-    if (data.length > 0) {
-      setSelectedSlug((currentSlug) => {
-        const currentArticle = data.find(
-          (article: Article) => article.slug === currentSlug,
-        );
-
-        if (currentArticle) {
-          return currentSlug;
-        }
-
-        return data[0].slug;
-      });
-    }
-  }, [data]);
-
-  const selectedArticle = useMemo(() => {
-    if (!selectedSlug || articles.length === 0) {
-      return null;
-    }
-
-    return articles.find((article) => article.slug === selectedSlug) || null;
-  }, [articles, selectedSlug]);
-
-  const handleArticleClick = (slug: string) => {
-    setSelectedSlug(slug);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
-  if (isLoading) {
-    return (
-      <div className="flex min-h-[500px] items-center justify-center">
-        <div className="text-sm font-semibold text-slate-500">
-          Loading article...
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex min-h-[500px] items-center justify-center">
-        <div className="text-sm font-semibold text-red-500">
-          Failed to load help content.
-        </div>
-      </div>
-    );
-  }
-
-  if (!articles.length || !selectedArticle) {
-    return (
-      <div className="flex min-h-[500px] items-center justify-center">
-        <div className="text-sm font-semibold text-slate-500">
-          No help article found.
-        </div>
-      </div>
-    );
-  }
-
-  const formattedDate = selectedArticle.updatedAt
-    ? new Date(selectedArticle.updatedAt).toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-      })
-    : "";
-
-  const nextArticle = selectedArticle.nextArticle?.slug
-    ? articles.find(
-        (article) => article.slug === selectedArticle.nextArticle?.slug,
-      )
-    : null;
-
+export default function GlobalShowData({
+  selectedArticle,
+  articles,
+  selectedSlug,
+  nextArticle,
+  formattedDate,
+  handleArticleClick,
+  stepIcons,
+}: GlobalShowDataProps) {
   return (
     <section className="relative min-h-screen overflow-hidden bg-white">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute left-[-180px] top-40 h-[400px] w-[400px] rounded-full bg-blue-100/40 blur-3xl" />
-
         <div className="absolute right-[-180px] top-[700px] h-[400px] w-[400px] rounded-full bg-sky-100/40 blur-3xl" />
       </div>
-
       <div className="relative mx-auto max-w-7xl px-5 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_300px]">
           <main className="max-w-4xl">
@@ -157,6 +74,10 @@ export default function DynamicHelpArticle() {
               </div>
             </div>
 
+            {/* =================================================
+                DYNAMIC BLOCKS
+            ================================================= */}
+
             <div className="mt-12 space-y-16">
               {selectedArticle.blocks?.map((block, index) => {
                 if (block.type === "paragraph") {
@@ -194,7 +115,7 @@ export default function DynamicHelpArticle() {
                       <div className="mt-9 space-y-4">
                         {steps.map((step, stepIndex) => {
                           const Icon =
-                            STEP_ICONS[stepIndex % STEP_ICONS.length] ||
+                            stepIcons[stepIndex % stepIcons.length] ||
                             HelpCircle;
 
                           return (

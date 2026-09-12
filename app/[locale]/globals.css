@@ -70,3 +70,22 @@ body {
 .animate-reel-progress {
   animation: reel-progress 5s linear;
 }
+
+
+@keyframes global-loader {
+  0% {
+    transform: translateX(-120%);
+  }
+
+  50% {
+    transform: translateX(180%);
+  }
+
+  100% {
+    transform: translateX(500%);
+  }
+}
+
+.animate-global-loader {
+  animation: global-loader 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

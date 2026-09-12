@@ -13,32 +13,7 @@ import {
 } from "lucide-react";
 
 import { useHelpArticle } from "@/lib/getData";
-
-interface PageProps {
-  params: Promise<{
-    locale: string;
-    category: string;
-    article: string;
-  }>;
-}
-
-interface StepItem {
-  title: string;
-  description: string;
-}
-
-interface ArticleBlock {
-  type: "paragraph" | "steps" | "list" | "tip" | "image";
-  data: {
-    text?: string;
-    items?: StepItem[] | string[];
-    label?: string;
-    title?: string;
-    body?: string;
-    url?: string;
-    caption?: string;
-  };
-}
+import { Block, Step, PageProps } from "@/lib/type";
 
 export default function ArticleDetailsPage({ params }: PageProps) {
   const { locale, category, article } = use(params);
@@ -124,7 +99,7 @@ export default function ArticleDetailsPage({ params }: PageProps) {
     );
   }
 
-  const blocks: ArticleBlock[] = data.blocks || [];
+  const blocks: Block[] = data.blocks || [];
 
   const categoryLabel =
     category === "selling"
@@ -215,7 +190,7 @@ export default function ArticleDetailsPage({ params }: PageProps) {
                 }
 
                 if (block.type === "steps") {
-                  const items = (block.data.items as StepItem[]) || [];
+                  const items = (block.data.items as Step[]) || [];
 
                   return (
                     <section

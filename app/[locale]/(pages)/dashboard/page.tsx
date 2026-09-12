@@ -6,8 +6,7 @@ import { LayoutDashboard, Megaphone, FileText, Menu, X } from "lucide-react";
 import DashboardSection from "../../../components/dashboardAllComponents/dashboardSection";
 import ArticleSection from "../../../components/dashboardAllComponents/articleSectionDashboard";
 import ManageContent from "../../../components/dashboardAllComponents/manageContent";
-
-type MenuType = "Dashboard" | "Articles" | "Managecontent";
+import { MenuType } from "@/lib/type";
 
 export default function MarkoodCenterDashboard() {
   const [activeMenu, setActiveMenu] = useState<MenuType>("Dashboard");
